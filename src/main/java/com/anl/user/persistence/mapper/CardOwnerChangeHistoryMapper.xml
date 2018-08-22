@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.CardOwnerChangeHistoryMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_card_owner_change_history (
+        	id,
+        	supplier_id,
+        	from_owner_id,
+        	to_owner_id,
+        	stock_id,
+        	batch_number,
+        	card_id,
+        	type,
+        	create_time
+        ) VALUES (
+        	#{id},
+        	#{supplierId},
+        	#{fromOwnerId},
+        	#{toOwnerId},
+        	#{stockId},
+        	#{batchNumber},
+        	#{cardId},
+        	#{type},
+        	#{createTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.CardOwnerChangeHistory">
+        UPDATE t_card_owner_change_history 
+		<set>
+	        <if test="supplierId != null">
+	        	supplier_id = #{supplierId},
+	        </if>
+	        <if test="fromOwnerId != null">
+	        	from_owner_id = #{fromOwnerId},
+	        </if>
+	        <if test="toOwnerId != null">
+	        	to_owner_id = #{toOwnerId},
+	        </if>
+	        <if test="stockId != null">
+	        	stock_id = #{stockId},
+	        </if>
+	        <if test="batchNumber != null">
+	        	batch_number = #{batchNumber},
+	        </if>
+	        <if test="cardId != null">
+	        	card_id = #{cardId},
+	        </if>
+	        <if test="type != null">
+	        	type = #{type},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_card_owner_change_history WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.CardOwnerChangeHistory">
+		SELECT
+			*
+		FROM
+			t_card_owner_change_history 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="supplierId != null">
+				AND supplier_id = #{supplierId}
+			</if>
+			<if test="fromOwnerId != null">
+				AND from_owner_id = #{fromOwnerId}
+			</if>
+			<if test="toOwnerId != null">
+				AND to_owner_id = #{toOwnerId}
+			</if>
+			<if test="stockId != null">
+				AND stock_id = #{stockId}
+			</if>
+			<if test="batchNumber != null">
+				AND batch_number = #{batchNumber}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="supplierId != null">
+				AND supplier_id = #{supplierId}
+			</if>
+			<if test="fromOwnerId != null">
+				AND from_owner_id = #{fromOwnerId}
+			</if>
+			<if test="toOwnerId != null">
+				AND to_owner_id = #{toOwnerId}
+			</if>
+			<if test="stockId != null">
+				AND stock_id = #{stockId}
+			</if>
+			<if test="batchNumber != null">
+				AND batch_number = #{batchNumber}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_card_owner_change_history
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.CardOwnerChangeHistory">
+		SELECT 
+			*
+		FROM
+			t_card_owner_change_history 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.CardOwnerChangeHistory" resultType="com.anl.user.persistence.po.CardOwnerChangeHistory">
+		SELECT 
+			*
+		FROM 
+			t_card_owner_change_history 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

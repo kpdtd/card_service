@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.UserChargeRecordMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_charge_record (
+        	id,
+        	user_id,
+        	charge_list_id,
+        	charge_list_name,
+        	phone,
+        	out_trade_no,
+        	trade_no,
+        	iccid,
+        	open_id,
+        	pay_type,
+        	money,
+        	payer,
+        	state,
+        	causes,
+        	ip,
+        	aid,
+        	create_time,
+        	update_time
+        ) VALUES (
+        	#{id},
+        	#{userId},
+        	#{chargeListId},
+        	#{chargeListName},
+        	#{phone},
+        	#{outTradeNo},
+        	#{tradeNo},
+        	#{iccid},
+        	#{openId},
+        	#{payType},
+        	#{money},
+        	#{payer},
+        	#{state},
+        	#{causes},
+        	#{ip},
+        	#{aid},
+        	#{createTime},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.UserChargeRecord">
+        UPDATE t_user_charge_record 
+		<set>
+	        <if test="userId != null">
+	        	user_id = #{userId},
+	        </if>
+	        <if test="chargeListId != null">
+	        	charge_list_id = #{chargeListId},
+	        </if>
+	        <if test="chargeListName != null">
+	        	charge_list_name = #{chargeListName},
+	        </if>
+	        <if test="phone != null">
+	        	phone = #{phone},
+	        </if>
+	        <if test="outTradeNo != null">
+	        	out_trade_no = #{outTradeNo},
+	        </if>
+	        <if test="tradeNo != null">
+	        	trade_no = #{tradeNo},
+	        </if>
+	        <if test="iccid != null">
+	        	iccid = #{iccid},
+	        </if>
+	        <if test="openId != null">
+	        	open_id = #{openId},
+	        </if>
+	        <if test="payType != null">
+	        	pay_type = #{payType},
+	        </if>
+	        <if test="money != null">
+	        	money = #{money},
+	        </if>
+	        <if test="payer != null">
+	        	payer = #{payer},
+	        </if>
+	        <if test="state != null">
+	        	state = #{state},
+	        </if>
+	        <if test="causes != null">
+	        	causes = #{causes},
+	        </if>
+	        <if test="ip != null">
+	        	ip = #{ip},
+	        </if>
+	        <if test="aid != null">
+	        	aid = #{aid},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_user_charge_record WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.UserChargeRecord">
+		SELECT
+			*
+		FROM
+			t_user_charge_record 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="chargeListId != null">
+				AND charge_list_id = #{chargeListId}
+			</if>
+			<if test="chargeListName != null">
+				AND charge_list_name = #{chargeListName}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="outTradeNo != null">
+				AND out_trade_no = #{outTradeNo}
+			</if>
+			<if test="tradeNo != null">
+				AND trade_no = #{tradeNo}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="openId != null">
+				AND open_id = #{openId}
+			</if>
+			<if test="payType != null">
+				AND pay_type = #{payType}
+			</if>
+			<if test="money != null">
+				AND money = #{money}
+			</if>
+			<if test="payer != null">
+				AND payer = #{payer}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="causes != null">
+				AND causes = #{causes}
+			</if>
+			<if test="ip != null">
+				AND ip = #{ip}
+			</if>
+			<if test="aid != null">
+				AND aid = #{aid}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="chargeListId != null">
+				AND charge_list_id = #{chargeListId}
+			</if>
+			<if test="chargeListName != null">
+				AND charge_list_name = #{chargeListName}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="outTradeNo != null">
+				AND out_trade_no = #{outTradeNo}
+			</if>
+			<if test="tradeNo != null">
+				AND trade_no = #{tradeNo}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="openId != null">
+				AND open_id = #{openId}
+			</if>
+			<if test="payType != null">
+				AND pay_type = #{payType}
+			</if>
+			<if test="money != null">
+				AND money = #{money}
+			</if>
+			<if test="payer != null">
+				AND payer = #{payer}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="causes != null">
+				AND causes = #{causes}
+			</if>
+			<if test="ip != null">
+				AND ip = #{ip}
+			</if>
+			<if test="aid != null">
+				AND aid = #{aid}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_user_charge_record
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.UserChargeRecord">
+		SELECT 
+			*
+		FROM
+			t_user_charge_record 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.UserChargeRecord" resultType="com.anl.user.persistence.po.UserChargeRecord">
+		SELECT 
+			*
+		FROM 
+			t_user_charge_record 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

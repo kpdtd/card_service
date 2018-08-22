@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.SysRolesResMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="rolesResId">
+    <![CDATA[
+        INSERT INTO t_sys_roles_res (
+        	ROLES_RES_ID,
+        	resources_ID,
+        	ROLES_ID
+        ) VALUES (
+        	#{rolesResId},
+        	#{resourcesId},
+        	#{rolesId}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.SysRolesRes">
+        UPDATE t_sys_roles_res 
+		<set>
+	        <if test="resourcesId != null">
+	        	resources_ID = #{resourcesId},
+	        </if>
+	        <if test="rolesId != null">
+	        	ROLES_ID = #{rolesId}
+	        </if>
+	    </set>
+        WHERE
+	        ROLES_RES_ID = #{rolesResId}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_sys_roles_res WHERE
+        ROLES_RES_ID = #{rolesResId}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.SysRolesRes">
+		SELECT
+			*
+		FROM
+			t_sys_roles_res 
+	    WHERE
+	        ROLES_RES_ID = #{rolesResId} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="rolesResId != null">
+				AND ROLES_RES_ID = #{rolesResId}
+			</if>
+			<if test="resourcesId != null">
+				AND resources_ID = #{resourcesId}
+			</if>
+			<if test="rolesId != null">
+				AND ROLES_ID = #{rolesId}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="rolesResId != null">
+				AND ROLES_RES_ID = #{rolesResId}
+			</if>
+			<if test="resourcesId != null">
+				AND resources_ID = #{resourcesId}
+			</if>
+			<if test="rolesId != null">
+				AND ROLES_ID = #{rolesId}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_sys_roles_res
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.SysRolesRes">
+		SELECT 
+			*
+		FROM
+			t_sys_roles_res 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.SysRolesRes" resultType="com.anl.user.persistence.po.SysRolesRes">
+		SELECT 
+			*
+		FROM 
+			t_sys_roles_res 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

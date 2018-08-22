@@ -12,7 +12,7 @@
 
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 
-	<context:component-scan base-package="com.csxm.flow.iot"
+	<context:component-scan base-package="com.anl.user"
 		use-default-filters="false">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
@@ -27,17 +27,7 @@
 	<mvc:resources mapping="/v/**" location="/" />
 	<mvc:resources mapping="/*.txt" location="/" />
 	<mvc:resources mapping="/staticPage/**" location="/staticPage/" />
-	<bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<bean class="com.csxm.flow.iot.interceptor.AESJackson2HttpMessageConverter">
-					
-				</bean>
-				<bean class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter" />
-			</list>
-		</property>
-	</bean>
+
 	<bean id="internalResourceViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<!-- 前缀 -->
@@ -46,15 +36,5 @@
 		<property name="suffix" value=".jsp" />
 		<property name="contentType" value="text/html;charset=UTF-8" />
 	</bean>
-	<!-- 拦截器 -->
-	<bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-		<property name="interceptors">
-			<!-- 多个拦截器,顺序执行 -->
-			<list>
-				<ref bean="webInterceptor" />
-			</list>
-		</property>
-	</bean>
-	<bean id="webInterceptor" class="com.csxm.flow.iot.interceptor.WebControllerInterceptor"></bean>
+
 </beans>

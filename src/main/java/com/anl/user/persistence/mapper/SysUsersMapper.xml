@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.SysUsersMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="usersId">
+    <![CDATA[
+        INSERT INTO t_sys_users (
+        	USERS_ID,
+        	USER_ACCOUNT,
+        	USER_NAME,
+        	USER_PASSWORD,
+        	USER_DESC,
+        	ENABLED,
+        	is_delete,
+        	CREATE_TIME,
+        	LOGIN_TIME
+        ) VALUES (
+        	#{usersId},
+        	#{userAccount},
+        	#{userName},
+        	#{userPassword},
+        	#{userDesc},
+        	#{enabled},
+        	#{isDelete},
+        	#{createTime},
+        	#{loginTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.SysUsers">
+        UPDATE t_sys_users 
+		<set>
+	        <if test="userAccount != null">
+	        	USER_ACCOUNT = #{userAccount},
+	        </if>
+	        <if test="userName != null">
+	        	USER_NAME = #{userName},
+	        </if>
+	        <if test="userPassword != null">
+	        	USER_PASSWORD = #{userPassword},
+	        </if>
+	        <if test="userDesc != null">
+	        	USER_DESC = #{userDesc},
+	        </if>
+	        <if test="enabled != null">
+	        	ENABLED = #{enabled},
+	        </if>
+	        <if test="isDelete != null">
+	        	is_delete = #{isDelete},
+	        </if>
+	        <if test="createTime != null">
+	        	CREATE_TIME = #{createTime},
+	        </if>
+	        <if test="loginTime != null">
+	        	LOGIN_TIME = #{loginTime}
+	        </if>
+	    </set>
+        WHERE
+	        USERS_ID = #{usersId}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_sys_users WHERE
+        USERS_ID = #{usersId}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.SysUsers">
+		SELECT
+			*
+		FROM
+			t_sys_users 
+	    WHERE
+	        USERS_ID = #{usersId} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="usersId != null">
+				AND USERS_ID = #{usersId}
+			</if>
+			<if test="userAccount != null">
+				AND USER_ACCOUNT = #{userAccount}
+			</if>
+			<if test="userName != null">
+				AND USER_NAME = #{userName}
+			</if>
+			<if test="userPassword != null">
+				AND USER_PASSWORD = #{userPassword}
+			</if>
+			<if test="userDesc != null">
+				AND USER_DESC = #{userDesc}
+			</if>
+			<if test="enabled != null">
+				AND ENABLED = #{enabled}
+			</if>
+			<if test="isDelete != null">
+				AND is_delete = #{isDelete}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND CREATE_TIME >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND CREATE_TIME < #{endTime}
+			]]>
+			</if>
+			<if test="loginTime != null">
+				AND LOGIN_TIME = #{loginTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="usersId != null">
+				AND USERS_ID = #{usersId}
+			</if>
+			<if test="userAccount != null">
+				AND USER_ACCOUNT = #{userAccount}
+			</if>
+			<if test="userName != null">
+				AND USER_NAME = #{userName}
+			</if>
+			<if test="userPassword != null">
+				AND USER_PASSWORD = #{userPassword}
+			</if>
+			<if test="userDesc != null">
+				AND USER_DESC = #{userDesc}
+			</if>
+			<if test="enabled != null">
+				AND ENABLED = #{enabled}
+			</if>
+			<if test="isDelete != null">
+				AND is_delete = #{isDelete}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_sys_users
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.SysUsers">
+		SELECT 
+			*
+		FROM
+			t_sys_users 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.SysUsers" resultType="com.anl.user.persistence.po.SysUsers">
+		SELECT 
+			*
+		FROM 
+			t_sys_users 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

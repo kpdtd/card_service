@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.PurchasingOrderMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_purchasing_order (
+        	id,
+        	batch_number,
+        	supplier_id,
+        	type,
+        	plan_id,
+        	cost
+        ) VALUES (
+        	#{id},
+        	#{batchNumber},
+        	#{supplierId},
+        	#{type},
+        	#{planId},
+        	#{cost}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.PurchasingOrder">
+        UPDATE t_purchasing_order 
+		<set>
+	        <if test="batchNumber != null">
+	        	batch_number = #{batchNumber},
+	        </if>
+	        <if test="supplierId != null">
+	        	supplier_id = #{supplierId},
+	        </if>
+	        <if test="type != null">
+	        	type = #{type},
+	        </if>
+	        <if test="planId != null">
+	        	plan_id = #{planId},
+	        </if>
+	        <if test="cost != null">
+	        	cost = #{cost}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_purchasing_order WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.PurchasingOrder">
+		SELECT
+			*
+		FROM
+			t_purchasing_order 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="batchNumber != null">
+				AND batch_number = #{batchNumber}
+			</if>
+			<if test="supplierId != null">
+				AND supplier_id = #{supplierId}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="planId != null">
+				AND plan_id = #{planId}
+			</if>
+			<if test="cost != null">
+				AND cost = #{cost}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="batchNumber != null">
+				AND batch_number = #{batchNumber}
+			</if>
+			<if test="supplierId != null">
+				AND supplier_id = #{supplierId}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="planId != null">
+				AND plan_id = #{planId}
+			</if>
+			<if test="cost != null">
+				AND cost = #{cost}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_purchasing_order
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.PurchasingOrder">
+		SELECT 
+			*
+		FROM
+			t_purchasing_order 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.PurchasingOrder" resultType="com.anl.user.persistence.po.PurchasingOrder">
+		SELECT 
+			*
+		FROM 
+			t_purchasing_order 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

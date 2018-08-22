@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.ExpressMessageMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_express_message (
+        	id,
+        	express_no,
+        	consignee_realname,
+        	consignee_telphone,
+        	consignee_address,
+        	logistics_result_last,
+        	logistics_result,
+        	collection_value,
+        	collection_money,
+        	express_state,
+        	create_time,
+        	update_time
+        ) VALUES (
+        	#{id},
+        	#{expressNo},
+        	#{consigneeRealname},
+        	#{consigneeTelphone},
+        	#{consigneeAddress},
+        	#{logisticsResultLast},
+        	#{logisticsResult},
+        	#{collectionValue},
+        	#{collectionMoney},
+        	#{expressState},
+        	#{createTime},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.ExpressMessage">
+        UPDATE t_express_message 
+		<set>
+	        <if test="expressNo != null">
+	        	express_no = #{expressNo},
+	        </if>
+	        <if test="consigneeRealname != null">
+	        	consignee_realname = #{consigneeRealname},
+	        </if>
+	        <if test="consigneeTelphone != null">
+	        	consignee_telphone = #{consigneeTelphone},
+	        </if>
+	        <if test="consigneeAddress != null">
+	        	consignee_address = #{consigneeAddress},
+	        </if>
+	        <if test="logisticsResultLast != null">
+	        	logistics_result_last = #{logisticsResultLast},
+	        </if>
+	        <if test="logisticsResult != null">
+	        	logistics_result = #{logisticsResult},
+	        </if>
+	        <if test="collectionValue != null">
+	        	collection_value = #{collectionValue},
+	        </if>
+	        <if test="collectionMoney != null">
+	        	collection_money = #{collectionMoney},
+	        </if>
+	        <if test="expressState != null">
+	        	express_state = #{expressState},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_express_message WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.ExpressMessage">
+		SELECT
+			*
+		FROM
+			t_express_message 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="expressNo != null">
+				AND express_no = #{expressNo}
+			</if>
+			<if test="consigneeRealname != null">
+				AND consignee_realname = #{consigneeRealname}
+			</if>
+			<if test="consigneeTelphone != null">
+				AND consignee_telphone = #{consigneeTelphone}
+			</if>
+			<if test="consigneeAddress != null">
+				AND consignee_address = #{consigneeAddress}
+			</if>
+			<if test="logisticsResultLast != null">
+				AND logistics_result_last = #{logisticsResultLast}
+			</if>
+			<if test="logisticsResult != null">
+				AND logistics_result = #{logisticsResult}
+			</if>
+			<if test="collectionValue != null">
+				AND collection_value = #{collectionValue}
+			</if>
+			<if test="collectionMoney != null">
+				AND collection_money = #{collectionMoney}
+			</if>
+			<if test="expressState != null">
+				AND express_state = #{expressState}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="expressNo != null">
+				AND express_no = #{expressNo}
+			</if>
+			<if test="consigneeRealname != null">
+				AND consignee_realname = #{consigneeRealname}
+			</if>
+			<if test="consigneeTelphone != null">
+				AND consignee_telphone = #{consigneeTelphone}
+			</if>
+			<if test="consigneeAddress != null">
+				AND consignee_address = #{consigneeAddress}
+			</if>
+			<if test="logisticsResultLast != null">
+				AND logistics_result_last = #{logisticsResultLast}
+			</if>
+			<if test="logisticsResult != null">
+				AND logistics_result = #{logisticsResult}
+			</if>
+			<if test="collectionValue != null">
+				AND collection_value = #{collectionValue}
+			</if>
+			<if test="collectionMoney != null">
+				AND collection_money = #{collectionMoney}
+			</if>
+			<if test="expressState != null">
+				AND express_state = #{expressState}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_express_message
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.ExpressMessage">
+		SELECT 
+			*
+		FROM
+			t_express_message 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.ExpressMessage" resultType="com.anl.user.persistence.po.ExpressMessage">
+		SELECT 
+			*
+		FROM 
+			t_express_message 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

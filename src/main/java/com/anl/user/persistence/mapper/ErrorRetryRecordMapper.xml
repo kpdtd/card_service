@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.ErrorRetryRecordMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_error_retry_record (
+        	id,
+        	card_id,
+        	iccid,
+        	interface_tag,
+        	error_point,
+        	error_type,
+        	message,
+        	card_state,
+        	times,
+        	result,
+        	create_time
+        ) VALUES (
+        	#{id},
+        	#{cardId},
+        	#{iccid},
+        	#{interfaceTag},
+        	#{errorPoint},
+        	#{errorType},
+        	#{message},
+        	#{cardState},
+        	#{times},
+        	#{result},
+        	#{createTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.ErrorRetryRecord">
+        UPDATE t_error_retry_record 
+		<set>
+	        <if test="cardId != null">
+	        	card_id = #{cardId},
+	        </if>
+	        <if test="iccid != null">
+	        	iccid = #{iccid},
+	        </if>
+	        <if test="interfaceTag != null">
+	        	interface_tag = #{interfaceTag},
+	        </if>
+	        <if test="errorPoint != null">
+	        	error_point = #{errorPoint},
+	        </if>
+	        <if test="errorType != null">
+	        	error_type = #{errorType},
+	        </if>
+	        <if test="message != null">
+	        	message = #{message},
+	        </if>
+	        <if test="cardState != null">
+	        	card_state = #{cardState},
+	        </if>
+	        <if test="times != null">
+	        	times = #{times},
+	        </if>
+	        <if test="result != null">
+	        	result = #{result},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_error_retry_record WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.ErrorRetryRecord">
+		SELECT
+			*
+		FROM
+			t_error_retry_record 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="interfaceTag != null">
+				AND interface_tag = #{interfaceTag}
+			</if>
+			<if test="errorPoint != null">
+				AND error_point = #{errorPoint}
+			</if>
+			<if test="errorType != null">
+				AND error_type = #{errorType}
+			</if>
+			<if test="message != null">
+				AND message = #{message}
+			</if>
+			<if test="cardState != null">
+				AND card_state = #{cardState}
+			</if>
+			<if test="times != null">
+				AND times = #{times}
+			</if>
+			<if test="result != null">
+				AND result = #{result}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="interfaceTag != null">
+				AND interface_tag = #{interfaceTag}
+			</if>
+			<if test="errorPoint != null">
+				AND error_point = #{errorPoint}
+			</if>
+			<if test="errorType != null">
+				AND error_type = #{errorType}
+			</if>
+			<if test="message != null">
+				AND message = #{message}
+			</if>
+			<if test="cardState != null">
+				AND card_state = #{cardState}
+			</if>
+			<if test="times != null">
+				AND times = #{times}
+			</if>
+			<if test="result != null">
+				AND result = #{result}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_error_retry_record
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.ErrorRetryRecord">
+		SELECT 
+			*
+		FROM
+			t_error_retry_record 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.ErrorRetryRecord" resultType="com.anl.user.persistence.po.ErrorRetryRecord">
+		SELECT 
+			*
+		FROM 
+			t_error_retry_record 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

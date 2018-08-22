@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.AutoTaskExecHistoryMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_auto_task_exec_history (
+        	id,
+        	task_id,
+        	task_name,
+        	category,
+        	item_total,
+        	item_success,
+        	return_result,
+        	start_time,
+        	end_time,
+        	time_consuming,
+        	create_time
+        ) VALUES (
+        	#{id},
+        	#{taskId},
+        	#{taskName},
+        	#{category},
+        	#{itemTotal},
+        	#{itemSuccess},
+        	#{returnResult},
+        	#{startTime},
+        	#{endTime},
+        	#{timeConsuming},
+        	#{createTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.AutoTaskExecHistory">
+        UPDATE t_auto_task_exec_history 
+		<set>
+	        <if test="taskId != null">
+	        	task_id = #{taskId},
+	        </if>
+	        <if test="taskName != null">
+	        	task_name = #{taskName},
+	        </if>
+	        <if test="category != null">
+	        	category = #{category},
+	        </if>
+	        <if test="itemTotal != null">
+	        	item_total = #{itemTotal},
+	        </if>
+	        <if test="itemSuccess != null">
+	        	item_success = #{itemSuccess},
+	        </if>
+	        <if test="returnResult != null">
+	        	return_result = #{returnResult},
+	        </if>
+	        <if test="startTime != null">
+	        	start_time = #{startTime},
+	        </if>
+	        <if test="endTime != null">
+	        	end_time = #{endTime},
+	        </if>
+	        <if test="timeConsuming != null">
+	        	time_consuming = #{timeConsuming},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_auto_task_exec_history WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.AutoTaskExecHistory">
+		SELECT
+			*
+		FROM
+			t_auto_task_exec_history 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="taskId != null">
+				AND task_id = #{taskId}
+			</if>
+			<if test="taskName != null">
+				AND task_name = #{taskName}
+			</if>
+			<if test="category != null">
+				AND category = #{category}
+			</if>
+			<if test="itemTotal != null">
+				AND item_total = #{itemTotal}
+			</if>
+			<if test="itemSuccess != null">
+				AND item_success = #{itemSuccess}
+			</if>
+			<if test="returnResult != null">
+				AND return_result = #{returnResult}
+			</if>
+			<if test="startTime != null">
+				AND start_time = #{startTime}
+			</if>
+			<if test="endTime != null">
+				AND end_time = #{endTime}
+			</if>
+			<if test="timeConsuming != null">
+				AND time_consuming = #{timeConsuming}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="taskId != null">
+				AND task_id = #{taskId}
+			</if>
+			<if test="taskName != null">
+				AND task_name = #{taskName}
+			</if>
+			<if test="category != null">
+				AND category = #{category}
+			</if>
+			<if test="itemTotal != null">
+				AND item_total = #{itemTotal}
+			</if>
+			<if test="itemSuccess != null">
+				AND item_success = #{itemSuccess}
+			</if>
+			<if test="returnResult != null">
+				AND return_result = #{returnResult}
+			</if>
+			<if test="timeConsuming != null">
+				AND time_consuming = #{timeConsuming}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_auto_task_exec_history
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.AutoTaskExecHistory">
+		SELECT 
+			*
+		FROM
+			t_auto_task_exec_history 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.AutoTaskExecHistory" resultType="com.anl.user.persistence.po.AutoTaskExecHistory">
+		SELECT 
+			*
+		FROM 
+			t_auto_task_exec_history 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

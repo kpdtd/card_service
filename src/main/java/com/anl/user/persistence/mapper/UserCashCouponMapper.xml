@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.UserCashCouponMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_cash_coupon (
+        	id,
+        	cash_coupon_id,
+        	title,
+        	type,
+        	face_value,
+        	start_date,
+        	end_date,
+        	state,
+        	source,
+        	create_time,
+        	update_time
+        ) VALUES (
+        	#{id},
+        	#{cashCouponId},
+        	#{title},
+        	#{type},
+        	#{faceValue},
+        	#{startDate},
+        	#{endDate},
+        	#{state},
+        	#{source},
+        	#{createTime},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.UserCashCoupon">
+        UPDATE t_user_cash_coupon 
+		<set>
+	        <if test="cashCouponId != null">
+	        	cash_coupon_id = #{cashCouponId},
+	        </if>
+	        <if test="title != null">
+	        	title = #{title},
+	        </if>
+	        <if test="type != null">
+	        	type = #{type},
+	        </if>
+	        <if test="faceValue != null">
+	        	face_value = #{faceValue},
+	        </if>
+	        <if test="startDate != null">
+	        	start_date = #{startDate},
+	        </if>
+	        <if test="endDate != null">
+	        	end_date = #{endDate},
+	        </if>
+	        <if test="state != null">
+	        	state = #{state},
+	        </if>
+	        <if test="source != null">
+	        	source = #{source},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_user_cash_coupon WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.UserCashCoupon">
+		SELECT
+			*
+		FROM
+			t_user_cash_coupon 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="cashCouponId != null">
+				AND cash_coupon_id = #{cashCouponId}
+			</if>
+			<if test="title != null">
+				AND title = #{title}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="faceValue != null">
+				AND face_value = #{faceValue}
+			</if>
+			<if test="startDate != null">
+				AND start_date = #{startDate}
+			</if>
+			<if test="endDate != null">
+				AND end_date = #{endDate}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="source != null">
+				AND source = #{source}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="cashCouponId != null">
+				AND cash_coupon_id = #{cashCouponId}
+			</if>
+			<if test="title != null">
+				AND title = #{title}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="faceValue != null">
+				AND face_value = #{faceValue}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="source != null">
+				AND source = #{source}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_user_cash_coupon
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.UserCashCoupon">
+		SELECT 
+			*
+		FROM
+			t_user_cash_coupon 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.UserCashCoupon" resultType="com.anl.user.persistence.po.UserCashCoupon">
+		SELECT 
+			*
+		FROM 
+			t_user_cash_coupon 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

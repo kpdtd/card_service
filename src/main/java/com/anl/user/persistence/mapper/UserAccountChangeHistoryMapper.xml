@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.UserAccountChangeHistoryMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_account_change_history (
+        	id,
+        	user_id,
+        	type,
+        	money,
+        	pa_change_before,
+        	pa_change_after,
+        	sa_change_before,
+        	sa_change_after,
+        	credit_change_before,
+        	credit_change_after,
+        	source,
+        	create_time
+        ) VALUES (
+        	#{id},
+        	#{userId},
+        	#{type},
+        	#{money},
+        	#{paChangeBefore},
+        	#{paChangeAfter},
+        	#{saChangeBefore},
+        	#{saChangeAfter},
+        	#{creditChangeBefore},
+        	#{creditChangeAfter},
+        	#{source},
+        	#{createTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.UserAccountChangeHistory">
+        UPDATE t_user_account_change_history 
+		<set>
+	        <if test="userId != null">
+	        	user_id = #{userId},
+	        </if>
+	        <if test="type != null">
+	        	type = #{type},
+	        </if>
+	        <if test="money != null">
+	        	money = #{money},
+	        </if>
+	        <if test="paChangeBefore != null">
+	        	pa_change_before = #{paChangeBefore},
+	        </if>
+	        <if test="paChangeAfter != null">
+	        	pa_change_after = #{paChangeAfter},
+	        </if>
+	        <if test="saChangeBefore != null">
+	        	sa_change_before = #{saChangeBefore},
+	        </if>
+	        <if test="saChangeAfter != null">
+	        	sa_change_after = #{saChangeAfter},
+	        </if>
+	        <if test="creditChangeBefore != null">
+	        	credit_change_before = #{creditChangeBefore},
+	        </if>
+	        <if test="creditChangeAfter != null">
+	        	credit_change_after = #{creditChangeAfter},
+	        </if>
+	        <if test="source != null">
+	        	source = #{source},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_user_account_change_history WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.UserAccountChangeHistory">
+		SELECT
+			*
+		FROM
+			t_user_account_change_history 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="money != null">
+				AND money = #{money}
+			</if>
+			<if test="paChangeBefore != null">
+				AND pa_change_before = #{paChangeBefore}
+			</if>
+			<if test="paChangeAfter != null">
+				AND pa_change_after = #{paChangeAfter}
+			</if>
+			<if test="saChangeBefore != null">
+				AND sa_change_before = #{saChangeBefore}
+			</if>
+			<if test="saChangeAfter != null">
+				AND sa_change_after = #{saChangeAfter}
+			</if>
+			<if test="creditChangeBefore != null">
+				AND credit_change_before = #{creditChangeBefore}
+			</if>
+			<if test="creditChangeAfter != null">
+				AND credit_change_after = #{creditChangeAfter}
+			</if>
+			<if test="source != null">
+				AND source = #{source}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="money != null">
+				AND money = #{money}
+			</if>
+			<if test="paChangeBefore != null">
+				AND pa_change_before = #{paChangeBefore}
+			</if>
+			<if test="paChangeAfter != null">
+				AND pa_change_after = #{paChangeAfter}
+			</if>
+			<if test="saChangeBefore != null">
+				AND sa_change_before = #{saChangeBefore}
+			</if>
+			<if test="saChangeAfter != null">
+				AND sa_change_after = #{saChangeAfter}
+			</if>
+			<if test="creditChangeBefore != null">
+				AND credit_change_before = #{creditChangeBefore}
+			</if>
+			<if test="creditChangeAfter != null">
+				AND credit_change_after = #{creditChangeAfter}
+			</if>
+			<if test="source != null">
+				AND source = #{source}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_user_account_change_history
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.UserAccountChangeHistory">
+		SELECT 
+			*
+		FROM
+			t_user_account_change_history 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.UserAccountChangeHistory" resultType="com.anl.user.persistence.po.UserAccountChangeHistory">
+		SELECT 
+			*
+		FROM 
+			t_user_account_change_history 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

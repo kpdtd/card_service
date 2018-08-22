@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.RealnameAuthenticationMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_realname_authentication (
+        	id,
+        	phone,
+        	name,
+        	Identification_number,
+        	card_id,
+        	msisdn,
+        	imsi,
+        	iccid,
+        	attachment,
+        	state,
+        	create_time,
+        	update_time
+        ) VALUES (
+        	#{id},
+        	#{phone},
+        	#{name},
+        	#{identificationNumber},
+        	#{cardId},
+        	#{msisdn},
+        	#{imsi},
+        	#{iccid},
+        	#{attachment},
+        	#{state},
+        	#{createTime},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.RealnameAuthentication">
+        UPDATE t_realname_authentication 
+		<set>
+	        <if test="phone != null">
+	        	phone = #{phone},
+	        </if>
+	        <if test="name != null">
+	        	name = #{name},
+	        </if>
+	        <if test="identificationNumber != null">
+	        	Identification_number = #{identificationNumber},
+	        </if>
+	        <if test="cardId != null">
+	        	card_id = #{cardId},
+	        </if>
+	        <if test="msisdn != null">
+	        	msisdn = #{msisdn},
+	        </if>
+	        <if test="imsi != null">
+	        	imsi = #{imsi},
+	        </if>
+	        <if test="iccid != null">
+	        	iccid = #{iccid},
+	        </if>
+	        <if test="attachment != null">
+	        	attachment = #{attachment},
+	        </if>
+	        <if test="state != null">
+	        	state = #{state},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_realname_authentication WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.RealnameAuthentication">
+		SELECT
+			*
+		FROM
+			t_realname_authentication 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="identificationNumber != null">
+				AND Identification_number = #{identificationNumber}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="msisdn != null">
+				AND msisdn = #{msisdn}
+			</if>
+			<if test="imsi != null">
+				AND imsi = #{imsi}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="attachment != null">
+				AND attachment = #{attachment}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="identificationNumber != null">
+				AND Identification_number = #{identificationNumber}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="msisdn != null">
+				AND msisdn = #{msisdn}
+			</if>
+			<if test="imsi != null">
+				AND imsi = #{imsi}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="attachment != null">
+				AND attachment = #{attachment}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_realname_authentication
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.RealnameAuthentication">
+		SELECT 
+			*
+		FROM
+			t_realname_authentication 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.RealnameAuthentication" resultType="com.anl.user.persistence.po.RealnameAuthentication">
+		SELECT 
+			*
+		FROM 
+			t_realname_authentication 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.ValidationCodeMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_validation_code (
+        	id,
+        	user_phone,
+        	validation_code,
+        	create_time,
+        	send_code
+        ) VALUES (
+        	#{id},
+        	#{userPhone},
+        	#{validationCode},
+        	#{createTime},
+        	#{sendCode}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.ValidationCode">
+        UPDATE t_validation_code 
+		<set>
+	        <if test="userPhone != null">
+	        	user_phone = #{userPhone},
+	        </if>
+	        <if test="validationCode != null">
+	        	validation_code = #{validationCode},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="sendCode != null">
+	        	send_code = #{sendCode}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_validation_code WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.ValidationCode">
+		SELECT
+			*
+		FROM
+			t_validation_code 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="userPhone != null">
+				AND user_phone = #{userPhone}
+			</if>
+			<if test="validationCode != null">
+				AND validation_code = #{validationCode}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="sendCode != null">
+				AND send_code = #{sendCode}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="userPhone != null">
+				AND user_phone = #{userPhone}
+			</if>
+			<if test="validationCode != null">
+				AND validation_code = #{validationCode}
+			</if>
+			<if test="sendCode != null">
+				AND send_code = #{sendCode}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_validation_code
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.ValidationCode">
+		SELECT 
+			*
+		FROM
+			t_validation_code 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.ValidationCode" resultType="com.anl.user.persistence.po.ValidationCode">
+		SELECT 
+			*
+		FROM 
+			t_validation_code 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

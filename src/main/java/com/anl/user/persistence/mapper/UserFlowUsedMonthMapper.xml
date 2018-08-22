@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.UserFlowUsedMonthMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_flow_used_month (
+        	id,
+        	batch_number,
+        	suplier_id,
+        	card_id,
+        	iccid,
+        	phone,
+        	total,
+        	actual_use,
+        	card_state,
+        	bill_date,
+        	create_time
+        ) VALUES (
+        	#{id},
+        	#{batchNumber},
+        	#{suplierId},
+        	#{cardId},
+        	#{iccid},
+        	#{phone},
+        	#{total},
+        	#{actualUse},
+        	#{cardState},
+        	#{billDate},
+        	#{createTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.UserFlowUsedMonth">
+        UPDATE t_user_flow_used_month 
+		<set>
+	        <if test="batchNumber != null">
+	        	batch_number = #{batchNumber},
+	        </if>
+	        <if test="suplierId != null">
+	        	suplier_id = #{suplierId},
+	        </if>
+	        <if test="cardId != null">
+	        	card_id = #{cardId},
+	        </if>
+	        <if test="iccid != null">
+	        	iccid = #{iccid},
+	        </if>
+	        <if test="phone != null">
+	        	phone = #{phone},
+	        </if>
+	        <if test="total != null">
+	        	total = #{total},
+	        </if>
+	        <if test="actualUse != null">
+	        	actual_use = #{actualUse},
+	        </if>
+	        <if test="cardState != null">
+	        	card_state = #{cardState},
+	        </if>
+	        <if test="billDate != null">
+	        	bill_date = #{billDate},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_user_flow_used_month WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.UserFlowUsedMonth">
+		SELECT
+			*
+		FROM
+			t_user_flow_used_month 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="batchNumber != null">
+				AND batch_number = #{batchNumber}
+			</if>
+			<if test="suplierId != null">
+				AND suplier_id = #{suplierId}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="total != null">
+				AND total = #{total}
+			</if>
+			<if test="actualUse != null">
+				AND actual_use = #{actualUse}
+			</if>
+			<if test="cardState != null">
+				AND card_state = #{cardState}
+			</if>
+			<if test="billDate != null">
+				AND bill_date = #{billDate}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="batchNumber != null">
+				AND batch_number = #{batchNumber}
+			</if>
+			<if test="suplierId != null">
+				AND suplier_id = #{suplierId}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="total != null">
+				AND total = #{total}
+			</if>
+			<if test="actualUse != null">
+				AND actual_use = #{actualUse}
+			</if>
+			<if test="cardState != null">
+				AND card_state = #{cardState}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_user_flow_used_month
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.UserFlowUsedMonth">
+		SELECT 
+			*
+		FROM
+			t_user_flow_used_month 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.UserFlowUsedMonth" resultType="com.anl.user.persistence.po.UserFlowUsedMonth">
+		SELECT 
+			*
+		FROM 
+			t_user_flow_used_month 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

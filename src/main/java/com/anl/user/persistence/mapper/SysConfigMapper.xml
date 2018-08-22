@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.SysConfigMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_sys_config (
+        	id,
+        	create_time,
+        	update_time,
+        	name,
+        	value,
+        	begintime,
+        	endtime,
+        	state,
+        	memo
+        ) VALUES (
+        	#{id},
+        	#{createTime},
+        	#{updateTime},
+        	#{name},
+        	#{value},
+        	#{begintime},
+        	#{endtime},
+        	#{state},
+        	#{memo}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.SysConfig">
+        UPDATE t_sys_config 
+		<set>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime},
+	        </if>
+	        <if test="name != null">
+	        	name = #{name},
+	        </if>
+	        <if test="value != null">
+	        	value = #{value},
+	        </if>
+	        <if test="begintime != null">
+	        	begintime = #{begintime},
+	        </if>
+	        <if test="endtime != null">
+	        	endtime = #{endtime},
+	        </if>
+	        <if test="state != null">
+	        	state = #{state},
+	        </if>
+	        <if test="memo != null">
+	        	memo = #{memo}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_sys_config WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.SysConfig">
+		SELECT
+			*
+		FROM
+			t_sys_config 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="value != null">
+				AND value = #{value}
+			</if>
+			<if test="begintime != null">
+				AND begintime = #{begintime}
+			</if>
+			<if test="endtime != null">
+				AND endtime = #{endtime}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="memo != null">
+				AND memo = #{memo}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="value != null">
+				AND value = #{value}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="memo != null">
+				AND memo = #{memo}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_sys_config
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.SysConfig">
+		SELECT 
+			*
+		FROM
+			t_sys_config 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.SysConfig" resultType="com.anl.user.persistence.po.SysConfig">
+		SELECT 
+			*
+		FROM 
+			t_sys_config 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

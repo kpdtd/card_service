@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.UserPlanChangeHistoryMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user_plan_change_history (
+        	id,
+        	user_id,
+        	old_plan_id,
+        	new_plan_id,
+        	plan_name,
+        	start_time,
+        	end_time,
+        	create_time,
+        	update_time
+        ) VALUES (
+        	#{id},
+        	#{userId},
+        	#{oldPlanId},
+        	#{newPlanId},
+        	#{planName},
+        	#{startTime},
+        	#{endTime},
+        	#{createTime},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.UserPlanChangeHistory">
+        UPDATE t_user_plan_change_history 
+		<set>
+	        <if test="oldPlanId != null">
+	        	old_plan_id = #{oldPlanId},
+	        </if>
+	        <if test="newPlanId != null">
+	        	new_plan_id = #{newPlanId},
+	        </if>
+	        <if test="planName != null">
+	        	plan_name = #{planName},
+	        </if>
+	        <if test="startTime != null">
+	        	start_time = #{startTime},
+	        </if>
+	        <if test="endTime != null">
+	        	end_time = #{endTime},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id},
+	        user_id = #{userId}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_user_plan_change_history WHERE
+        id = #{id},
+        user_id = #{userId}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.UserPlanChangeHistory">
+		SELECT
+			*
+		FROM
+			t_user_plan_change_history 
+	    WHERE
+	        id = #{id} ,
+	        user_id = #{userId} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="oldPlanId != null">
+				AND old_plan_id = #{oldPlanId}
+			</if>
+			<if test="newPlanId != null">
+				AND new_plan_id = #{newPlanId}
+			</if>
+			<if test="planName != null">
+				AND plan_name = #{planName}
+			</if>
+			<if test="startTime != null">
+				AND start_time = #{startTime}
+			</if>
+			<if test="endTime != null">
+				AND end_time = #{endTime}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId}
+			</if>
+			<if test="oldPlanId != null">
+				AND old_plan_id = #{oldPlanId}
+			</if>
+			<if test="newPlanId != null">
+				AND new_plan_id = #{newPlanId}
+			</if>
+			<if test="planName != null">
+				AND plan_name = #{planName}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_user_plan_change_history
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.UserPlanChangeHistory">
+		SELECT 
+			*
+		FROM
+			t_user_plan_change_history 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.UserPlanChangeHistory" resultType="com.anl.user.persistence.po.UserPlanChangeHistory">
+		SELECT 
+			*
+		FROM 
+			t_user_plan_change_history 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

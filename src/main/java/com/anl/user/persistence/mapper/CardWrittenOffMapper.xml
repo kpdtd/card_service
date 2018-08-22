@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.CardWrittenOffMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_card_written_off (
+        	id,
+        	supplier_id,
+        	card_owner_id,
+        	iccid,
+        	msisdn,
+        	imsi,
+        	bind_device,
+        	card_state,
+        	gprs_state,
+        	op_state,
+        	pool_id,
+        	operator,
+        	apn,
+        	activation_time,
+        	create_time,
+        	update_time,
+        	reason,
+        	written_off_time
+        ) VALUES (
+        	#{id},
+        	#{supplierId},
+        	#{cardOwnerId},
+        	#{iccid},
+        	#{msisdn},
+        	#{imsi},
+        	#{bindDevice},
+        	#{cardState},
+        	#{gprsState},
+        	#{opState},
+        	#{poolId},
+        	#{operator},
+        	#{apn},
+        	#{activationTime},
+        	#{createTime},
+        	#{updateTime},
+        	#{reason},
+        	#{writtenOffTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.CardWrittenOff">
+        UPDATE t_card_written_off 
+		<set>
+	        <if test="supplierId != null">
+	        	supplier_id = #{supplierId},
+	        </if>
+	        <if test="cardOwnerId != null">
+	        	card_owner_id = #{cardOwnerId},
+	        </if>
+	        <if test="iccid != null">
+	        	iccid = #{iccid},
+	        </if>
+	        <if test="msisdn != null">
+	        	msisdn = #{msisdn},
+	        </if>
+	        <if test="imsi != null">
+	        	imsi = #{imsi},
+	        </if>
+	        <if test="bindDevice != null">
+	        	bind_device = #{bindDevice},
+	        </if>
+	        <if test="cardState != null">
+	        	card_state = #{cardState},
+	        </if>
+	        <if test="gprsState != null">
+	        	gprs_state = #{gprsState},
+	        </if>
+	        <if test="opState != null">
+	        	op_state = #{opState},
+	        </if>
+	        <if test="poolId != null">
+	        	pool_id = #{poolId},
+	        </if>
+	        <if test="operator != null">
+	        	operator = #{operator},
+	        </if>
+	        <if test="apn != null">
+	        	apn = #{apn},
+	        </if>
+	        <if test="activationTime != null">
+	        	activation_time = #{activationTime},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime},
+	        </if>
+	        <if test="reason != null">
+	        	reason = #{reason},
+	        </if>
+	        <if test="writtenOffTime != null">
+	        	written_off_time = #{writtenOffTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_card_written_off WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.CardWrittenOff">
+		SELECT
+			*
+		FROM
+			t_card_written_off 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="supplierId != null">
+				AND supplier_id = #{supplierId}
+			</if>
+			<if test="cardOwnerId != null">
+				AND card_owner_id = #{cardOwnerId}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="msisdn != null">
+				AND msisdn = #{msisdn}
+			</if>
+			<if test="imsi != null">
+				AND imsi = #{imsi}
+			</if>
+			<if test="bindDevice != null">
+				AND bind_device = #{bindDevice}
+			</if>
+			<if test="cardState != null">
+				AND card_state = #{cardState}
+			</if>
+			<if test="gprsState != null">
+				AND gprs_state = #{gprsState}
+			</if>
+			<if test="opState != null">
+				AND op_state = #{opState}
+			</if>
+			<if test="poolId != null">
+				AND pool_id = #{poolId}
+			</if>
+			<if test="operator != null">
+				AND operator = #{operator}
+			</if>
+			<if test="apn != null">
+				AND apn = #{apn}
+			</if>
+			<if test="activationTime != null">
+				AND activation_time = #{activationTime}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="reason != null">
+				AND reason = #{reason}
+			</if>
+			<if test="writtenOffTime != null">
+				AND written_off_time = #{writtenOffTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="supplierId != null">
+				AND supplier_id = #{supplierId}
+			</if>
+			<if test="cardOwnerId != null">
+				AND card_owner_id = #{cardOwnerId}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="msisdn != null">
+				AND msisdn = #{msisdn}
+			</if>
+			<if test="imsi != null">
+				AND imsi = #{imsi}
+			</if>
+			<if test="bindDevice != null">
+				AND bind_device = #{bindDevice}
+			</if>
+			<if test="cardState != null">
+				AND card_state = #{cardState}
+			</if>
+			<if test="gprsState != null">
+				AND gprs_state = #{gprsState}
+			</if>
+			<if test="opState != null">
+				AND op_state = #{opState}
+			</if>
+			<if test="poolId != null">
+				AND pool_id = #{poolId}
+			</if>
+			<if test="operator != null">
+				AND operator = #{operator}
+			</if>
+			<if test="apn != null">
+				AND apn = #{apn}
+			</if>
+			<if test="reason != null">
+				AND reason = #{reason}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_card_written_off
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.CardWrittenOff">
+		SELECT 
+			*
+		FROM
+			t_card_written_off 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.CardWrittenOff" resultType="com.anl.user.persistence.po.CardWrittenOff">
+		SELECT 
+			*
+		FROM 
+			t_card_written_off 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.ExceptionLogMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_exception_log (
+        	id,
+        	service,
+        	module,
+        	function,
+        	type,
+        	message,
+        	ip,
+        	info,
+        	create_time
+        ) VALUES (
+        	#{id},
+        	#{service},
+        	#{module},
+        	#{function},
+        	#{type},
+        	#{message},
+        	#{ip},
+        	#{info},
+        	#{createTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.ExceptionLog">
+        UPDATE t_exception_log 
+		<set>
+	        <if test="service != null">
+	        	service = #{service},
+	        </if>
+	        <if test="module != null">
+	        	module = #{module},
+	        </if>
+	        <if test="function != null">
+	        	function = #{function},
+	        </if>
+	        <if test="type != null">
+	        	type = #{type},
+	        </if>
+	        <if test="message != null">
+	        	message = #{message},
+	        </if>
+	        <if test="ip != null">
+	        	ip = #{ip},
+	        </if>
+	        <if test="info != null">
+	        	info = #{info},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_exception_log WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.ExceptionLog">
+		SELECT
+			*
+		FROM
+			t_exception_log 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="service != null">
+				AND service = #{service}
+			</if>
+			<if test="module != null">
+				AND module = #{module}
+			</if>
+			<if test="function != null">
+				AND function = #{function}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="message != null">
+				AND message = #{message}
+			</if>
+			<if test="ip != null">
+				AND ip = #{ip}
+			</if>
+			<if test="info != null">
+				AND info = #{info}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="service != null">
+				AND service = #{service}
+			</if>
+			<if test="module != null">
+				AND module = #{module}
+			</if>
+			<if test="function != null">
+				AND function = #{function}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="message != null">
+				AND message = #{message}
+			</if>
+			<if test="ip != null">
+				AND ip = #{ip}
+			</if>
+			<if test="info != null">
+				AND info = #{info}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_exception_log
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.ExceptionLog">
+		SELECT 
+			*
+		FROM
+			t_exception_log 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.ExceptionLog" resultType="com.anl.user.persistence.po.ExceptionLog">
+		SELECT 
+			*
+		FROM 
+			t_exception_log 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

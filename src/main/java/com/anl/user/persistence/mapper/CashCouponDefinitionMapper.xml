@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.CashCouponDefinitionMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_cash_coupon_definition (
+        	id,
+        	title,
+        	subtitle,
+        	tips,
+        	deatil,
+        	number,
+        	coupon_type,
+        	face_value,
+        	date_rule,
+        	valid_days,
+        	start_date,
+        	end_date,
+        	extension_info,
+        	create_time,
+        	update_time
+        ) VALUES (
+        	#{id},
+        	#{title},
+        	#{subtitle},
+        	#{tips},
+        	#{deatil},
+        	#{number},
+        	#{couponType},
+        	#{faceValue},
+        	#{dateRule},
+        	#{validDays},
+        	#{startDate},
+        	#{endDate},
+        	#{extensionInfo},
+        	#{createTime},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.CashCouponDefinition">
+        UPDATE t_cash_coupon_definition 
+		<set>
+	        <if test="title != null">
+	        	title = #{title},
+	        </if>
+	        <if test="subtitle != null">
+	        	subtitle = #{subtitle},
+	        </if>
+	        <if test="tips != null">
+	        	tips = #{tips},
+	        </if>
+	        <if test="deatil != null">
+	        	deatil = #{deatil},
+	        </if>
+	        <if test="number != null">
+	        	number = #{number},
+	        </if>
+	        <if test="couponType != null">
+	        	coupon_type = #{couponType},
+	        </if>
+	        <if test="faceValue != null">
+	        	face_value = #{faceValue},
+	        </if>
+	        <if test="dateRule != null">
+	        	date_rule = #{dateRule},
+	        </if>
+	        <if test="validDays != null">
+	        	valid_days = #{validDays},
+	        </if>
+	        <if test="startDate != null">
+	        	start_date = #{startDate},
+	        </if>
+	        <if test="endDate != null">
+	        	end_date = #{endDate},
+	        </if>
+	        <if test="extensionInfo != null">
+	        	extension_info = #{extensionInfo},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_cash_coupon_definition WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.CashCouponDefinition">
+		SELECT
+			*
+		FROM
+			t_cash_coupon_definition 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="title != null">
+				AND title = #{title}
+			</if>
+			<if test="subtitle != null">
+				AND subtitle = #{subtitle}
+			</if>
+			<if test="tips != null">
+				AND tips = #{tips}
+			</if>
+			<if test="deatil != null">
+				AND deatil = #{deatil}
+			</if>
+			<if test="number != null">
+				AND number = #{number}
+			</if>
+			<if test="couponType != null">
+				AND coupon_type = #{couponType}
+			</if>
+			<if test="faceValue != null">
+				AND face_value = #{faceValue}
+			</if>
+			<if test="dateRule != null">
+				AND date_rule = #{dateRule}
+			</if>
+			<if test="validDays != null">
+				AND valid_days = #{validDays}
+			</if>
+			<if test="startDate != null">
+				AND start_date = #{startDate}
+			</if>
+			<if test="endDate != null">
+				AND end_date = #{endDate}
+			</if>
+			<if test="extensionInfo != null">
+				AND extension_info = #{extensionInfo}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="title != null">
+				AND title = #{title}
+			</if>
+			<if test="subtitle != null">
+				AND subtitle = #{subtitle}
+			</if>
+			<if test="tips != null">
+				AND tips = #{tips}
+			</if>
+			<if test="deatil != null">
+				AND deatil = #{deatil}
+			</if>
+			<if test="number != null">
+				AND number = #{number}
+			</if>
+			<if test="couponType != null">
+				AND coupon_type = #{couponType}
+			</if>
+			<if test="faceValue != null">
+				AND face_value = #{faceValue}
+			</if>
+			<if test="dateRule != null">
+				AND date_rule = #{dateRule}
+			</if>
+			<if test="validDays != null">
+				AND valid_days = #{validDays}
+			</if>
+			<if test="extensionInfo != null">
+				AND extension_info = #{extensionInfo}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_cash_coupon_definition
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.CashCouponDefinition">
+		SELECT 
+			*
+		FROM
+			t_cash_coupon_definition 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.CashCouponDefinition" resultType="com.anl.user.persistence.po.CashCouponDefinition">
+		SELECT 
+			*
+		FROM 
+			t_cash_coupon_definition 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

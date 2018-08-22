@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.UserMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_user (
+        	id,
+        	indentity,
+        	username,
+        	password,
+        	phone,
+        	wx_openid,
+        	card_id,
+        	iccid,
+        	channel_id,
+        	state,
+        	create_time,
+        	update_time
+        ) VALUES (
+        	#{id},
+        	#{indentity},
+        	#{username},
+        	#{password},
+        	#{phone},
+        	#{wxOpenid},
+        	#{cardId},
+        	#{iccid},
+        	#{channelId},
+        	#{state},
+        	#{createTime},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.User">
+        UPDATE t_user 
+		<set>
+	        <if test="indentity != null">
+	        	indentity = #{indentity},
+	        </if>
+	        <if test="username != null">
+	        	username = #{username},
+	        </if>
+	        <if test="password != null">
+	        	password = #{password},
+	        </if>
+	        <if test="phone != null">
+	        	phone = #{phone},
+	        </if>
+	        <if test="wxOpenid != null">
+	        	wx_openid = #{wxOpenid},
+	        </if>
+	        <if test="cardId != null">
+	        	card_id = #{cardId},
+	        </if>
+	        <if test="iccid != null">
+	        	iccid = #{iccid},
+	        </if>
+	        <if test="channelId != null">
+	        	channel_id = #{channelId},
+	        </if>
+	        <if test="state != null">
+	        	state = #{state},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_user WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.User">
+		SELECT
+			*
+		FROM
+			t_user 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="indentity != null">
+				AND indentity = #{indentity}
+			</if>
+			<if test="username != null">
+				AND username = #{username}
+			</if>
+			<if test="password != null">
+				AND password = #{password}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="wxOpenid != null">
+				AND wx_openid = #{wxOpenid}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="channelId != null">
+				AND channel_id = #{channelId}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="indentity != null">
+				AND indentity = #{indentity}
+			</if>
+			<if test="username != null">
+				AND username = #{username}
+			</if>
+			<if test="password != null">
+				AND password = #{password}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="wxOpenid != null">
+				AND wx_openid = #{wxOpenid}
+			</if>
+			<if test="cardId != null">
+				AND card_id = #{cardId}
+			</if>
+			<if test="iccid != null">
+				AND iccid = #{iccid}
+			</if>
+			<if test="channelId != null">
+				AND channel_id = #{channelId}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_user
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.User">
+		SELECT 
+			*
+		FROM
+			t_user 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.User" resultType="com.anl.user.persistence.po.User">
+		SELECT 
+			*
+		FROM 
+			t_user 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.SysRolesMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="rolesId">
+    <![CDATA[
+        INSERT INTO t_sys_roles (
+        	ROLES_ID,
+        	ROLE_NAME,
+        	ROLE_DESC,
+        	MODULE,
+        	PARENT_ID
+        ) VALUES (
+        	#{rolesId},
+        	#{roleName},
+        	#{roleDesc},
+        	#{module},
+        	#{parentId}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.SysRoles">
+        UPDATE t_sys_roles 
+		<set>
+	        <if test="roleName != null">
+	        	ROLE_NAME = #{roleName},
+	        </if>
+	        <if test="roleDesc != null">
+	        	ROLE_DESC = #{roleDesc},
+	        </if>
+	        <if test="module != null">
+	        	MODULE = #{module},
+	        </if>
+	        <if test="parentId != null">
+	        	PARENT_ID = #{parentId}
+	        </if>
+	    </set>
+        WHERE
+	        ROLES_ID = #{rolesId}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_sys_roles WHERE
+        ROLES_ID = #{rolesId}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.SysRoles">
+		SELECT
+			*
+		FROM
+			t_sys_roles 
+	    WHERE
+	        ROLES_ID = #{rolesId} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="rolesId != null">
+				AND ROLES_ID = #{rolesId}
+			</if>
+			<if test="roleName != null">
+				AND ROLE_NAME = #{roleName}
+			</if>
+			<if test="roleDesc != null">
+				AND ROLE_DESC = #{roleDesc}
+			</if>
+			<if test="module != null">
+				AND MODULE = #{module}
+			</if>
+			<if test="parentId != null">
+				AND PARENT_ID = #{parentId}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="rolesId != null">
+				AND ROLES_ID = #{rolesId}
+			</if>
+			<if test="roleName != null">
+				AND ROLE_NAME = #{roleName}
+			</if>
+			<if test="roleDesc != null">
+				AND ROLE_DESC = #{roleDesc}
+			</if>
+			<if test="module != null">
+				AND MODULE = #{module}
+			</if>
+			<if test="parentId != null">
+				AND PARENT_ID = #{parentId}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_sys_roles
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.SysRoles">
+		SELECT 
+			*
+		FROM
+			t_sys_roles 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.SysRoles" resultType="com.anl.user.persistence.po.SysRoles">
+		SELECT 
+			*
+		FROM 
+			t_sys_roles 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.MiPushMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_mi_push (
+        	id,
+        	target_type,
+        	extra,
+        	title,
+        	description,
+        	content,
+        	target,
+        	msg_id,
+        	create_time,
+        	update_time
+        ) VALUES (
+        	#{id},
+        	#{targetType},
+        	#{extra},
+        	#{title},
+        	#{description},
+        	#{content},
+        	#{target},
+        	#{msgId},
+        	#{createTime},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.MiPush">
+        UPDATE t_mi_push 
+		<set>
+	        <if test="targetType != null">
+	        	target_type = #{targetType},
+	        </if>
+	        <if test="extra != null">
+	        	extra = #{extra},
+	        </if>
+	        <if test="title != null">
+	        	title = #{title},
+	        </if>
+	        <if test="description != null">
+	        	description = #{description},
+	        </if>
+	        <if test="content != null">
+	        	content = #{content},
+	        </if>
+	        <if test="target != null">
+	        	target = #{target},
+	        </if>
+	        <if test="msgId != null">
+	        	msg_id = #{msgId},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_mi_push WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.MiPush">
+		SELECT
+			*
+		FROM
+			t_mi_push 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="targetType != null">
+				AND target_type = #{targetType}
+			</if>
+			<if test="extra != null">
+				AND extra = #{extra}
+			</if>
+			<if test="title != null">
+				AND title = #{title}
+			</if>
+			<if test="description != null">
+				AND description = #{description}
+			</if>
+			<if test="content != null">
+				AND content = #{content}
+			</if>
+			<if test="target != null">
+				AND target = #{target}
+			</if>
+			<if test="msgId != null">
+				AND msg_id = #{msgId}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="targetType != null">
+				AND target_type = #{targetType}
+			</if>
+			<if test="extra != null">
+				AND extra = #{extra}
+			</if>
+			<if test="title != null">
+				AND title = #{title}
+			</if>
+			<if test="description != null">
+				AND description = #{description}
+			</if>
+			<if test="content != null">
+				AND content = #{content}
+			</if>
+			<if test="target != null">
+				AND target = #{target}
+			</if>
+			<if test="msgId != null">
+				AND msg_id = #{msgId}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_mi_push
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.MiPush">
+		SELECT 
+			*
+		FROM
+			t_mi_push 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.MiPush" resultType="com.anl.user.persistence.po.MiPush">
+		SELECT 
+			*
+		FROM 
+			t_mi_push 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

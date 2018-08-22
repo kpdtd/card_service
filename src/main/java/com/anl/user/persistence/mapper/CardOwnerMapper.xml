@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.CardOwnerMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_card_owner (
+        	id,
+        	company,
+        	username,
+        	password,
+        	owner_type,
+        	state,
+        	ec_extension_info,
+        	info,
+        	creator,
+        	create_time
+        ) VALUES (
+        	#{id},
+        	#{company},
+        	#{username},
+        	#{password},
+        	#{ownerType},
+        	#{state},
+        	#{ecExtensionInfo},
+        	#{info},
+        	#{creator},
+        	#{createTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.CardOwner">
+        UPDATE t_card_owner 
+		<set>
+	        <if test="company != null">
+	        	company = #{company},
+	        </if>
+	        <if test="username != null">
+	        	username = #{username},
+	        </if>
+	        <if test="password != null">
+	        	password = #{password},
+	        </if>
+	        <if test="ownerType != null">
+	        	owner_type = #{ownerType},
+	        </if>
+	        <if test="state != null">
+	        	state = #{state},
+	        </if>
+	        <if test="ecExtensionInfo != null">
+	        	ec_extension_info = #{ecExtensionInfo},
+	        </if>
+	        <if test="info != null">
+	        	info = #{info},
+	        </if>
+	        <if test="creator != null">
+	        	creator = #{creator},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_card_owner WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.CardOwner">
+		SELECT
+			*
+		FROM
+			t_card_owner 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="company != null">
+				AND company = #{company}
+			</if>
+			<if test="username != null">
+				AND username = #{username}
+			</if>
+			<if test="password != null">
+				AND password = #{password}
+			</if>
+			<if test="ownerType != null">
+				AND owner_type = #{ownerType}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="ecExtensionInfo != null">
+				AND ec_extension_info = #{ecExtensionInfo}
+			</if>
+			<if test="info != null">
+				AND info = #{info}
+			</if>
+			<if test="creator != null">
+				AND creator = #{creator}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="company != null">
+				AND company = #{company}
+			</if>
+			<if test="username != null">
+				AND username = #{username}
+			</if>
+			<if test="password != null">
+				AND password = #{password}
+			</if>
+			<if test="ownerType != null">
+				AND owner_type = #{ownerType}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="ecExtensionInfo != null">
+				AND ec_extension_info = #{ecExtensionInfo}
+			</if>
+			<if test="info != null">
+				AND info = #{info}
+			</if>
+			<if test="creator != null">
+				AND creator = #{creator}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_card_owner
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.CardOwner">
+		SELECT 
+			*
+		FROM
+			t_card_owner 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.CardOwner" resultType="com.anl.user.persistence.po.CardOwner">
+		SELECT 
+			*
+		FROM 
+			t_card_owner 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.ChannelMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_channel (
+        	id,
+        	name,
+        	code,
+        	ad_url,
+        	category,
+        	state,
+        	linker,
+        	info,
+        	create_time,
+        	update_time
+        ) VALUES (
+        	#{id},
+        	#{name},
+        	#{code},
+        	#{adUrl},
+        	#{category},
+        	#{state},
+        	#{linker},
+        	#{info},
+        	#{createTime},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.Channel">
+        UPDATE t_channel 
+		<set>
+	        <if test="name != null">
+	        	name = #{name},
+	        </if>
+	        <if test="code != null">
+	        	code = #{code},
+	        </if>
+	        <if test="adUrl != null">
+	        	ad_url = #{adUrl},
+	        </if>
+	        <if test="category != null">
+	        	category = #{category},
+	        </if>
+	        <if test="state != null">
+	        	state = #{state},
+	        </if>
+	        <if test="linker != null">
+	        	linker = #{linker},
+	        </if>
+	        <if test="info != null">
+	        	info = #{info},
+	        </if>
+	        <if test="createTime != null">
+	        	create_time = #{createTime},
+	        </if>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_channel WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.Channel">
+		SELECT
+			*
+		FROM
+			t_channel 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="code != null">
+				AND code = #{code}
+			</if>
+			<if test="adUrl != null">
+				AND ad_url = #{adUrl}
+			</if>
+			<if test="category != null">
+				AND category = #{category}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="linker != null">
+				AND linker = #{linker}
+			</if>
+			<if test="info != null">
+				AND info = #{info}
+			</if>
+			<if test="startTime != null">
+	       	<![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+			</if>
+			<if test="endTime != null">
+			<![CDATA[
+				AND create_time < #{endTime}
+			]]>
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="code != null">
+				AND code = #{code}
+			</if>
+			<if test="adUrl != null">
+				AND ad_url = #{adUrl}
+			</if>
+			<if test="category != null">
+				AND category = #{category}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="linker != null">
+				AND linker = #{linker}
+			</if>
+			<if test="info != null">
+				AND info = #{info}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_channel
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.Channel">
+		SELECT 
+			*
+		FROM
+			t_channel 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.Channel" resultType="com.anl.user.persistence.po.Channel">
+		SELECT 
+			*
+		FROM 
+			t_channel 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

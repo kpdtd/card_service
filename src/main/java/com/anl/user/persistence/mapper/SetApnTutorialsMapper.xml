@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.SetApnTutorialsMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_set_apn_tutorials (
+        	id,
+        	name,
+        	model,
+        	step1,
+        	step1_pic,
+        	step2,
+        	step2_pic,
+        	step3,
+        	step3_pic,
+        	step4,
+        	step4_pic,
+        	step5,
+        	step5_pic,
+        	step6,
+        	step6_pic,
+        	step7,
+        	step7_pic,
+        	step8,
+        	step8_pic,
+        	step9,
+        	step9_pic
+        ) VALUES (
+        	#{id},
+        	#{name},
+        	#{model},
+        	#{step1},
+        	#{step1Pic},
+        	#{step2},
+        	#{step2Pic},
+        	#{step3},
+        	#{step3Pic},
+        	#{step4},
+        	#{step4Pic},
+        	#{step5},
+        	#{step5Pic},
+        	#{step6},
+        	#{step6Pic},
+        	#{step7},
+        	#{step7Pic},
+        	#{step8},
+        	#{step8Pic},
+        	#{step9},
+        	#{step9Pic}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.user.persistence.po.SetApnTutorials">
+        UPDATE t_set_apn_tutorials 
+		<set>
+	        <if test="name != null">
+	        	name = #{name},
+	        </if>
+	        <if test="model != null">
+	        	model = #{model},
+	        </if>
+	        <if test="step1 != null">
+	        	step1 = #{step1},
+	        </if>
+	        <if test="step1Pic != null">
+	        	step1_pic = #{step1Pic},
+	        </if>
+	        <if test="step2 != null">
+	        	step2 = #{step2},
+	        </if>
+	        <if test="step2Pic != null">
+	        	step2_pic = #{step2Pic},
+	        </if>
+	        <if test="step3 != null">
+	        	step3 = #{step3},
+	        </if>
+	        <if test="step3Pic != null">
+	        	step3_pic = #{step3Pic},
+	        </if>
+	        <if test="step4 != null">
+	        	step4 = #{step4},
+	        </if>
+	        <if test="step4Pic != null">
+	        	step4_pic = #{step4Pic},
+	        </if>
+	        <if test="step5 != null">
+	        	step5 = #{step5},
+	        </if>
+	        <if test="step5Pic != null">
+	        	step5_pic = #{step5Pic},
+	        </if>
+	        <if test="step6 != null">
+	        	step6 = #{step6},
+	        </if>
+	        <if test="step6Pic != null">
+	        	step6_pic = #{step6Pic},
+	        </if>
+	        <if test="step7 != null">
+	        	step7 = #{step7},
+	        </if>
+	        <if test="step7Pic != null">
+	        	step7_pic = #{step7Pic},
+	        </if>
+	        <if test="step8 != null">
+	        	step8 = #{step8},
+	        </if>
+	        <if test="step8Pic != null">
+	        	step8_pic = #{step8Pic},
+	        </if>
+	        <if test="step9 != null">
+	        	step9 = #{step9},
+	        </if>
+	        <if test="step9Pic != null">
+	        	step9_pic = #{step9Pic}
+	        </if>
+	    </set>
+        WHERE
+	        id = #{id}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_set_apn_tutorials WHERE
+        id = #{id}
+	</delete>
+
+	<select id="getById" resultType="com.anl.user.persistence.po.SetApnTutorials">
+		SELECT
+			*
+		FROM
+			t_set_apn_tutorials 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="model != null">
+				AND model = #{model}
+			</if>
+			<if test="step1 != null">
+				AND step1 = #{step1}
+			</if>
+			<if test="step1Pic != null">
+				AND step1_pic = #{step1Pic}
+			</if>
+			<if test="step2 != null">
+				AND step2 = #{step2}
+			</if>
+			<if test="step2Pic != null">
+				AND step2_pic = #{step2Pic}
+			</if>
+			<if test="step3 != null">
+				AND step3 = #{step3}
+			</if>
+			<if test="step3Pic != null">
+				AND step3_pic = #{step3Pic}
+			</if>
+			<if test="step4 != null">
+				AND step4 = #{step4}
+			</if>
+			<if test="step4Pic != null">
+				AND step4_pic = #{step4Pic}
+			</if>
+			<if test="step5 != null">
+				AND step5 = #{step5}
+			</if>
+			<if test="step5Pic != null">
+				AND step5_pic = #{step5Pic}
+			</if>
+			<if test="step6 != null">
+				AND step6 = #{step6}
+			</if>
+			<if test="step6Pic != null">
+				AND step6_pic = #{step6Pic}
+			</if>
+			<if test="step7 != null">
+				AND step7 = #{step7}
+			</if>
+			<if test="step7Pic != null">
+				AND step7_pic = #{step7Pic}
+			</if>
+			<if test="step8 != null">
+				AND step8 = #{step8}
+			</if>
+			<if test="step8Pic != null">
+				AND step8_pic = #{step8Pic}
+			</if>
+			<if test="step9 != null">
+				AND step9 = #{step9}
+			</if>
+			<if test="step9Pic != null">
+				AND step9_pic = #{step9Pic}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="model != null">
+				AND model = #{model}
+			</if>
+			<if test="step1 != null">
+				AND step1 = #{step1}
+			</if>
+			<if test="step1Pic != null">
+				AND step1_pic = #{step1Pic}
+			</if>
+			<if test="step2 != null">
+				AND step2 = #{step2}
+			</if>
+			<if test="step2Pic != null">
+				AND step2_pic = #{step2Pic}
+			</if>
+			<if test="step3 != null">
+				AND step3 = #{step3}
+			</if>
+			<if test="step3Pic != null">
+				AND step3_pic = #{step3Pic}
+			</if>
+			<if test="step4 != null">
+				AND step4 = #{step4}
+			</if>
+			<if test="step4Pic != null">
+				AND step4_pic = #{step4Pic}
+			</if>
+			<if test="step5 != null">
+				AND step5 = #{step5}
+			</if>
+			<if test="step5Pic != null">
+				AND step5_pic = #{step5Pic}
+			</if>
+			<if test="step6 != null">
+				AND step6 = #{step6}
+			</if>
+			<if test="step6Pic != null">
+				AND step6_pic = #{step6Pic}
+			</if>
+			<if test="step7 != null">
+				AND step7 = #{step7}
+			</if>
+			<if test="step7Pic != null">
+				AND step7_pic = #{step7Pic}
+			</if>
+			<if test="step8 != null">
+				AND step8 = #{step8}
+			</if>
+			<if test="step8Pic != null">
+				AND step8_pic = #{step8Pic}
+			</if>
+			<if test="step9 != null">
+				AND step9 = #{step9}
+			</if>
+			<if test="step9Pic != null">
+				AND step9_pic = #{step9Pic}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_set_apn_tutorials
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.SetApnTutorials">
+		SELECT 
+			*
+		FROM
+			t_set_apn_tutorials 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.user.persistence.po.SetApnTutorials" resultType="com.anl.user.persistence.po.SetApnTutorials">
+		SELECT 
+			*
+		FROM 
+			t_set_apn_tutorials 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+

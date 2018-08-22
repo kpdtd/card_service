@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
 	   default-lazy-init="true">
-	<context:component-scan base-package="com.csxm.flow.iot" />
+	<context:component-scan base-package="com.anl.user,com.sup.pack" />
 	<tx:annotation-driven transaction-manager="txManager"
 						  proxy-target-class="true" />
 
@@ -18,7 +18,7 @@
 	<!-- 读取配置文件 -->
 
 	<context:property-placeholder
-			location="file:/usr/local/tomcat/conf/flow_iot_db.properties" />
+			location="file:/usr/local/tomcat/conf/card_service_db.properties" />
 	<!-- 阿里数据源配置 db -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${db.driverClassName}" />
@@ -45,7 +45,7 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.csxm.flow.iot.persistence.mapper" />
+		<property name="basePackage" value="com.anl.user.persistence.mapper" />
 	</bean>
 	<!-- redis 配置 -->
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -83,14 +83,4 @@
 					class="org.springframework.data.redis.serializer.StringRedisSerializer" />
 		</property>
 	</bean>
-
-	<bean id="configuration" class="com.csxm.flow.iot.util.Configuration">
-		<property name="smsUrl" value="${sms_url}" />
-		<property name="smsUser" value="${sms_user}" />
-		<property name="smsPass" value="${sms_pass}" />
-		<property name="smsId" value="${sms_id}" />
-		<property name="appSecret" value="jfekmcAzTpMmhK0dF9qwSg==" />
-		<property name="packageName" value="com.elephant.card" />
-	</bean>
-	<import resource="spring-mvc.xml" />
 </beans>
