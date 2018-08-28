@@ -1,6 +1,9 @@
 package com.anl.user.service;
 
+import com.anl.user.persistence.po.Card;
+import com.anl.user.persistence.po.User;
 import com.anl.user.persistence.po.UserAccount;
+import com.anl.user.persistence.po.UserAccountChangeHistory;
 
 /**
  * 类名: UserAccountService
@@ -8,5 +11,5 @@ import com.anl.user.persistence.po.UserAccount;
  * 功能描述: 
  */
 public interface UserAccountService extends BaseService<UserAccount> {
-
+    int updateBalance(User user, UserAccountChangeHistory userAccountChangeHistory, int money) throws Exception;
 }

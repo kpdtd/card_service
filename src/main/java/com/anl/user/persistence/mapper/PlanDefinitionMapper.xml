@@ -97,8 +97,7 @@
 		FROM
 			t_plan_definition 
 	    WHERE
-	        id = #{id} ,
-	        code = #{code} 
+	        id = #{id}
 	</select>
 
 	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->

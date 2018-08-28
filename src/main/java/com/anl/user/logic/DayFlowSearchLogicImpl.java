@@ -64,6 +64,10 @@ public class DayFlowSearchLogicImpl implements DayFlowSearchLogic {
             logger.error("流量卡日流量使用查询操作错误,没有定义对应的接口TAG=" + action);
             return -1;
         }
+        if(card==null || card.getId()==0){
+            logger.error("流量卡日流量使用查询操作错误,没有找到对应的流量卡信息");
+            return -1;
+        }
         Supplier supplier = supplierService.getById(card.getSupplierId());
         if (supplier == null) {
             logger.error("流量卡日流量使用查询操作错误,没有对应的上游信息,SupplierId=" + card.getSupplierId());

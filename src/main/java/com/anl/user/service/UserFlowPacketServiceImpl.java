@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Date;
 
+import com.anl.user.persistence.vo.UserFlowPacketPlan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,10 @@ public class UserFlowPacketServiceImpl implements UserFlowPacketService {
 	public int count(Map<String, Object> condition) throws SQLException {
 		return userFlowPacketMapper.count(condition);
 	}
-	
+
+	@Override
+	public List<UserFlowPacketPlan> getMonthPkgByUserId(Integer userId, Date time) throws Exception {
+		return userFlowPacketMapper.getMonthPkgByUserId(userId,time);
+	}
 }
 

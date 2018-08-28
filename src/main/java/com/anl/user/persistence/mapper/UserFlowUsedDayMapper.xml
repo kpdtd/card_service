@@ -136,5 +136,13 @@
 			AND record_time < #{currentDay}
 		]]>
 	</select>
+	<select id="countFlowByCardId" resultType="java.lang.Integer">
+		select
+		sum(flow)
+		FROM
+		t_user_flow_used_day
+		WHERE
+		card_id = #{cardId}
+	</select>
 </mapper>
 

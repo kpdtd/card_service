@@ -11,4 +11,5 @@ import java.util.Date;
  */
 public interface UserFlowUsedDayService extends BaseService<UserFlowUsedDay> {
     Integer getBeforeUsedFlow(Integer cardId, Date fristDayOfMonth, Date currentDay);
+    Integer countFlowByCardId(Integer cardId) throws Exception;
 }

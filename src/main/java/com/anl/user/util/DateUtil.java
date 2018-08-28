@@ -227,8 +227,9 @@ public class DateUtil {
 	}
 
 	public static void main(String args[]) throws Exception {
+		long a=System.currentTimeMillis();
+		System.out.println(getLastDayOfBeforeMonth());
 
-		System.out.println(com.sup.pack.util.DateUtil.getFristDayOfMonth());
 	}
 
 }

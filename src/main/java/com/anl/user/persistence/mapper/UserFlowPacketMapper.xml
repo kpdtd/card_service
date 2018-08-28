@@ -192,5 +192,22 @@
 			t_user_flow_packet 
 	    <include refid="whereForPo" />
 	</select>
+
+	<select id="getMonthPkgByUserId" resultType="com.anl.user.persistence.vo.UserFlowPacketPlan">
+		SELECT
+		a.*,
+		b.use_sort
+		FROM
+		t_user_flow_packet a, t_flow_packet_definition b
+		WHERE
+		a.user_id = #{userId}
+		and a.goods_id = b.id
+		<![CDATA[
+			and a.start_time <= #{time}
+			AND a.end_time >= #{time}
+		]]>
+		order by a.start_time,b.use_sort
+	</select>
+
 </mapper>
 

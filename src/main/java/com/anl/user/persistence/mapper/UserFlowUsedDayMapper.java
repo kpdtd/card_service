@@ -13,5 +13,5 @@ import java.util.Date;
  */
 public interface UserFlowUsedDayMapper extends BaseMapper<UserFlowUsedDay> {
     Integer getBeforeUsedFlow(@Param("cardId") Integer cardId, @Param("monthFirstDay") Date monthFirstDay, @Param("currentDay") Date currentDay);
-
+    Integer countFlowByCardId(@Param("cardId") Integer cardId);
 }

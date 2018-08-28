@@ -57,5 +57,10 @@ public class UserFlowUsedDayServiceImpl implements UserFlowUsedDayService {
 	public Integer getBeforeUsedFlow(Integer cardId, Date fristDayOfMonth, Date currentDay) {
 		return userFlowUsedDayMapper.getBeforeUsedFlow(cardId,fristDayOfMonth,currentDay);
 	}
+
+	@Override
+	public Integer countFlowByCardId(Integer cardId) throws Exception {
+		return userFlowUsedDayMapper.countFlowByCardId(cardId);
+	}
 }
 
