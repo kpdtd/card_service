@@ -54,8 +54,8 @@ public class UserFlowUsedDayServiceImpl implements UserFlowUsedDayService {
 	}
 
 	@Override
-	public Integer getBeforeUsedFlow(Integer cardId, Date fristDayOfMonth, Date currentDay) {
-		return userFlowUsedDayMapper.getBeforeUsedFlow(cardId,fristDayOfMonth,currentDay);
+	public Integer getUsedFlowByRecordTime(Integer cardId,  Date startTime, Date endTime) {
+		return userFlowUsedDayMapper.getUsedFlowByRecordTime(cardId,startTime,endTime);
 	}
 
 	@Override

@@ -1,49 +1,75 @@
 package com.anl.user.event;
 
 
+import com.anl.user.constant.AccountConstants;
 import com.anl.user.constant.UserState;
 import com.anl.user.dto.UserChargingEventData;
-import com.anl.user.persistence.po.Card;
-import com.anl.user.persistence.po.User;
+import com.anl.user.persistence.po.*;
 import com.anl.user.persistence.vo.UserFlowPacketPlan;
+import com.anl.user.service.PlanDefinitionService;
+import com.anl.user.service.UserAccountService;
 import com.anl.user.service.UserFlowPacketService;
+import com.anl.user.service.UserFlowUsedDayService;
+import com.anl.user.util.DateUtil;
 import com.anl.user.util.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 /**
- * 日租宝扣减,先扣减购买的流量包,然后再触发日租宝扣减
+ * 日租宝扣减,加油包扣完了不够,就触发了这个
  */
 @Component
 public class DayFeeListener {
     @Autowired
     UserFlowPacketService userFlowPacketService;
+    @Autowired
+    UserFlowUsedDayService userFlowUsedDayService;
+    @Autowired
+    PlanDefinitionService planDefinitionService;
+    @Autowired
+    UserAccountService userAccountService;
+
     public static final org.slf4j.Logger logger = LogFactory.getInstance().getLogger();
 
-    @Order(500)
+    @Order(300)
     @EventListener
     public void onApplicationEvent(UserChargingEvent event) {
+        logger.info("进入第三步流量日租宝扣减");
         UserChargingEventData userChargingEventData = (UserChargingEventData) event.getSource();
         User user = userChargingEventData.getUser();
         Card card = userChargingEventData.getCard();
-        //预生成用户和注销用户不在扣费之列
-        if (user.getState() == UserState.PRE_USER || user.getState() == UserState.CANCEL_USER) {
+        int flow=userChargingEventData.getDayFlow();
+        if(flow<=0){
             return;
         }
-    }
-
-    public void kouFee(User user) {
-        //获取到用户的有效期的流量包
+        UserPlan userPlan=userChargingEventData.getUserPlan();
         try {
-            List<UserFlowPacketPlan> userFlowPacketPlen = userFlowPacketService.getMonthPkgByUserId(user.getId(), new Date());
-
+            PlanDefinition planDefinition=planDefinitionService.getById(userPlan.getPlanId());
+            int flowUnit = planDefinition.getFlowUnit();
+            int flowUnitPrice = planDefinition.getFlowUnitPrice();
+            logger.info("用户订购的计价单位是 {}M/{}分", flowUnit, flowUnitPrice);
+            if(flowUnit <= 0 || flowUnitPrice <= 0){
+                logger.info("该卡单位计价是0, 可能是VIP客户, 不进行账户扣减操作");
+                return ;
+            }
+            int nUnit = flow / flowUnit + (flow % flowUnit > 0 ? 1 : 0);
+            int money = nUnit * flowUnitPrice;
+            logger.info("扣减金额为 {} 分", money);
+            UserAccountChangeHistory userAccountChangeHistory = new UserAccountChangeHistory();
+            userAccountChangeHistory.setSource(AccountConstants.ACCOUNT_DAY_SUB);
+            userAccountService.updateBalance(user, userAccountChangeHistory, money);
+            userChargingEventData.setDayFlow(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.info("第三步流量日租宝扣减完成");
     }
+
+
 }

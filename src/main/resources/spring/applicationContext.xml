@@ -17,7 +17,7 @@
 	<tx:annotation-driven transaction-manager="txManager"
 						  proxy-target-class="true" />
 
-	<task:annotation-driven />
+	<!--<task:annotation-driven />-->
 	<!-- 读取配置文件 -->
 
 	<context:property-placeholder

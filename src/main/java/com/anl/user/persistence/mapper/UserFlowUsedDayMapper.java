@@ -12,6 +12,6 @@ import java.util.Date;
  * 功能描述: 
  */
 public interface UserFlowUsedDayMapper extends BaseMapper<UserFlowUsedDay> {
-    Integer getBeforeUsedFlow(@Param("cardId") Integer cardId, @Param("monthFirstDay") Date monthFirstDay, @Param("currentDay") Date currentDay);
+    Integer getUsedFlowByRecordTime(@Param("cardId") Integer cardId, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
     Integer countFlowByCardId(@Param("cardId") Integer cardId);
 }

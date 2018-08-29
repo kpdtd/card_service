@@ -124,7 +124,7 @@
 			t_user_flow_used_day 
 	    <include refid="whereForPo" />
 	</select>
-	<select id="getBeforeUsedFlow" resultType="java.lang.Integer">
+	<select id="getUsedFlowByRecordTime" resultType="java.lang.Integer">
 		select
 		COALESCE(sum(flow),0)
 		FROM
@@ -132,8 +132,8 @@
 		WHERE
 		card_id = #{cardId}
 		<![CDATA[
-			AND record_time >= #{monthFirstDay}
-			AND record_time < #{currentDay}
+			AND record_time >= #{startTime}
+			AND record_time < #{endTime}
 		]]>
 	</select>
 	<select id="countFlowByCardId" resultType="java.lang.Integer">

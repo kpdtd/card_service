@@ -10,6 +10,6 @@ import java.util.Date;
  * 功能描述: 
  */
 public interface UserFlowUsedDayService extends BaseService<UserFlowUsedDay> {
-    Integer getBeforeUsedFlow(Integer cardId, Date fristDayOfMonth, Date currentDay);
+    Integer getUsedFlowByRecordTime(Integer cardId, Date startTime, Date endTime);
     Integer countFlowByCardId(Integer cardId) throws Exception;
 }
