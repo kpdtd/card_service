@@ -1,5 +1,6 @@
 package com.anl.user.task;
 
+import com.anl.user.persistence.po.AutoTaskDefinition;
 import com.anl.user.persistence.po.AutoTaskExecHistory;
 import com.anl.user.service.AutoTaskDefinitionService;
 import com.anl.user.service.AutoTaskExecHistoryService;
@@ -31,6 +32,9 @@ public  class BaseThread {
         autoTaskExecHistory.setTimeConsuming((int)((System.currentTimeMillis()-start)/1000));
         autoTaskExecHistoryService.insert(autoTaskExecHistory);
         logger.info("添加任务执行历史、更新任务状态完成");
+        AutoTaskDefinition autoTaskDefinition=autoTaskDefinitionService.getById(taskId);
+        autoTaskDefinition.setExecuteState(1);//未执行
+        autoTaskDefinitionService.update(autoTaskDefinition);
     }
 
     public void countDown(int successNum, CountDownLatch nThread, Future<Boolean> bool) {

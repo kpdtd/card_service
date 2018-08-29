@@ -66,12 +66,8 @@ public class MonthFeeListener {
 
             //进行扣减操作
            int b= balanceSub(user, userChargingEventData.getMonthFee());
-            if(b==-1){
-                //没有账户,但已经产生流量
-
-            }
             logger.info("月功能费扣减完成,扣减金额为{},扣减完成后账户余额为{}",userChargingEventData.getMonthFee(),b);
-            userChargingEventData.setMonthFee(0);
+            userChargingEventData.setMonthFee(b);
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("月功能费扣减异常:" + e.getMessage());
@@ -95,9 +91,6 @@ public class MonthFeeListener {
         userAccountChangeHistory.setUserId(user.getId());
         userAccountChangeHistory.setSource(AccountConstants.ACCOUNT_MONTH_SUB);
         int balance = userAccountService.updateBalance(user, userAccountChangeHistory, money);
-        if (balance < 0) {
-            logger.info("该用户扣减后余额不足, 调用停卡任务进行停卡...");
-        }
         return balance;
     }
 }
