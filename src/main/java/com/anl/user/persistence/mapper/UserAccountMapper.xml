@@ -3,9 +3,12 @@
 
 
 <mapper namespace="com.anl.user.persistence.mapper.UserAccountMapper">
-    
-	<insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
     <![CDATA[
+
+
+
         INSERT INTO t_user_account (
         	user_id,
         	primary_account,
@@ -23,41 +26,44 @@
         	#{createTime},
         	#{updateTime}
         )
-    ]]>
+
+
+
+        ]]>
 	</insert>
 
-	<update id="update" parameterType="com.anl.user.persistence.po.UserAccount">
-        UPDATE t_user_account 
-		<set>
-	        <if test="primaryAccount != null">
-	        	primary_account = #{primaryAccount},
-	        </if>
-	        <if test="subAccount != null">
-	        	sub_account = #{subAccount},
-	        </if>
-	        <if test="credit != null">
-	        	credit = #{credit},
-	        </if>
-	        <if test="membership != null">
-	        	membership = #{membership},
-	        </if>
-	        <if test="createTime != null">
-	        	create_time = #{createTime},
-	        </if>
-	        <if test="updateTime != null">
-	        	update_time = #{updateTime}
-	        </if>
-	    </set>
+    <update id="update" parameterType="com.anl.user.persistence.po.UserAccount">
+        UPDATE t_user_account
+        <set>
+            <if test="primaryAccount != null">
+                primary_account = #{primaryAccount},
+            </if>
+            <if test="subAccount != null">
+                sub_account = #{subAccount},
+            </if>
+            <if test="credit != null">
+                credit = #{credit},
+            </if>
+            <if test="membership != null">
+                membership = #{membership},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime}
+            </if>
+        </set>
         WHERE
-	        user_id = #{userId}
-	</update>
+        user_id = #{userId}
+    </update>
 
-	<delete id="deleteById">
+    <delete id="deleteById">
         DELETE FROM t_user_account WHERE
         user_id = #{userId}
 	</delete>
 
-	<select id="getById" resultType="com.anl.user.persistence.po.UserAccount">
+    <select id="getById" resultType="com.anl.user.persistence.po.UserAccount">
 		SELECT
 			*
 		FROM
@@ -66,82 +72,96 @@
 	        user_id = #{userId} 
 	</select>
 
-	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
-	<sql id="where">
-		<where>
-			<if test="userId != null">
-				AND user_id = #{userId}
-			</if>
-			<if test="primaryAccount != null">
-				AND primary_account = #{primaryAccount}
-			</if>
-			<if test="subAccount != null">
-				AND sub_account = #{subAccount}
-			</if>
-			<if test="credit != null">
-				AND credit = #{credit}
-			</if>
-			<if test="membership != null">
-				AND membership = #{membership}
-			</if>
-			<if test="startTime != null">
-	       	<![CDATA[
+    <!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+    <sql id="where">
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="primaryAccount != null">
+                AND primary_account = #{primaryAccount}
+            </if>
+            <if test="subAccount != null">
+                AND sub_account = #{subAccount}
+            </if>
+            <if test="credit != null">
+                AND credit = #{credit}
+            </if>
+            <if test="membership != null">
+                AND membership = #{membership}
+            </if>
+            <if test="startTime != null">
+                <![CDATA[
 				AND create_time >= #{startTime} 
 			]]>
-			</if>
-			<if test="endTime != null">
-			<![CDATA[
+            </if>
+            <if test="endTime != null">
+                <![CDATA[
 				AND create_time < #{endTime}
 			]]>
-			</if>
-			<if test="updateTime != null">
-				AND update_time = #{updateTime}
-			</if>
-		</where>
-	</sql>
-	
-	<sql id="whereForPo">
-		<where>
-			<if test="userId != null">
-				AND user_id = #{userId}
-			</if>
-			<if test="primaryAccount != null">
-				AND primary_account = #{primaryAccount}
-			</if>
-			<if test="subAccount != null">
-				AND sub_account = #{subAccount}
-			</if>
-			<if test="credit != null">
-				AND credit = #{credit}
-			</if>
-			<if test="membership != null">
-				AND membership = #{membership}
-			</if>
-		</where>
-	</sql>	
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </sql>
 
-	<select id="count" parameterType="java.util.Map" resultType="int">
-		SELECT count(*) FROM t_user_account
-		<include refid="where" />
-	</select>
+    <sql id="whereForPo">
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="primaryAccount != null">
+                AND primary_account = #{primaryAccount}
+            </if>
+            <if test="subAccount != null">
+                AND sub_account = #{subAccount}
+            </if>
+            <if test="credit != null">
+                AND credit = #{credit}
+            </if>
+            <if test="membership != null">
+                AND membership = #{membership}
+            </if>
+        </where>
+    </sql>
 
-	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.UserAccount">
-		SELECT 
-			*
+    <select id="count" parameterType="java.util.Map" resultType="int">
+        SELECT count(*) FROM t_user_account
+        <include refid="where"/>
+    </select>
+
+    <select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.UserAccount">
+        SELECT
+        *
+        FROM
+        t_user_account
+        <include refid="where"/>
+        <if test="startPage!= null">
+            limit #{startPage}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getListByPo" parameterType="com.anl.user.persistence.po.UserAccount"
+            resultType="com.anl.user.persistence.po.UserAccount">
+        SELECT
+        *
+        FROM
+        t_user_account
+        <include refid="whereForPo"/>
+    </select>
+    <select id="getListByMoney" parameterType="com.anl.user.persistence.po.UserAccount"
+            resultType="com.anl.user.persistence.po.UserAccount">
+		SELECT
+		a.*
 		FROM
-			t_user_account 
-	    <include refid="where" />
-		<if test="startPage!= null">
-			limit #{startPage}, #{pageSize} 
-		</if>	
-	</select>
-	
-	<select id="getListByPo" parameterType="com.anl.user.persistence.po.UserAccount" resultType="com.anl.user.persistence.po.UserAccount">
-		SELECT 
-			*
-		FROM 
-			t_user_account 
-	    <include refid="whereForPo" />
-	</select>
+		t_user_account a ,t_user b
+		where
+		<![CDATA[
+		  (primary_account+sub_account)<= #{money}
+
+        ]]>
+        and a.user_id=b.id and b.state!=4 and b.state !=5
+    </select>
 </mapper>
 

@@ -1,4 +1,4 @@
-package com.anl.user.event;
+package com.anl.user.event.charge;
 
 
 import com.anl.user.constant.UserState;

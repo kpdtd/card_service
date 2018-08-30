@@ -1,16 +1,12 @@
-package com.anl.user.event;
+package com.anl.user.event.charge;
 
 
-import com.anl.user.constant.UserState;
 import com.anl.user.dto.UserChargingEventData;
 import com.anl.user.logic.OpenOrCloseCardLogicImpl;
 import com.anl.user.persistence.po.Card;
 import com.anl.user.persistence.po.ErrorRetryRecord;
-import com.anl.user.persistence.po.UserPlan;
 import com.anl.user.service.*;
-import com.anl.user.util.DateUtil;
 import com.anl.user.util.LogFactory;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
@@ -18,9 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 进入用户扣费事件,最后执行,主要是对欠费用户进行停机操作

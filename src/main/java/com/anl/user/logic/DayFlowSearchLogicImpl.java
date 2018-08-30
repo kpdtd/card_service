@@ -99,7 +99,7 @@ public class DayFlowSearchLogicImpl implements DayFlowSearchLogic {
         supplierReqData.setSignKey(supplier.getSignKey());
         supplierReqData.setUrl(item.getUrl());
         // 当前月用户在我平台的已使用总量
-        Integer usedFlow = userFlowUsedDayService.getBeforeUsedFlow(card.getId(), DateUtil.getFristDayOfMonth(), DateUtil.string2Date(DateUtil.dateToString(new Date(), DateUtil.DATE_FORMAT_COMPACT)));
+        Integer usedFlow = userFlowUsedDayService.getUsedFlowByRecordTime(card.getId(), DateUtil.getFristDayOfMonth(), DateUtil.string2Date(DateUtil.dateToString(new Date(), DateUtil.DATE_FORMAT_COMPACT)));
         usedFlow = (usedFlow == null ? 0 : usedFlow);
         if(usedFlow>0){
             supplierReqData.setUsedFlow(usedFlow);

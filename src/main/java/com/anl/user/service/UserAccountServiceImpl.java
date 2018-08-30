@@ -72,6 +72,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
 	@Override
+	public List<UserAccount> getListByMoney(Integer money) throws Exception {
+		return userAccountMapper.getListByMoney(money);
+	}
+
+	@Override
 	public int count(Map<String, Object> condition) throws SQLException {
 		return userAccountMapper.count(condition);
 	}

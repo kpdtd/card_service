@@ -1,11 +1,9 @@
-package com.anl.user.event;
+package com.anl.user.event.charge;
 
 
 import com.anl.user.dto.UserChargingEventData;
-import com.anl.user.persistence.po.Card;
 import com.anl.user.persistence.po.User;
 import com.anl.user.persistence.po.UserFlowPacket;
-import com.anl.user.persistence.po.UserPlan;
 import com.anl.user.persistence.vo.UserFlowPacketPlan;
 import com.anl.user.service.UserFlowPacketService;
 import com.anl.user.service.UserFlowUsedDayService;

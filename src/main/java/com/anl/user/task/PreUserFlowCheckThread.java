@@ -1,7 +1,9 @@
 package com.anl.user.task;
 
+import com.anl.user.constant.UserState;
 import com.anl.user.dto.UserChargingEventData;
 import com.anl.user.event.charge.UserChargingEvent;
+import com.anl.user.event.preUser.PreUserFlowCheckEvent;
 import com.anl.user.logic.DayFlowSearchLogicImpl;
 import com.anl.user.persistence.po.Card;
 import com.anl.user.persistence.po.User;
@@ -21,9 +23,10 @@ import java.util.concurrent.*;
 
 /**
  * Created by yangyiqiang on 2018/8/24.
+ * 预生成用户流量监控
  */
 @Component
-public class DayFlowSearchThread extends BaseThread{
+public class PreUserFlowCheckThread extends BaseThread{
     @Autowired
     UserService userService;
     @Autowired
@@ -34,10 +37,10 @@ public class DayFlowSearchThread extends BaseThread{
     ApplicationContext applicationContext;
 
     public void excute(int taskId) {
-        ExecutorService pool = Executors.newFixedThreadPool(200);//日流量查询
+        ExecutorService pool = Executors.newFixedThreadPool(200);
         try {
-            //全量查询,对状态为3和4的用户计费
             Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("state", UserState.PRE_USER);
             int count = userService.count(dataMap);
             int num=0;
             CountDownLatch nThread = new CountDownLatch(count); // 计数器
@@ -54,19 +57,20 @@ public class DayFlowSearchThread extends BaseThread{
                         MDC.put("seqID", user.getIccid() + "-" + SeqIdGenerator.generate());// 日志序列
                         Card card = cardService.getById(user.getCardId());
                         //返回值小于0,查询失败,大于=0为查询到的流量
-                        int execResult = dayFlowSearchLogic.dayFlowTermSearch(card, true);
-                        // 开始下一步计费处理
+                        int execResult = dayFlowSearchLogic.dayFlowTermSearch(card, false);
+
                         UserChargingEventData data = new UserChargingEventData();
                         data.setUser(user);
                         data.setCard(card);
-                        applicationContext.publishEvent(new UserChargingEvent(data));
+                        data.setDayFlow(execResult);//当日使用的流量
+                        applicationContext.publishEvent(new PreUserFlowCheckEvent(data));
                         return execResult >= 0 ? true : false;
                     });
                     countDown(num, nThread, bool);
                 }
             }
             nThread.await(20, TimeUnit.SECONDS);
-            logger.info("日流量查询任务完成");
+            logger.info("预生成用户流量监控任务完成");
             waitTaskFinish(taskId, startTime,start, num, count);
 
         } catch (Exception e) {

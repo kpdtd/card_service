@@ -1,25 +1,18 @@
-package com.anl.user.event;
+package com.anl.user.event.charge;
 
 
 import com.anl.user.constant.AccountConstants;
-import com.anl.user.constant.UserState;
 import com.anl.user.dto.UserChargingEventData;
 import com.anl.user.persistence.po.*;
-import com.anl.user.persistence.vo.UserFlowPacketPlan;
 import com.anl.user.service.PlanDefinitionService;
 import com.anl.user.service.UserAccountService;
 import com.anl.user.service.UserFlowPacketService;
 import com.anl.user.service.UserFlowUsedDayService;
-import com.anl.user.util.DateUtil;
 import com.anl.user.util.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 日租宝扣减,加油包扣完了不够,就触发了这个
