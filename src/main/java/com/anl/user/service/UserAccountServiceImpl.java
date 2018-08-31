@@ -77,6 +77,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
 	@Override
+	public UserAccount getUserAccountByUserId(Integer userId) {
+		return userAccountMapper.getUserAccountByUserId(userId);
+	}
+
+	@Override
 	public int count(Map<String, Object> condition) throws SQLException {
 		return userAccountMapper.count(condition);
 	}

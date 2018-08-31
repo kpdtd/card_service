@@ -163,5 +163,17 @@
         ]]>
         and a.user_id=b.id and b.state!=4 and b.state !=5
     </select>
+    <select id="getUserAccountByUserId" parameterType="java.lang.Integer"   resultType="com.anl.user.persistence.po.UserAccount">
+        SELECT
+        *
+        FROM
+        t_user_account
+        <where>
+            <if test="_parameter != null">
+                AND user_id = #{userId}
+            </if>
+        </where>
+        FOR UPDATE
+    </select>
 </mapper>
 

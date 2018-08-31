@@ -112,9 +112,10 @@
 		FROM
 			t_validation_code 
 	    <include refid="where" />
+		order by id DESC
 		<if test="startPage!= null">
 			limit #{startPage}, #{pageSize} 
-		</if>	
+		</if>
 	</select>
 	
 	<select id="getListByPo" parameterType="com.anl.user.persistence.po.ValidationCode" resultType="com.anl.user.persistence.po.ValidationCode">

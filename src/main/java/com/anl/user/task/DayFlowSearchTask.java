@@ -19,10 +19,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Created by yangyiqiang on 2018/8/24.
+ * Created by yangyiqiang on 2018/8/24.暂时不启用
+ * @Component
+ @EnableScheduling
  */
+
 @Component
-@EnableScheduling
 public class DayFlowSearchTask implements SchedulingConfigurer {
 
     @Autowired

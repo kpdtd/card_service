@@ -2,10 +2,12 @@
 package com.anl.user.service;
 
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import com.anl.user.persistence.vo.SelectGroup;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,38 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 	public int count(Map<String, Object> condition) throws SQLException {
 		return dataDictionaryMapper.count(condition);
 	}
-	
+
+	@Override
+	public List<SelectGroup> getValueListByKey(String key) {
+		DataDictionary dictionary = dataDictionaryMapper.getValueByKey(key);
+		String value = dictionary.getValue();
+		if (StringUtils.isNotBlank(value)) {
+			List<SelectGroup> groupList = Stream.of(value.split(";")).map(i -> {
+				SelectGroup group = new SelectGroup();
+				group.setId(i.split("=")[0]);
+				group.setName(i.split("=")[1]);
+				return group;
+			}).collect(Collectors.toList());
+			return groupList;
+		}
+		return new ArrayList<>();
+	}
+
+	@Override
+	public DataDictionary getDicByKey(String key) {
+		return dataDictionaryMapper.getValueByKey(key);
+	}
+
+	@Override
+	public Map<String, String> getDicValueByKey(String key) {
+		DataDictionary dictionary = new DataDictionary();
+		dictionary.setName(key);
+		Optional<DataDictionary> optional = dataDictionaryMapper.getListByPo(dictionary).stream().findFirst();
+		if (optional.isPresent()) {
+			return Stream.of(optional.get().getValue().split(";"))
+					.collect(Collectors.toMap(k -> k.split("=")[0], v -> v.split("=")[1]));
+		}
+		return new HashMap<>();
+	}
 }
 

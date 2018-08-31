@@ -8,5 +8,5 @@ import com.anl.user.persistence.po.DataDictionary;
  * 功能描述: 
  */
 public interface DataDictionaryMapper extends BaseMapper<DataDictionary> {
-
+    DataDictionary getValueByKey(String name);
 }

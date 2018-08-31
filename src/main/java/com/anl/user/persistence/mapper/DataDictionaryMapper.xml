@@ -143,5 +143,14 @@
 			t_data_dictionary 
 	    <include refid="whereForPo" />
 	</select>
+	<select id="getValueByKey" parameterType="java.lang.String" resultType="com.anl.user.persistence.po.DataDictionary">
+		SELECT
+		*
+		FROM
+		t_data_dictionary
+		where
+		name = #{name}
+	</select>
+
 </mapper>
 

@@ -8,7 +8,7 @@
     <![CDATA[
         INSERT INTO t_user_refund_record (
         	id,
-        	card_id,
+        	user_id,
         	pay_type,
         	goods_id,
         	money,
@@ -21,7 +21,7 @@
         	update_time
         ) VALUES (
         	#{id},
-        	#{cardId},
+        	#{userId},
         	#{payType},
         	#{goodsId},
         	#{money},
@@ -39,8 +39,8 @@
 	<update id="update" parameterType="com.anl.user.persistence.po.UserRefundRecord">
         UPDATE t_user_refund_record 
 		<set>
-	        <if test="cardId != null">
-	        	card_id = #{cardId},
+	        <if test="userId != null">
+	        	user_id = #{userId},
 	        </if>
 	        <if test="payType != null">
 	        	pay_type = #{payType},
@@ -97,8 +97,8 @@
 			<if test="id != null">
 				AND id = #{id}
 			</if>
-			<if test="cardId != null">
-				AND card_id = #{cardId}
+			<if test="userId != null">
+				AND user_id = #{userId}
 			</if>
 			<if test="payType != null">
 				AND pay_type = #{payType}
@@ -145,8 +145,8 @@
 			<if test="id != null">
 				AND id = #{id}
 			</if>
-			<if test="cardId != null">
-				AND card_id = #{cardId}
+			<if test="userId != null">
+				AND user_id = #{userId}
 			</if>
 			<if test="payType != null">
 				AND pay_type = #{payType}

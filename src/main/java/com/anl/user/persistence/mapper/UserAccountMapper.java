@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface UserAccountMapper extends BaseMapper<UserAccount> {
    List<UserAccount> getListByMoney (@Param("money") Integer money)throws Exception;
+
+   UserAccount getUserAccountByUserId(@Param("userId")Integer userId);
 }

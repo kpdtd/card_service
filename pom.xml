@@ -246,6 +246,20 @@
             <artifactId>junrar</artifactId>
             <version>0.7</version>
         </dependency>
+        <dependency>
+            <groupId>com.aliyuncs</groupId>
+            <artifactId>dysmsapi</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyuncs</groupId>
+            <artifactId>dysmsapi_sdk</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/aliyun-java-sdk-core-3.3.1.jar</systemPath>
+        </dependency>
     </dependencies>
     <build>
         <finalName>card_service</finalName>

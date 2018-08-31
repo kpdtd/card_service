@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface UserAccountService extends BaseService<UserAccount> {
     int updateBalance(User user, UserAccountChangeHistory userAccountChangeHistory, int money) throws Exception;
-
     List<UserAccount> getListByMoney(Integer money) throws Exception;
+    UserAccount getUserAccountByUserId(Integer userId);
 }

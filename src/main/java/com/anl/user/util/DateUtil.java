@@ -91,7 +91,24 @@ public class DateUtil {
 		Date date1 = calendar.getTime();
 		return date1;
 	}
-
+	public static Date afterNSecondsDate(int seconds) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(getCurrentDate());
+		cal.add(Calendar.SECOND, seconds);
+		return cal.getTime();
+	}
+	public static Date afterNSecondsDate(Date date, int time) {
+		Date dt = null;
+		try {
+			Calendar rightNow = Calendar.getInstance();
+			rightNow.setTime(date);
+			rightNow.add(Calendar.SECOND, time);
+			dt = rightNow.getTime();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dt;
+	}
 	public static Date getLastDayOfMonth(){
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(getCurrentDate());
@@ -225,10 +242,31 @@ public class DateUtil {
 		}
 		return dd1;
 	}
+	public static Date getFirstDayOfMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MINUTE, 0);
+		return cal.getTime();
+	}
+
+	public static Date getLastDayOfMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		calendar.set(Calendar.SECOND, 59);
+		calendar.set(Calendar.MINUTE, 59);
+		return calendar.getTime();
+	}
 
 	public static void main(String args[]) throws Exception {
 		long a=System.currentTimeMillis();
-		System.out.println(getLastDayOfBeforeMonth());
+		Date n=DateUtil.afterNDaysDate(new Date(),2);
+		Date last=DateUtil.getLastDayOfMonth(n);
+		System.out.println(DateUtil.isBefore(dateToString(n,DATE_FORMAT_COMPACT),dateToString(last,DATE_FORMAT_COMPACT),DATE_FORMAT_COMPACT));
 
 	}
 

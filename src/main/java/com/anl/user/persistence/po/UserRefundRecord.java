@@ -4,7 +4,7 @@ import java.util.*;
 
 public class UserRefundRecord {
 	private Integer id;
-	private Integer cardId;
+	private Integer userId;
 	private String payType;
 	private Integer goodsId;
 	private Integer money;
@@ -23,13 +23,15 @@ public class UserRefundRecord {
 	public Integer getId() {
 		return this.id;
 	}
-	public void setCardId(Integer value) {
-		this.cardId = value;
+
+	public Integer getUserId() {
+		return userId;
 	}
-	
-	public Integer getCardId() {
-		return this.cardId;
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
+
 	public void setPayType(String value) {
 		this.payType = value;
 	}
