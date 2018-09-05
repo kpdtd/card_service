@@ -26,6 +26,7 @@
         	expressMsg_id,
         	return_visit_information,
         	call_status,
+        	pay_state,
         	state,
         	create_time,
         	update_time
@@ -49,6 +50,7 @@
         	#{expressMsgId},
         	#{returnVisitInformation},
         	#{callStatus},
+        	#{payState},
         	#{state},
         	#{createTime},
         	#{updateTime}
@@ -113,6 +115,9 @@
 	        <if test="callStatus != null">
 	        	call_status = #{callStatus},
 	        </if>
+			<if test="payState != null">
+				pay_state = #{payState},
+			</if>
 	        <if test="state != null">
 	        	state = #{state},
 	        </if>
@@ -201,6 +206,9 @@
 			<if test="callStatus != null">
 				AND call_status = #{callStatus}
 			</if>
+			<if test="payState != null">
+				AND pay_state = #{payState}
+			</if>
 			<if test="state != null">
 				AND state = #{state}
 			</if>
@@ -272,6 +280,9 @@
 			</if>
 			<if test="callStatus != null">
 				AND call_status = #{callStatus}
+			</if>
+			<if test="payState != null">
+				AND pay_state = #{payState}
 			</if>
 			<if test="state != null">
 				AND state = #{state}

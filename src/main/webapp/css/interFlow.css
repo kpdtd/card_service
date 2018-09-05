@@ -1,0 +1,114 @@
+/*====step1  输入手机号====*/
+.mobile_label{
+	display: block;
+	border-bottom: 1px solid #ddd;
+}
+.mobile_label span,.mobile_label input#mobile_ipt{
+	float: left;
+	font-size: 16px;
+	line-height: 28px;
+}
+.mobile_label span{
+	padding-right: 0.3rem;
+}
+/*===*/
+.error_tips{
+	font-size: 12px;
+	color: #FB4444;
+	padding-top: 0.22rem;
+	display: none;
+}
+
+/*===*/
+.btn{
+	cursor: pointer;
+	margin-top: 0.88rem;
+}
+
+/*====物流详情====*/
+.interFlowNum{
+	font-size: 14px;
+	color: #666;
+	padding: 20px 0;
+}
+.noInterFlow{
+	display: none;
+	font-size: 14px;
+	color: #666;
+	text-align: center;
+	padding-top: 180px;
+}
+ul.time-axis{
+	position: relative;
+}
+
+ul.time-axis:before{
+	content: '';
+	position: absolute;
+	/*left: 30%;*/
+	left: 88px;
+	margin-left: -6px;
+	top: 15px;
+	width: 1px;
+	height: 100%;
+	background-color: #E4E4E4;
+}
+li.time-axis-item{
+	/*padding-left: 40%;*/
+	padding-left:100px;
+	position: relative;
+	line-height:18px;
+	margin-bottom: 20px;
+}
+.time-axis-title{
+	font-size: 12px;
+	color: #8B8B8B;
+}
+.time-axis-achievement{
+	font-size: 10px;
+	color: #999;
+}
+.time-axis-date{
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-size: 12px;
+	color: #8B8B8B;
+	/*width: 30%;*/
+	width: 88px;
+}
+
+.time-axis-date > span.circle{
+	position: absolute;
+	right: 0;
+	top: 6px;
+	display: block;
+	width: 12px;
+	height: 12px;
+	border: 1px solid #ccc;
+	border-radius: 100%;
+	background-color: #fff;
+}
+.time-axis-date span.circle:after{
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 6px;
+	height: 6px;
+	margin: auto;
+	background-color: #ccc;
+	border: 1px solid #ccc;
+	border-radius: 100%;
+}
+
+.time-axis-item:first-child .time-axis-date span.circle{
+	border-color: #F2172A;
+}
+
+.time-axis-item:first-child .time-axis-date span.circle:after{
+	background-color: #F2172A;
+	border-color: #F2172A;
+}

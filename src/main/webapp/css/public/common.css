@@ -1,0 +1,50 @@
+.max-body{
+	max-width:640px;min-width: 320px;
+	margin: 0 auto;
+	padding: 0 0.3rem;
+}
+h1,h2,h3,h4,h5,h6{
+	font-weight: normal;
+}
+/*每页顶部文字*/
+.top_title{
+	font-size: 24px;
+	padding-top: 0.4rem;
+	font-weight: normal;
+	padding-bottom: 0.76rem;
+}
+/*有背景的按钮*/
+.btn{
+	width: 100%;
+	height: 1.2rem;
+	margin: 0 auto;
+	line-height: 0.9rem;
+	font-size: 18px;
+	color: #fff;
+	text-align: center;
+	background: url(../../img/public/btn_bg.png) no-repeat center center;
+	background-size:contain;
+	-webkit-background-size:contain;
+}
+/*无底色纯边框按钮*/
+.btn_hollow{
+	display: block;
+	text-align: center;
+	width: 3.5rem;
+	height:0.62rem;
+	line-height: 0.6rem;
+	font-size: 16px;
+	border: 1px solid #1D98FA;
+	border-radius: 0.31rem;
+	-webkit-border-radius: 0.31rem;
+	color: #1D98FA;
+	margin: 0 auto;
+	margin-bottom: 0.28rem;
+	margin-top: 0.28rem;
+}
+/*半透明遮罩层*/
+.overLay{display:none;position:absolute;height:100%;width:100%;background:#000;opacity: 0.5; -moz-opacity: 0.5; -webkit-opacity: 0.5; -khtml-opacity: 0.5;filter:alpha(opacity=50);z-index:0;top: 0;left: 0;}
+/*蓝色字体*/
+.blueTxt{
+	color: #1D98FA;
+}

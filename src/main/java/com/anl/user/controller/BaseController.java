@@ -1,16 +1,21 @@
 package com.anl.user.controller;
 
 import com.anl.user.util.LogFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -61,6 +66,40 @@ public abstract class BaseController {
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 从cookie获取openid
+     */
+    protected String getOpenIdFromCookie(HttpServletRequest request) {
+        String openid = "";
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null && cookies.length > 0) {
+            Optional<Cookie> cookie = Arrays.stream(cookies).filter(i -> i.getName().equals("openid")).findFirst();
+            if (cookie.isPresent()) {
+                openid = cookie.get().getValue();
+                LogFactory.getInstance().getLogger().debug("从cookie获取到openid信息" + openid);
+            } else {
+                LogFactory.getInstance().getLogger().debug("从cookie没有openid信息");
+            }
+        }
+        return openid;
+    }
+
+    /**
+     * openid存储在Cookie
+     * @param response
+     * @param openid
+     */
+    protected  void wxPutCookie(HttpServletResponse response, String openid) {
+        if (StringUtils.isNotBlank(openid)) {
+            Cookie cookie = new Cookie("openid", openid);
+            cookie.setMaxAge(365 * 24 * 60 * 60 * 1000);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        } else {
+            LogFactory.getInstance().getLogger().debug("没有openid信息");
         }
     }
 }

@@ -1,0 +1,61 @@
+.pop_01{
+    width: 50%;
+    padding: 0.1rem;
+    border-radius: 4px;-webkit-border-radius: 4px;
+    background-color: rgba(0,0,0,0.5);/*适用 IE9、标准浏览器、IE6和部分IE7内核的浏览器(如QQ浏览器)*/
+    line-height: 22px;
+    text-align: center;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin-left: -25%;
+    opacity: 0; -moz-opacity: 0; -webkit-opacity: 0;filter:alpha(opacity=0);
+}
+.pop_01 p{font-size: 14px;color: #fff;}
+
+@keyframes layer-fadeInUpBig {
+    0% {
+        opacity: 0;
+        transform: translateY(3rem);
+    }
+    25% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    85% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+}
+/*兼容google浏览器*/
+@-webkit-keyframes layer-fadeInUpBig {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(3rem);
+        transform: translateY(3rem)
+    }
+    25% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+    75% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: translateY(0);
+        transform: translateY(0)
+    }
+}
+
+.showAlert[data-animation=layer-fadeInUpBig] {
+    animation: layer-fadeInUpBig 3.5s ease-in-out forwards;
+    -webkit-animation: layer-fadeInUpBig 3.5s ease-in-out forwards;
+}

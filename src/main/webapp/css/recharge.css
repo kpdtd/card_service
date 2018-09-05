@@ -1,0 +1,174 @@
+
+.active,.active2{
+	background: #1D98FA;
+	color: #fff;
+	border: none;
+}
+.active p{
+	color: #fff;
+}
+.active2 p.step2_txt1,.active2 p.step2_txt2,.active2 span.smallTxt{
+	color: #fff;
+}
+
+/*===*/
+.bottomTips{
+	text-align: center;
+	height: 0.5rem;
+	line-height: 0.5rem;
+	font-size: 16px;
+	color: #666;
+	font-weight: normal;
+	margin-top: 0.2rem;
+}
+/*===*/
+ul.step1_list,.step2_list{
+	width: 100%;
+	padding: 0 1.5%;
+	/*margin-top: 0.3rem;*/
+}
+
+ul.step2_list{
+	display: none;
+	width: 100%;
+	background: #F0F0F0;
+}
+.step2_list > li{
+	/*display: none;*/
+}
+li.step1_cell,li.step2_cell{
+	cursor: pointer;
+	float: left;
+	text-align: center;
+	width: 30.333333333%;
+	height: 1.2rem;
+	line-height: 1.2rem;
+	font-size: 18px;
+	border: 1px solid #dfdfdf;
+	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	margin: 0.3rem 1.5%;
+}
+li.step2_cell{
+	height: 1.4rem;
+	line-height:0.35rem;
+	border: 1px solid #1D98FA;
+	position: relative;
+}
+.step2_txt1{
+	padding-top: 0.4rem;
+	padding-bottom: 0.1rem;
+	color: #1D98FA;
+}
+.step2_txt2{
+	font-size: 12px;
+	color: #1D98FA;
+}
+.smallTxt{
+	font-size: 12px;
+	color: #1D98FA;
+}
+
+.corner{
+	min-width: 0.4rem;
+	min-height: 0.28rem;
+	padding: 0 4px;
+	background: url(../img/recharge/corner_bg.png) no-repeat center center;
+	background-size: 100%;
+	-webkit-background-size: 100%;
+	font-size: 10px;
+	color: #fff;
+	position: absolute;
+	top: 0;
+	right: 4px;
+}
+/*===*/
+.paySection{
+	/*display: none;*/
+	width: 100%;
+	height: 1.3rem;
+	position: fixed;
+	/*bottom: -1.3rem;*/
+	animation-fill-mode: forwards;
+	-webkit-animation-fill-mode: forwards;
+	bottom: 0;
+	/*animation: paySlideUp 1s infinite;*/
+	/*-webkit-animation: paySlideUp 1s infinite;*/
+}
+@-webkit-keyframes paySlideUp{
+	from{bottom: -1.3rem;}
+	to{bottom: 0;}
+}
+@keyframes paySlideUp{
+	from{bottom: -1.3rem;}
+	to{bottom: 0;}
+}
+@-webkit-keyframes paySlideDown{
+	from{bottom: 0;}
+	to{bottom: -1.3rem;}
+}
+@keyframes paySlideDown{
+	from{bottom: 0;}
+	to{bottom: -1.3rem;}
+}
+.payMoney{
+	float: left;
+	width: 68%;
+	height: 100%;
+	background: #F0F0F0;
+	padding-left: 0.3rem;
+}
+.payMoney h4{
+	font-size: 18px;
+	padding-bottom: 0.1rem;
+	padding-top: 0.25rem;
+	font-weight: normal;
+}
+.payMoney p{
+	font-size: 12px;
+}
+.paySection input[type=button]{
+	cursor: pointer;
+	float: right;
+	width: 32%;
+	line-height: 1.3rem;
+	color: #fff;
+	font-size: 18px;
+	text-align: center;
+	background: #1D98FA;
+}
+
+
+/*=========develop2.0增加话费余额不足提示框=============*/
+.noCallChargePop{
+	width: 5.6rem;
+	height: 3.2rem;
+	background: #fff;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -1.6rem;
+	margin-left: -2.8rem;
+	text-align: center;
+	z-index: 1;
+}
+.noCallChargePop p{
+	font-size: 18px;
+	color: #333;
+	height: 2.3rem;
+	padding-top: 0.62rem;
+	border-bottom: 1px solid #ddd;
+}
+.noCallChargePop .pop_footer a{
+	float: left;
+	width: 50%;
+	font-size: 16px;
+	color: #1D98FA;
+	height:0.9rem;
+	line-height: 0.9rem;
+}
+.noCallChargePop .pop_footer a:nth-of-type(1){
+	border-right: 1px solid #DDDDDD;
+}

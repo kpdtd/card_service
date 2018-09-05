@@ -1,0 +1,423 @@
+html,body{
+	color: #333;
+	text-align: center;
+	margin: 0 auto;
+	position: relative;
+}
+.redTxt{
+	color:#EA3946;
+}
+input{
+	-moz-appearance: none;
+}
+
+/*=======page1========*/
+.desc1{
+	height: 1.16rem;
+	background: #1F1F1F;
+}
+/*===限时秒杀价===*/
+#page1 .desc1_txt{
+	height: 100%;
+	text-align: left;
+	float: left;
+	background: #1f1f1f;
+	padding: 0.2rem;
+	padding-right: 0.1rem;
+}
+#page1 .desc1_txt p{
+	font-size: 16px;
+	color: #EA3946;
+	padding-bottom: 0.2rem;
+}
+#page1 .desc1_txt del,#page1 .desc1_txt span{
+	font-size: 12px;
+	color: #fff;
+}
+#page1 .desc1_txt del{
+	padding-right:15px;
+}
+/*====倒计时===*/
+.countDown{
+	height: 100%;
+	float: right;
+	padding: 0.2rem 0.1rem 0.2rem 0.1rem;
+	background: #575757;
+}
+.countDown h2{
+	font-size: 10px;
+	padding-bottom: 0.15rem;
+	color: #fff;
+}
+.date-tiem-span,.date-s-span{
+	display: inline-block;
+	font-size: 10px;
+	color: #fff;
+	width: 16px;
+	line-height: 16px;
+	/*padding:2px;*/
+	/*padding-bottom: 0px;*/
+	background: #EA3946;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+.data-show-box{
+	color: #EA3946;
+}
+/*buyBox1*/
+.buyBox1 a{
+	display: inline-block;
+	cursor: pointer;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	color: #ccc;
+	margin-right: 12px;
+	margin-bottom: 12px;
+}
+/*.buyBox1 a:last-child{
+	margin-top:0.2rem;
+}*/
+.buyBox1 a.active{
+	border-color: #EA3946;
+	color: #EA3946;
+}
+/*===活动说明===*/
+#page1 .desc2{
+	text-align: left;
+	padding: 0.24rem;
+	padding-top: 0;
+}
+#page1 .desc2 h2{
+	font-size: 12px;
+	font-weight: normal;
+	padding-bottom: 0.16rem;
+	color: #fff;
+}
+#page1 .desc2 p{
+	font-size: 14px;
+	color: #EA3946;
+	line-height: 20px;
+}
+/*==="立即购买"按钮===*/
+.buyButton{
+	display: block;
+	/*width: 92%;*/
+	/*margin: 0 auto;*/
+	margin: 0 0.24rem;
+	padding: 0.2rem 0;
+	background: #FF9600;
+	font-size: 24px;
+	color: #fff;
+	border-radius: 4px;
+	-webkit-border-radius:4px;
+	margin-bottom: 0.46rem;
+}
+/*=======#page2======*/
+#page2 ul.desc3{
+	padding-bottom: 0.4rem;
+}
+#page2 ul.desc3 li{
+	float: left;
+	width: 33.333333%;
+	padding-bottom: 0.4rem;
+}
+#page2 ul.desc3 img{
+	width: 1.44rem;
+}
+#page2 ul.desc3 li h3{
+	font-size: 14px;
+	padding: 0.16rem 0;
+	color: #fff;
+}
+#page2 ul.desc3 li p{
+	font-size: 12px;
+	line-height: 18px;
+	color: #fff;
+}
+
+/*3合1卡型  desc4*/
+#page2 .desc4{
+	padding-bottom: 0.88rem;
+}
+
+#page2 .desc4 h2 >img{
+	width: 4.5rem;
+}
+
+#page2 .desc4 > p{
+	font-size: 14px;
+	color: #666;
+	line-height: 23px;
+	padding: 0.3rem 0.24rem 0.4rem;
+	color: #fff;
+}
+#page2 .desc4 > img{
+	width: 70%;
+}
+
+/*买就送 大礼包 desc5*/
+#page2 .desc5{
+	padding-bottom: 0.8rem;
+}
+#page2 .desc5 h2,#page2 .desc6 h2{
+	font-size: 24px;
+	color: #fff;
+}
+#page2 .desc5 h2 > span{
+	color: #EA3946;
+}
+
+#page2 .desc5 ul li{
+	float: left;
+	width: 33.333333%;
+	margin-top: 0.45rem;
+}
+#page2 .desc5 ul li img{
+	width: 1.44rem;
+	padding-bottom: 0.24rem;
+}
+
+#page2 .desc5 ul li p{
+	font-size: 12px;
+	color: #fff;
+}
+/*应用场景展示 desc6*/
+#page2 .desc6{
+	padding-bottom: 0.8rem;
+}
+#page2 .desc6 h2{
+	font-size: 24px;
+}
+#page2 .desc6 ul li{
+	float: left;
+	width: 33.333333%;
+	margin-top: 0.45rem;
+}
+#page2 .desc6 ul li img{
+	width: 2.2rem;
+	padding-bottom: 0.16rem;
+}
+#page2 .desc6 ul li p{
+	font-size: 12px;
+	color: #fff;
+}
+/*售后服务图片  desc7*/
+#page2 .desc7{
+	padding-bottom: 0.8rem;
+}
+
+/*关注公众号  desc8*/
+
+#page2 .desc8 img{
+	width: 3.1rem;
+	padding-bottom: 0.3rem;
+}
+#page2 .desc8 p{
+	margin: 0 auto;
+	font-size: 18px;
+	color: #fff;
+}
+
+/*======#page3=======*/
+#page3 p.kf{
+	color: #fff;
+	font-size: 12px;
+	padding: 0.2rem 0 1rem;
+}
+
+/*表单验证错误提示*/
+.tiperror,.tiperror_address1{
+	text-align: left;
+	padding-top: 6px;
+	color: #EA3946 !important;
+}
+.help-block {
+	color: #EA3946 !important;
+}
+/*=====表单样式=====*/
+.formBox{
+	padding:0 0.24rem;
+	margin: 0 auto;
+	position: relative;
+}
+table{
+	width: 100%;
+}
+tr td{
+	padding-bottom: 0.3rem;
+}
+.td_left{
+	width: 16%;
+	font-size: 16px;
+	color: #fff;
+	text-align: left;
+}
+.td_right{
+	width: 84%;
+}
+/*input[type="text"]通用样式*/
+input[type="text"],input[type="tel"]{
+	width: 100%;
+	font-size: 14px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	/*background: #F9F9F9;*/
+	background: #fff;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+input[type="text"]::-webkit-input-placeholder,input[type="tel"]::-webkit-input-placeholder{
+	color:#999 ;
+}
+/*===货到付款===*/
+.payTypeBox{
+	text-align: left;
+	color: #fff;
+}
+input[name="payType"]+label{
+	cursor: pointer;
+	width: 16px;
+    height: 16px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-right: 0.17rem;
+    z-index: -1;
+}
+input[name="payType"]:checked+label:after{
+	display: inline-block;
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+    -webkit-border-radius: 50%;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	z-index: -1;
+	background:#EA3946;
+}
+/*===多行文本框===*/
+.formBox textarea{
+	width: 100%;
+	height: 1.24rem;
+	border: 1px solid #ccc;
+	/*background: #F9F9F9;*/
+	background: #fff;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	padding: 4px;
+}
+input[type="submit"]{
+	width: 100%;
+	margin: 0;
+	font-size: 22px;
+	padding: 0.15rem 0;
+}
+/*===购买数量===*/
+.buyBox1,.buyBox2{
+	text-align: left;
+	padding: 0.18rem 0 0.3rem 0.2rem;
+}
+.buyBox2{
+	padding-top: 0.8rem;
+	padding-bottom: 0;
+}
+.buyBox2 h2{
+	font-size: 18px;
+	padding-bottom: 0.34rem;
+	color: #fff;
+}
+.buyBox2 p{
+	font-size: 18px;
+	color: #fff;
+	padding-top: 0.24rem;
+	padding-bottom: 0.4rem;
+}
+.buyBox2 p span#priceTotal{
+	color: #EA3946;
+}
+
+input[name="buyNum"]+label{
+	display: inline-block;
+	cursor: pointer;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	color: #fff;
+	margin-right: 10px;
+	margin-bottom: 12px;
+}
+
+input[name="buyNum"]:checked+label{
+	border-color: #EA3946;
+	color: #EA3946;
+}
+/*====订单提价成功后弹框====*/
+.sub_success_pop{
+	display: none;
+	width: 5.6rem;
+	height: 3.2rem;
+	background: #fff;
+	position: absolute;
+	/*top: 50%;
+	margin-top: -1.6rem;*/
+	left: 50%;
+	margin-left: -2.8rem;
+	bottom: 3rem;
+	z-index: 1;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+.sub_success_pop h4{
+	font-size: 18px;
+	padding-top: 0.9rem;
+	padding-bottom: 0.8rem;
+	font-weight: normal;
+	text-align: center;
+}
+.sub_success_pop .pop_footer a{
+	display: block;
+	width: 80%;
+	margin: 0 auto;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	border-radius: 0.4rem;
+	-webkit-border-radius: 0.4rem;
+	font-size: 16px;
+	color: #fff;
+	/*background: #1D98FA;*/
+	background: #1F1F1F;
+	text-align: center;
+}
+/*半透明遮罩层*/
+.overLay{display:none;position:absolute;height:100%;width:100%;background:#000;opacity: 0.5; -moz-opacity: 0.5; -webkit-opacity: 0.5; -khtml-opacity: 0.5;filter:alpha(opacity=50);z-index:0;top: 0;left: 0;}
+
+/* 超小屏幕（手机，小于 768px） */
+/* 小屏幕（平板，大于等于 768px） */
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+/* 大屏幕（大桌面显示器，大于等于 1200px） */
+
+@media ( min-width :768px){
+	/*768 992 1200*/
+	html,body{
+		max-width: 768px;
+	}
+}
+@media ( max-width :320px){
+	#page1 .desc1_txt p{
+		font-size: 14px;
+	}
+	
+	#page2 ul.desc3 li{
+		width: 29%;
+		margin: 0 2%;
+	}
+	
+}

@@ -1,0 +1,125 @@
+html,body{
+	color: #333;
+	text-align: left;
+	margin: 0 auto;
+	position: relative;
+	background-color:#F5F6F9;
+	max-width:640px;min-width: 320px;
+}
+/*=======================支付运费页==============================*/
+.part1,.part2{
+	font-size: 16px;
+	background: #fff;
+	margin-top: 0.2rem;
+	padding-bottom: 0.2rem;
+}
+.part1 li,.part2 li{
+	color: #262626;
+	padding-bottom: 0.2rem;
+}
+.part1 li > span{
+	color: #878787;
+}
+.part1 h2.payStatus{
+	font-size: 16px;
+	color: #F26600;
+	font-weight: normal;
+	padding:0.3rem 0.3rem 0.4rem 0.3rem;
+}
+ul.part1-1{
+	padding-bottom: 0.2rem;
+	border-bottom: 1px solid #E9E9E9;
+}
+ul.part1-1 li{
+	padding:0 0.3rem;
+	padding-bottom: 0.2rem;
+}
+ul.part1-2{
+	padding:0.4rem 0.3rem 0rem 0.3rem;
+}
+ul.part1-1 li:nth-of-type(2){
+	line-height: 24px;
+}
+ul.part2-1{
+	padding: 0.3rem;
+	padding-bottom: 0.2rem;
+}
+.part2-2{
+	height: 0.92rem;
+	line-height: 0.92rem;
+	text-align: right;
+	border-top: 1px solid #E9E9E9;
+}
+.part2-2 p{
+	padding-right: 0.3rem;
+	font-size: 12px;
+	color: #262626;
+}
+.part2-2 p span{
+	font-size: 24px;
+	color: #EC4F07;
+}
+.part2{
+	padding-bottom: 0;
+}
+/*======*/
+.payBtn{
+	width: 100%;
+	max-width:640px;min-width: 320px;
+	position: fixed;
+	bottom: 0;
+	height: 0.9rem;
+	line-height: 0.9rem;
+	text-align: center;
+}
+.payBtn > p{
+	float: left;
+	width: 40%;
+	height: 100%;
+	background: #fff;
+	font-size: 15px;
+	color: #262626;
+}
+.payBtn > p > span{
+	color: #EC4F07;
+}
+.payBtn > a{
+	float: left;
+	width: 60%;
+	height: 100%;
+	background: #FFA525;
+	font-size: 18px;
+	color: #fff;
+}
+/*==============支付成功页=========*/
+.payFinish{
+	padding-top: 1.37rem;
+	text-align: center;
+}
+.payFinish img{
+	width: 1.42rem;
+	margin: 0 auto;
+	padding-bottom:0.4rem ;
+}
+.payFinish p{
+	font-size: 16px;
+	padding-bottom: 1.1rem;
+}
+.payFinish h6{
+	font-size: 16px;
+	color: #666;
+	font-weight: normal;
+	padding-bottom: 0.8rem;
+}
+.payFinish a{
+	display: block;
+	margin: 0 auto;
+	width: 3.4rem;
+	height: 0.88rem;
+	line-height: 0.88rem;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #FFA525;
+	font-size: 18px;
+	color: #FFA525;
+}

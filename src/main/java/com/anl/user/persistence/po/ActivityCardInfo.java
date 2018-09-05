@@ -23,6 +23,7 @@ public class ActivityCardInfo {
 	private Integer returnVisitInformation;
 	private Integer callStatus;
 	private Integer state;
+	private  Integer payState;
 	private java.util.Date createTime;
 	private java.util.Date updateTime;
 	
@@ -179,6 +180,14 @@ public class ActivityCardInfo {
 	
 	public java.util.Date getUpdateTime() {
 		return this.updateTime;
+	}
+
+	public Integer getPayState() {
+		return payState;
+	}
+
+	public void setPayState(Integer payState) {
+		this.payState = payState;
 	}
 }
 

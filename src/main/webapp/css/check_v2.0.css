@@ -1,0 +1,233 @@
+body{
+	max-width:640px;min-width: 320px;
+	margin: 0 auto;
+	background: #F5F6F9;
+	padding-bottom: 0.2rem;
+}
+.userInfo{
+	padding: 0.8rem 0.3rem 1.92rem 0.3rem;
+	background:#008CFB; /* 一些不支持背景渐变的浏览器 */ 
+	background: -webkit-linear-gradient(left top, #6EBBF8, #008CFB);
+	background: linear-gradient(to bottom right, #6EBBF8, #008CFB);
+	
+}
+.userInfo div{
+	padding-bottom: 0.3rem;
+	border-bottom: 1px solid #eee;
+}
+.userInfo p{
+	float: left;
+	font-size: 16px;
+	color: #fff;
+}
+.userInfo p span{
+	color: #fff;
+}
+.userInfo a{
+	float: right;
+	text-align: center;
+	font-size: 12px;
+	color: #fff;
+	width: 0.98rem;
+	height: 0.45rem;
+	line-height: 0.43rem;
+	border: 1px solid #fff;
+	border-radius: 0.22rem; 
+	-webkit-border-radius: 0.22rem; 
+}
+
+/*=======================*/
+h3.updateTime{
+	text-align: center;
+	font-size:12px;
+	color: #fff;
+	padding-bottom: 0.4rem;
+	margin-top: -1.5rem;
+}
+/*====总流量，话费余额板块====*/
+.total_overage{
+	padding:0 0.3rem;
+	margin-bottom: 0.3rem;
+}
+
+.flow_overage,.phone_overage{
+	width: 48%;
+	min-height: 3.3rem;
+	background-size: cover;
+	-webkit-background-size: cover;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+	border-radius:4px;
+	-webkit-border-radius: 4px;
+	box-shadow: 1px 2px 6px rgba(0,0,0,.2);
+	-webkit-box-shadow: 1px 2px 6px rgba(0,0,0,.2);
+}
+.flow_overage{
+	float: left;
+	background-image: url(../img/check_v2.0/flowOverage_bg.png);
+}
+.phone_overage{
+	float: right;
+	background-image: url(../img/check_v2.0/phoneOverage_bg.png);
+}
+/*"总流量余额，总花费余额"*/
+.flow_overage p,.phone_overage p{
+	color: #fff;
+	font-size: 12px;
+	padding-top: 0.42rem;
+	padding-bottom: 0.16rem;
+}
+/*"xxG，xx元"*/
+.flow_overage h4,.phone_overage h4{
+	font-size:24px;
+	color: #fff;
+}
+.flow_overage h4 .smallTxt,.phone_overage h4 .smallTxt{
+	font-size:12px;
+	color: #fff;
+}
+.phone_overage p,.phone_overage h4 .smallTxt{
+	color: #666;
+}
+.phone_overage h4{
+	color: #262626;
+}
+/*"充值"*/
+.flow_overage a{
+	display: block;
+	text-align: center;
+	font-size: 18px;
+	color: #fff;
+	width:1.55rem;
+	line-height: 0.48rem;
+	padding-bottom: 2px;
+	border: 1px solid #fff;
+	border-radius: 0.26rem; 
+	-webkit-border-radius: 0.26rem; 
+	margin: 0 auto;
+	margin-top: 0.6rem;
+}
+.phone_overage .bottom{
+	padding-top: 0.4rem;
+}
+.phone_overage .bottom .bottomLeft , .phone_overage .bottom .bottomRight{
+	float: left;
+	width: 50%;
+	text-align: center;
+}
+.phone_overage .bottom .bottomLeft{
+	border-right: 1px solid #c6c6c6;
+}
+.phone_overage .bottom .bottomLeft p , .phone_overage .bottom .bottomRight p{
+	font-size:10px;
+	color: #666;
+	padding: 0.16rem 0;
+	padding-top: 0.08rem;
+}
+.phone_overage .bottom .bottomLeft h4 , .phone_overage .bottom .bottomRight h4{
+	font-size:16px;
+	color: #262626;
+}
+
+/*====日租宝====*/
+.rzb_wrap{
+	padding: 0 0.3rem;
+}
+.rzb_wrap h2{
+	font-size:16px;
+	color: #666;
+	padding-bottom: 0.3rem;
+}
+.rzb_wrap h3{
+	font-size:20px;
+	color: #333;
+	line-height: 1.86rem;
+}
+.rzb_box{
+	width: 100%;
+	height: 1.86rem;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	background: #fff;
+	box-shadow: 1px 2px 6px rgba(0,0,0,.2);
+	-webkit-box-shadow: 1px 2px 6px rgba(0,0,0,.2);
+}
+.rzb_box div{
+	float: left;
+	text-align: center;
+	width: 49%;
+}
+.rzb_box div h4{
+	font-size:18px;
+	color: #333;
+	padding-top: 0.5rem;
+	padding-bottom: 0.26rem;
+}
+.rzb_box div p{
+	font-size:12px;
+	color: #999;
+}
+.rzb_box div.blueLine{
+	float: left;
+	width:2%;
+	height: 100%;
+	background: #87B9F7;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+
+/*====流量套餐=====*/
+.flow_list{
+	padding: 0 0.3rem;
+}
+.flow_list h2{
+	font-size:16px;
+	color: #666;
+	padding-bottom: 0.3rem;
+	padding-top: 0.4rem;
+}
+.packageWrap{
+	text-align: center;
+	background: #fff;
+	padding-top: 0.74rem;
+	padding-bottom: 0.2rem;
+	margin-bottom: 0.2rem;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+.package_caption h4{
+	font-size: 24px;
+	padding-bottom: 0.2rem;
+}
+.package_caption p{
+	font-size: 10px;
+	color: #999;
+}
+.noRecharge{
+	width: 100%;
+	text-align: center;
+}
+.noRecharge img{
+	width: 3.8rem;
+	margin: 0 auto;
+}
+.noRecharge p{
+	font-size: 12px;
+	color: #666;
+	padding: 0.4rem 0;
+}
+/*==canvas圆圈==*/
+.circleRun {
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+    width: 76%;
+}
+.circleWrap{ margin-top:0.4rem; position:relative; width:100%;}
+.desc{ width:100%; text-align:center; height:52px; position:absolute;left:0;top:50%;margin-top: -26px;z-index: 3;}
+.desc h4{ color:#1D98FA; font-size:24px;padding-bottom: 3px;}
+.desc p{ color:#999; font-size:12px;}
+

@@ -1,0 +1,26 @@
+.success_icon{
+	text-align: center;
+}
+.success_icon img{
+	width:2.3rem;
+	margin: 0 auto;
+	padding-top: 0.6rem;
+}
+.success_icon p	{
+	font-size: 16px;
+	padding-top: 0.18rem;
+	padding-bottom: 0.4rem;
+}
+/*===*/
+.tips p{
+	font-size: 12px;
+	line-height: 20px;
+	padding-bottom:0.2rem ;
+}
+/*===*/
+.btn{
+	margin-top: 0.5rem;
+	margin-bottom: 0.76rem;
+}
+/*===*/
+

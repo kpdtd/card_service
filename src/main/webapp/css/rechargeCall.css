@@ -1,0 +1,72 @@
+ul.callRechargeList{
+	padding-top: 0.6rem;
+	padding-bottom: 0.98rem;
+}
+li.callRechargeItem{
+	cursor: pointer;
+	float: left;
+	text-align: center;
+	width: 30.333333333%;
+	height: 1.2rem;
+	line-height: 1.2rem;
+	font-size: 18px;
+	border: 1px solid #dfdfdf;
+	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	margin: 0.3rem 1.5%;
+	overflow: hidden;
+}
+li.active{
+	background: #1D98FA;
+	color: #fff;
+	border: none;
+}
+/*=====================*/
+.desc{
+	padding: 0 0.3rem;
+}
+.desc h3{
+	text-align: center;
+	/*width:1rem;*/
+	/*height: 0.48rem;*/
+	/*line-height: 0.45rem;*/
+	font-size: 14px;
+	color: #fff;
+	background: #E03247;
+	margin-bottom: 0.32rem;
+	text-align: left;
+	padding: 0.1rem;
+}
+.desc p{
+	font-size: 12px;
+	color: #999;
+}
+/*==========================*/
+.paySection{
+	width: 100%;
+	height: 1.3rem;
+	position: fixed;
+	bottom: 0;
+}
+.payMoney{
+	float: left;
+	width: 68%;
+	height: 100%;
+	background: #F0F0F0;
+	padding-left: 0.3rem;
+}
+.payMoney h4{
+	font-size: 18px;
+	font-weight: normal;
+	line-height: 1.3rem;
+}
+.paySection input[type=button]{
+	cursor: pointer;
+	float: right;
+	width: 32%;
+	line-height: 1.3rem;
+	color: #fff;
+	font-size: 18px;
+	text-align: center;
+	background: #1D98FA;
+}

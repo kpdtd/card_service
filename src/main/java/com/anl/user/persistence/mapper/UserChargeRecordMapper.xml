@@ -17,6 +17,7 @@
         	iccid,
         	open_id,
         	pay_type,
+        	order_type,
         	money,
         	payer,
         	state,
@@ -36,6 +37,7 @@
         	#{iccid},
         	#{openId},
         	#{payType},
+        	#{orderType},
         	#{money},
         	#{payer},
         	#{state},
@@ -78,6 +80,9 @@
 	        <if test="payType != null">
 	        	pay_type = #{payType},
 	        </if>
+			<if test="orderType!=null">
+				order_type=#{orderType}
+			</if>
 	        <if test="money != null">
 	        	money = #{money},
 	        </if>
@@ -154,6 +159,9 @@
 			<if test="payType != null">
 				AND pay_type = #{payType}
 			</if>
+			<if test="orderType!=null">
+				AND order_type=#{orderType}
+			</if>
 			<if test="money != null">
 				AND money = #{money}
 			</if>
@@ -219,6 +227,9 @@
 			</if>
 			<if test="payType != null">
 				AND pay_type = #{payType}
+			</if>
+			<if test="orderType!=null">
+				AND order_type=#{orderType}
 			</if>
 			<if test="money != null">
 				AND money = #{money}

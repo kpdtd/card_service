@@ -12,6 +12,13 @@ public class SeqIdGenerator {
         return seqId.toString();
     }
 
+	public static String getRandom32() {//
+		StringBuffer tigerTid = new StringBuffer("G");
+		tigerTid.append(DateUtil.getCurDateTime(DateUtil.DATE_FORMAT_FULL_MSEL));//yyyyMMddHHmmssSSSS 带毫秒数  18位
+		tigerTid.append(RandomUtil.generateString(13));//产生5位随机数,必须*10000后在int，去掉小数掉后面位数
+		return tigerTid.toString();
+	}
+
 	public static String createHibeiOrderId(String prefix){
 		StringBuffer seqId = new StringBuffer(prefix);
 		seqId.append(DateUtil.dateToString(new Date(),DateUtil.DATE_FORMAT_COMPACTFULL));

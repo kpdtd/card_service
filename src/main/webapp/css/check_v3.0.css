@@ -1,0 +1,236 @@
+body{
+	max-width:640px;min-width: 320px;
+	margin: 0 auto;
+	background: #F5F6F9;
+	padding-bottom: 0.2rem;
+}
+.userInfo{
+	padding: 0.8rem 0.3rem 2.3rem 0.3rem;
+	background:#008CFB; /* 一些不支持背景渐变的浏览器 */ 
+	background: -webkit-linear-gradient(left top, #6EBBF8, #008CFB);
+	background: linear-gradient(to bottom right, #6EBBF8, #008CFB);
+	
+}
+.userInfo div{
+	padding-bottom: 0.3rem;
+	border-bottom: 1px solid #eee;
+}
+.userInfo p{
+	float: left;
+	font-size: 16px;
+	color: #fff;
+}
+.userInfo p span{
+	color: #fff;
+}
+.userInfo a{
+	float: right;
+	text-align: center;
+	font-size: 12px;
+	color: #fff;
+	width: 0.98rem;
+	height: 0.45rem;
+	line-height: 0.43rem;
+	border: 1px solid #fff;
+	border-radius: 0.22rem; 
+	-webkit-border-radius: 0.22rem; 
+}
+
+/*=======================*/
+h3.updateTime{
+	text-align: center;
+	font-size:12px;
+	color: #999;
+	padding-bottom: 0.4rem;
+}
+/*====总流量，话费余额板块====*/
+.phone_overage{
+	/*width:7rem;*/
+	height: 3.4rem;
+	margin:0 0.3rem;
+	margin-top: -1.7rem;
+	margin-bottom: 0.17rem;
+	background-image: url(../img/check_v3.0/phoneOverage_bg.png);
+	background-size: cover;
+	-webkit-background-size: cover;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+	border-radius:4px;
+	-webkit-border-radius: 4px;
+	box-shadow: 1px 2px 8px rgba(0,0,0,.2);
+	-webkit-box-shadow: 1px 2px 8px rgba(0,0,0,.2);
+}
+
+/*"总话费余额"*/
+.phone_overage p{
+	color: #fff;
+	font-size: 14px;
+	padding-top: 0.44rem;
+	padding-bottom: 0.14rem;
+}
+/*"xxG，xx元"*/
+.phone_overage h4{
+	font-size:29px;
+	color: #fff;
+	font-weight: normal;
+}
+.phone_overage h4 .smallTxt{
+	font-size:12px;
+	color: #fff;
+}
+
+/*"充值"*/
+.phone_overage .bottom{
+	padding-top: 0.4rem;
+}
+.phone_overage .bottom .bottomLeft , .phone_overage .bottom .bottomRight{
+	float: left;
+	width: 50%;
+	text-align: center;
+}
+
+.phone_overage .bottom .bottomLeft p , .phone_overage .bottom .bottomRight p{
+	font-size:12px;
+	color: #fff;
+	padding: 0.14rem 0;
+	padding-top: 0.08rem;
+}
+.phone_overage .bottom .bottomLeft h4 , .phone_overage .bottom .bottomRight h4{
+	font-size:16px;
+	color: #fff;
+}
+
+/*====日租宝,流量加油包====*/
+.rzb_wrap{
+	padding: 0 0.3rem;
+}
+.rzb_wrap h2{
+	font-size:16px;
+	color: #666;
+	padding-bottom: 0.3rem;
+}
+.rzb_wrap h3{
+	font-size:20px;
+	color: #333;
+	line-height: 1.86rem;
+}
+.rzb_box{
+	width: 100%;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	background: #fff;
+	box-shadow: 1px 2px 6px rgba(0,0,0,.2);
+	-webkit-box-shadow: 1px 2px 6px rgba(0,0,0,.2);
+	margin-bottom: 0.2rem;
+	position: relative;
+}
+.rzb_box div{
+	float: left;
+	width: 49.5%;
+}
+.rzb_box div:nth-child(2){
+	text-align: left;
+	padding-left: 8%;
+}
+.rzb_box div:nth-child(3){
+	text-align: right;
+	padding-right: 8%;
+}
+.rzb_box div h4{
+	font-size:18px;
+	color: #333;
+	padding-top: 0.4rem;
+	padding-bottom: 0.26rem;
+}
+img.arrowRight{
+	width: 12px;
+	vertical-align: middle;
+	margin-left: 0.12rem;
+	margin-top: -3px;
+}
+.rzb_box div p{
+	font-size:12px;
+	color: #999;
+	padding-bottom: 0.4rem;
+}
+.rzb_box div.blueLine,.rzb_box div.redLine{
+	/*float: left;*/
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width:2%;
+	background: #87B9F7;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+.rzb_box div.redLine{
+	background: #F78987;
+}
+.flow_wrap{
+	margin-top: 0.4rem;
+}
+
+/*针对流量使用情况 特定修改*/
+.rzb_box_flow{
+	height: 1.86rem;
+}
+.rzb_box_flow div:nth-child(2){
+	width: 60%;
+}
+.rzb_box_flow div:nth-child(3){
+	width: 40%;
+}
+.rzb_box_flow div:nth-child(3) h4{
+	line-height:1.86rem;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.rzb_box_flow div:nth-child(2) h4{
+	font-size: 17px;
+}
+/*====流量套餐=====*/
+.flow_list{
+	padding: 0 0.3rem;
+}
+.flow_list h2{
+	font-size:16px;
+	color: #666;
+	padding-bottom: 0.3rem;
+	padding-top: 0.4rem;
+}
+.packageWrap{
+	text-align: center;
+	background: #fff;
+	padding-top: 0.74rem;
+	padding-bottom: 0.2rem;
+	margin-bottom: 0.2rem;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+.package_caption h4{
+	font-size: 24px;
+	padding-bottom: 0.2rem;
+}
+.package_caption p{
+	font-size: 10px;
+	color: #999;
+}
+.noRecharge{
+	width: 100%;
+	text-align: center;
+}
+.noRecharge img{
+	padding-top: 0.15rem;
+	width: 3.4rem;
+	margin: 0 auto;
+}
+.noRecharge p{
+	font-size: 12px;
+	color: #666;
+	padding: 0.4rem 0;
+}
+
