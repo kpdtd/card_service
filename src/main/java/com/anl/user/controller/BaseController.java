@@ -73,7 +73,7 @@ public abstract class BaseController {
      * 从cookie获取openid
      */
     protected String getOpenIdFromCookie(HttpServletRequest request) {
-        String openid = "";
+        String openid = "";//
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {
             Optional<Cookie> cookie = Arrays.stream(cookies).filter(i -> i.getName().equals("openid")).findFirst();

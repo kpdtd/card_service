@@ -1,11 +1,14 @@
 package com.anl.user.util;
 
+import org.springframework.stereotype.Component;
+
 /**
  * 这个类表示配置文件。
  * 
  * @version 1.0.0 2009-11-27
  *
  */
+@Component
 public class Configuration {
 
 	public String smsUrl;

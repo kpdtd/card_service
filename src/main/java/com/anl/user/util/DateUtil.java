@@ -2,6 +2,7 @@ package com.anl.user.util;
 
 import org.joda.time.DateTimeUtils;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -262,11 +263,14 @@ public class DateUtil {
 		return calendar.getTime();
 	}
 
+
 	public static void main(String args[]) throws Exception {
 		long a=System.currentTimeMillis();
-		Date n=DateUtil.afterNDaysDate(new Date(),2);
+		Date n=DateUtil.afterNDaysDate(getTodayStartTime(),2);
+		System.out.println(n);
 		Date last=DateUtil.getLastDayOfMonth(n);
 		System.out.println(DateUtil.isBefore(dateToString(n,DATE_FORMAT_COMPACT),dateToString(last,DATE_FORMAT_COMPACT),DATE_FORMAT_COMPACT));
+		String aa="12";
 
 	}
 
