@@ -25,6 +25,9 @@ public class UserChargeRecord extends BasePay{
 	private java.util.Date createTime;
 	private java.util.Date updateTime;
 
+	public UserChargeRecord(){
+
+	}
 	public UserChargeRecord(Integer payType, String outTradeNo, String ip, Integer money) {
 		super(payType, outTradeNo, ip, money);
 	}

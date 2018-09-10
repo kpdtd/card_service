@@ -1,8 +1,10 @@
 package com.anl.user.logic;
 
+import com.anl.user.account.logic.ValidationCodeLogic;
 import com.anl.user.constant.SystemErrorCode;
 import com.anl.user.constant.UserState;
 import com.anl.user.dto.ActionResult;
+import com.anl.user.dto.LogicResult;
 import com.anl.user.persistence.po.Card;
 import com.anl.user.persistence.po.User;
 import com.anl.user.persistence.po.ValidationCode;
@@ -26,6 +28,8 @@ public class UserLoginLogicImpl implements UserLoginLogic {
 
     @Autowired
     ValidationCodeService validationCodeService;
+    @Autowired
+    ValidationCodeLogic validationCodeLogic;
 
     @Autowired
     UserService userService;
@@ -53,14 +57,9 @@ public class UserLoginLogicImpl implements UserLoginLogic {
                 logger.error("手机号或验证码错误");
                 return ActionResult.fail(SystemErrorCode.validationCode_error.getCode());
             }
-            ValidationCode validationCode = validationCodeList.get(0);
-            //是否超过有效期(2分钟内验证有效)
-            Date n = DateUtil.afterNSecondsDate(validationCode.getCreateTime(), 120);
-            Date now = new Date();
-            if (DateUtil.isBefore(DateUtil.dateToString(n, DateUtil.DATE_FORMAT_FULL), DateUtil.dateToString(now, DateUtil.DATE_FORMAT_FULL), DateUtil.DATE_FORMAT_FULL)) {
-                //失效了
-                logger.error("验证码过期了" + validationCode.getValidationCode());
-                return ActionResult.fail(SystemErrorCode.validationCode_error.getCode());
+            LogicResult logicResult= validationCodeLogic.checkValidationCode(code,mobile);
+            if(logicResult.getCode()==0){
+                return ActionResult.fail((Integer) logicResult.getData());
             }
             Map<String, Object> data = new HashMap<>();
             data.put("phone", mobile);
@@ -85,7 +84,7 @@ public class UserLoginLogicImpl implements UserLoginLogic {
     }
 
     /**
-     * 公众号手机绑卡
+     * 公众号手机绑卡,修改user表的state为绑卡状态,并更改手机号,openid等信息
      *
      * @param code
      * @param mobile
@@ -106,9 +105,13 @@ public class UserLoginLogicImpl implements UserLoginLogic {
                 logger.error("手机号或验证码错误");
                 return ActionResult.fail(SystemErrorCode.validationCode_error.getCode());
             }
+            LogicResult logicResult= validationCodeLogic.checkValidationCode(code,mobile);
+            if(logicResult.getCode()==0){
+                return ActionResult.fail((Integer) logicResult.getData());
+            }
             Card card = cardService.getById(cardId);//保证card存在
             dataMap = new HashMap<>();
-            dataMap.put("cardId", card);
+            dataMap.put("cardId", card.getId());
             List<User> users = userService.getListByMap(dataMap);
             User user;
             if (CollectionUtils.isEmpty(users)) {
@@ -125,13 +128,6 @@ public class UserLoginLogicImpl implements UserLoginLogic {
             user.setPassword(code);
             user.setUpdateTime(new Date());
             userService.update(user);
-            //生成赠送订单
-            //boolean r = activityAccountLogic.dealActivityAccount(cardId, "first_month_10g");
-//            if (r) {
-//                LogFactory.getInstance().getLogger().info("微信公众号绑卡赠送9元10G完成");
-//            } else {
-//                logger.debug("iccid=" + iotCard.getIccid() + "微信公众号绑卡赠送9元10G失败");
-//            }
             return ActionResult.success();
 
         } else {

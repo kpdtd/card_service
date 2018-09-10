@@ -14,10 +14,13 @@ import com.anl.user.persistence.po.UserChargeRecord;
 import com.anl.user.service.ChargeListService;
 import com.anl.user.service.UserChargeRecordService;
 import com.anl.user.util.LogFactory;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -71,5 +74,23 @@ public class UserChargeRecordLogicImpl implements UserChargeRecordLogic {
         // 写入订单表
         ActionResult actionResult = ActionResult.success(dataMap);
         return actionResult;
+    }
+
+    //更新订单状态
+    @Override
+    public UserChargeRecord updateUserChargeRecordState(String outTradeNo, int state) throws Exception {
+        Map<String, Object> model = new HashMap<>();
+        // 获取到订单号，根据订单号获取到对应的订单
+        model.put("outTradeNo", outTradeNo);
+        List<UserChargeRecord> chargeRecords=userChargeRecordService.getListByMap(model);
+        UserChargeRecord userChargeRecord=null;
+        if(CollectionUtils.isNotEmpty(chargeRecords)){
+            userChargeRecord=chargeRecords.get(0);
+            if (userChargeRecord.getState()>state){
+                userChargeRecord.setState(state);
+            }
+            userChargeRecord.setUpdateTime(new Date());
+        }
+        return userChargeRecord;
     }
 }

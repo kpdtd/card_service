@@ -3,17 +3,14 @@ package com.anl.user.controller;
 import com.anl.user.account.logic.ValidationCodeLogic;
 import com.anl.user.constant.ActivityCardType;
 import com.anl.user.constant.SystemErrorCode;
+import com.anl.user.constant.UserState;
+import com.anl.user.constant.WxPublicPageErrorState;
 import com.anl.user.dto.ActionResult;
 import com.anl.user.dto.LogicResult;
 import com.anl.user.logic.UserLoginLogic;
-import com.anl.user.persistence.po.ActivityCardInfo;
-import com.anl.user.persistence.po.User;
-import com.anl.user.persistence.po.UserAccount;
+import com.anl.user.persistence.po.*;
 import com.anl.user.persistence.vo.UserFlowUsedDayVo;
-import com.anl.user.service.ActivityCardInfoService;
-import com.anl.user.service.UserAccountService;
-import com.anl.user.service.UserFlowUsedDayService;
-import com.anl.user.service.UserService;
+import com.anl.user.service.*;
 import com.anl.user.util.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -50,9 +48,17 @@ public class WxPageController extends BaseController {
     UserAccountService userAccountService;
     @Autowired
     UserFlowUsedDayService userFlowUsedDayService;
+    @Autowired
+    ChargeListService chargeListService;
+    @Autowired
+    DataDictionaryService dataDictionaryService;
+    @Autowired
+    UserChargeRecordService userChargeRecordService;
+    @Autowired
+    CardService cardService;
 
     /**
-     * 购买流量卡的入口页面
+     * 购买流量卡的入口页面 111111111
      *
      * @param request
      * @return
@@ -141,7 +147,7 @@ public class WxPageController extends BaseController {
         return JsonHelper.toJson(ActionResult.fail());
     }
 
-    //-------查询账户topage-----
+    //-------查询账户topage22222222-----
     @RequestMapping(value = "/getCardFlowInfo")
     public String getCardFlowInfo(HttpServletRequest request, HttpServletResponse response) {
         String openid = request.getParameter("openid");
@@ -187,10 +193,10 @@ public class WxPageController extends BaseController {
                 User user = users.get(0);
                 List<UserFlowUsedDayVo> usedDayList = new ArrayList<>();
                 dataMap = new HashMap<>();
-                dataMap.put("cardId",user.getCardId());
+                dataMap.put("cardId", user.getCardId());
                 Date befor7date = DateUtil.afterNDaysDate(DateUtil.getTodayStartTime(), -7);
-                dataMap.put("startTime",befor7date);
-                dataMap.put("endTime",new Date());
+                dataMap.put("startTime", befor7date);
+                dataMap.put("endTime", new Date());
                 userFlowUsedDayService.getListByMap(dataMap).stream().forEach(userFlowUsedDay -> {
                     String date = DateUtil.dateToString(userFlowUsedDay.getRecordTime(), DateUtil.DATE_FORMAT_SHORT);
                     UserFlowUsedDayVo userFlowUsedDayVo = new UserFlowUsedDayVo();
@@ -218,7 +224,7 @@ public class WxPageController extends BaseController {
         return "view/WXPUB/flowDetail";
     }
 
-    //-----登录----
+    //-----登录333333333333333333----
     //登录页面,手机号 验证码
     @RequestMapping(value = "toLogin")
     public String toLogin(HttpServletRequest request, HttpServletResponse response) {
@@ -229,6 +235,70 @@ public class WxPageController extends BaseController {
             LogFactory.getInstance().getLogger().debug("从cookie没有openid信息");
         }
         return "view/WXPUB/login";
+    }
+
+    //充值页面入口444444444444444
+    @RequestMapping(value = "toChargePage")
+    public String toRechargeCall(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openid = request.getParameter("openid");
+        if (StringUtils.isBlank(openid)) {
+            return "redirect:getWXOpenId?state=toChargePage";
+        }
+        wxPutCookie(response, openid);
+        //判断openid是否存在用户信息
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("wxOpenid", openid);
+        User user = null;
+        try {
+            List<User> users = userService.getListByMap(dataMap);
+            if (CollectionUtils.isNotEmpty(users)) {
+                user = users.get(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogFactory.getInstance().getLogger().error("充值页面获取用户信息异常,openid=" + openid);
+        }
+        if (user == null) {
+            //跳转到登录页面
+            return "redirect:getWXOpenId?state=toLogin";
+        }
+        //获取充值价格列表
+        Map<String, Object> data = new HashMap<>();
+        List<ChargeList> chargeLists = chargeListService.getListByMap(data);
+        request.setAttribute("chargeLists", chargeLists);
+        //是否配置了默认选定的价格项
+        DataDictionary defaultChargeDic = dataDictionaryService.getDicByKey("DEFAULT_CHARGE");
+        if (defaultChargeDic != null && StringUtils.isNotBlank(defaultChargeDic.getValue())) {
+            ChargeList defaultCharge = chargeListService.getById(Integer.parseInt(defaultChargeDic.getValue()));
+            request.setAttribute("defaultCharge", defaultCharge);
+        }
+        request.setAttribute("userId", user.getId());//用户ID
+        return "view/WXPUB/rechargeCall";
+    }
+
+    //充值页面支付完成之后的页面
+    @RequestMapping(value = "getRechargeCallFinishPage")
+    public String getRechargeCallFinishPage(String outTradeNo, HttpServletRequest request) {
+        try {
+            Map<String, Object> data = new HashMap<>();
+            data.put("outTradeNo", outTradeNo);
+            Optional<UserChargeRecord> orderOptional = userChargeRecordService.getListByMap(data).stream().findFirst();
+            if (orderOptional.isPresent()) {
+                request.setAttribute("userOrder", orderOptional.get());
+                String time = DateUtil.dateToString(orderOptional.get().getCreateTime(), DateUtil.DATE_FORMAT_FULL);
+                request.setAttribute("time", time);
+                //设置标志位
+                request.setAttribute("flag", 1);
+                User user = userService.getById(orderOptional.get().getUserId());
+                request.setAttribute("phone", user.getPhone());
+            }
+            return "view/WXPUB/rechargeCall_finish";
+        } catch (Exception e) {
+            e.printStackTrace();
+            //设置标志位
+            request.setAttribute("flag", 0);
+            return "view/WXPUB/rechargeCallFinish";
+        }
     }
 
     //----获取验证码---
@@ -275,5 +345,121 @@ public class WxPageController extends BaseController {
             e.printStackTrace();
             return JsonHelper.toJson(ActionResult.fail());
         }
+    }
+
+    //激活接口,手机号和卡号进行绑定
+    @RequestMapping(value = "toActive")
+    public String toActive(HttpServletRequest request, HttpServletResponse response) {
+        String openid = request.getParameter("openid");
+        if (StringUtils.isBlank(openid)) {
+            return "redirect:getWXOpenId?state=toLogin";
+        }
+        wxPutCookie(response, openid);
+        request.setAttribute("error", 0);
+        return "view/WXPUB/activateCardStep";
+    }
+
+
+    //激活的时候使用,验证输入的卡号对不对
+    @RequestMapping(value = "verifIccid")
+    @ResponseBody
+    public String verifIccid(String iccid) {
+        Map<String, Object> data = new HashMap<>();
+        if (StringUtils.isNotBlank(iccid)) {
+            data.put("iccid", iccid);
+            try {
+                List<Card> cardList = cardService.getListByMap(data);
+                Optional<Card> first = cardList.stream().findFirst();
+                if (first.isPresent()) {
+                    Map<String, Object> dataMap = new HashMap<>();
+                    dataMap.put("cardId", first.get().getId());
+                    List<User> users = userService.getListByMap(dataMap);
+                    Optional<User> user = users.stream().findFirst();
+                    if (user.isPresent()) {
+                        if (UserState.PRE_USER == user.get().getState()) {
+                            return JsonHelper.toJson(ActionResult.success(first.get().getId()));
+                        }
+                        return WxPublicPageErrorState.CARD_HAS_ACTIVE + "";
+                    } else {
+                        //没有预生成用户,无法注册
+                        return WxPublicPageErrorState.CARD_NOT_FIND + "";
+                    }
+
+                } else {
+                    return WxPublicPageErrorState.CARD_NOT_FIND + "";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return WxPublicPageErrorState.SERVICE_ERROR + "";
+            }
+        }
+        return WxPublicPageErrorState.CARD_INPUT_EMPTY + "";
+    }
+
+    /**
+     * 激活进入下一步绑定页面
+     *
+     * @param cardId
+     * @param iccid
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "getCardByIccid")
+    public String getCardByIccid(String cardId, String iccid, HttpServletRequest request) {
+        request.setAttribute("cardId", cardId);
+        request.setAttribute("iccid", iccid);
+        return "view/WXPUB/banding";
+    }
+
+    /**
+     * 激活绑定最终的操作
+     *
+     * @param request
+     * @param cardId
+     * @param validationCode
+     * @param mobile
+     * @return
+     */
+    @RequestMapping(value = "userBanding")
+    @ResponseBody
+    public String userBanding(HttpServletRequest request, Integer cardId, String validationCode, String mobile) {
+        try {
+            Optional<Cookie> cookie = Arrays.stream(request.getCookies()).filter(i -> i.getName().equals("openid")).findFirst();
+            if (cookie.isPresent()) {
+                String openid = cookie.get().getValue();
+                ActionResult actionResult = userLoginLogic.userBanding(validationCode, mobile, cardId, openid);
+                return JsonHelper.toJson(actionResult);
+            } else {
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return JsonHelper.toJson(ActionResult.fail());
+        }
+    }
+
+    /**
+     * 绑卡激活成功之后跳转的绑卡成功页面
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "getAcCardSuccess")
+    public String getAcCardSuccess(HttpServletRequest request) {
+        try {
+            String openid = getOpenIdFromCookie(request);
+            if (StringUtils.isNotBlank(openid)) {
+                Map<String, Object> dataMap = new HashMap<>();
+                dataMap.put("wxOpenid", openid);
+                Optional<User> user = userService.getListByMap(dataMap).stream().findFirst();
+                if (user.isPresent()) {
+                    request.setAttribute("userId", user.get().getId());
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "view/WXPUB/activateCardSuccess";
     }
 }

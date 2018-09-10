@@ -69,7 +69,7 @@
             var activityCardInfoId = $("#activityCardInfoId").val();
             var json = "{'goodsId':'" + activityCardInfoId + "','giftId':'-1','money':'" + money + "','payType':'5'}";
             $.ajax({
-                url: '../anl/buyCardCreateOrder',
+                url: '../anl/wxPublicCreateOrder',
                 type: 'POST',
                 dataType: "json",
                 contentType: "application/json;charset=utf-8", //这个是发送信息至服务器时内容编码类型

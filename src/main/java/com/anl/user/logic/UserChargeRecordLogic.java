@@ -7,5 +7,5 @@ public interface UserChargeRecordLogic {
 
     ActionResult creatOrder(UserChargeRecord userChargeRecord) throws Exception;
 
-
+    UserChargeRecord updateUserChargeRecordState(String outTradeNo, int state)throws Exception;
 }

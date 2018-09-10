@@ -39,11 +39,12 @@ public class WxPublicController extends BaseController {
 
     /**
      * 公众号页面入口
-     * 1充值
-     * 2激活
-     * 3查询
+     * 1充值toChargePage
+     * 2激活 toActive
+     * 3查询getCardFlowInfo
      * 4加油包购买
-     * 5购买充值卡入口
+     * 5购买充值卡入口buyCard
+     * 6登录toLogin
      */
     //参考文档:https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842
     @RequestMapping(value = "getWXOpenId")
@@ -100,7 +101,7 @@ public class WxPublicController extends BaseController {
      * @param body
      * @return
      */
-    @RequestMapping(value = "/buyCardCreateOrder", method = RequestMethod.POST)
+    @RequestMapping(value = "/wxPublicCreateOrder", method = RequestMethod.POST)
     @ResponseBody
     public String wxPublicCreateOrder(HttpServletRequest request, @RequestBody String body) {
         LogFactory.getInstance().getLogger().debug("接收到生成订单信息data=" + body);
@@ -112,8 +113,10 @@ public class WxPublicController extends BaseController {
                 Integer payType = PayType.WX_JSAPI_PAY;
                 Object goodsIdObj = map.get("goodsId");
                 Object moneyObj = map.get("money");
+                Object userIdObj = map.get("userId");
                 int goodsId = Integer.parseInt(goodsIdObj == null ? "" : goodsIdObj.toString());
                 int money = Integer.parseInt(moneyObj == null ? "" : moneyObj.toString());
+                int userId = Integer.parseInt(userIdObj == null ? "0" : userIdObj.toString());
                 //判断这个订单是否付过款
                 Map<String, Object> model = new HashMap<>();
                 model.put("goodsId", goodsId);//为t_activity_card_info的ID
@@ -128,7 +131,7 @@ public class WxPublicController extends BaseController {
                 // 创建正常的套餐订单对象
                 UserChargeRecord userChargeRecord = new UserChargeRecord(payType, outTradeNo, ip, money);
                 userChargeRecord.setChargeListId(goodsId);
-                userChargeRecord.setUserId(0);
+                userChargeRecord.setUserId(userId);
                 userChargeRecord.setIccid("0");
                 userChargeRecord.setOrderType(OrderType.BUY_FLOW_CARD);
                 userChargeRecord.setOpenId(getOpenIdFromCookie(request));
