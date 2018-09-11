@@ -93,8 +93,6 @@ public class WxPayCallBackController extends BaseController {
                     resultMap.put("return_msg", "订单号不存在");
                     LogFactory.getInstance().getLogger().info("activtyWxPayCallBack接收到微信的异步支付结果通知错误，信息订单号不存在，订单号为:{}", outTradeNo);
                 }
-
-
                 UserChargeRecord userChargeRecord = optionalOrder.get();
                 if (userChargeRecord.getState() == OrderState.PENDING_PAYMENT || userChargeRecord.getState() == OrderState.CANCEL) {
                     // 设置支付类型，1为支付宝，2为微信，
@@ -103,10 +101,10 @@ public class WxPayCallBackController extends BaseController {
                     resultMap.put("return_code", WxpayConfig.SUCCESS);
 
                     //更改订单状态和支付状态,支付成功
-                    userChargeRecordLogic.updateUserChargeRecordState(outTradeNo, OrderState.PAYMENT_SUCCESS);
+                    UserChargeRecord userChargeRecord1= userChargeRecordLogic.updateUserChargeRecordState(outTradeNo, OrderState.PAYMENT_SUCCESS);
                     LogFactory.getInstance().getLogger().debug("activtyWxPayCallBack微信支付结果回传成功，修改订单状态为支付成功，订单号为:{}", outTradeNo);
                     // 订单回调成功，调用订单完成监听
-                    applicationContext.publishEvent(new PayCallBackEvent(map));
+                    applicationContext.publishEvent(new PayCallBackEvent(userChargeRecord1));
                     LogFactory.getInstance().getLogger().debug("activtyWxPayCallBack微信支付结果回传成功，调用监听执行完成，订单号为:{}", outTradeNo);
                 }
 
