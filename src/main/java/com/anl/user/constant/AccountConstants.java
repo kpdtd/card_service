@@ -14,4 +14,11 @@ public class AccountConstants {
 
     public static final String ACCOUNT_DAY_SUB = "3"; // 日租宝扣减
     public static final String ACCOUNT_MONTH_SUB = "6"; // 月功能费扣减
+
+
+    public static final String ACCOUNT_RECHARGE = "1";//1-正常充值
+    public static final String ACCOUNT_GITF = "2";//2-赠送
+    public static final String ACCOUNT_BUY_GOODS = "4";//4-购买流量包
+    public static final String ACCOUNT_ARTIFICIAL = "5";//5-人工
+    public static final String ACCOUNT_OTHER = "7";//7-其他（逐步补充）
 }

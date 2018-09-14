@@ -1,6 +1,7 @@
 package com.anl.user.account.logic;
 
 import com.anl.user.account.dto.ChangeAccountDto;
+import com.anl.user.constant.AccountConstants;
 import com.anl.user.constant.ActivityType;
 import com.anl.user.logic.PkgSplitLogic;
 import com.anl.user.persistence.po.FlowPacketDefinition;
@@ -64,7 +65,7 @@ public class UserActivityLogicImpl implements UserActivityLogic {
                     }
                 } else {
                     //话费
-                    ChangeAccountDto changeAccountDto = new ChangeAccountDto(userId, 0, value);
+                    ChangeAccountDto changeAccountDto = new ChangeAccountDto(userId, 0, value, AccountConstants.ACCOUNT_GITF);
                     userAccountLogic.changeAccount(changeAccountDto);
                     return value;
                 }

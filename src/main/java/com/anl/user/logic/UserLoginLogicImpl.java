@@ -115,11 +115,19 @@ public class UserLoginLogicImpl implements UserLoginLogic {
             List<User> users = userService.getListByMap(dataMap);
             User user;
             if (CollectionUtils.isEmpty(users)) {
+                //不应该走这段逻辑,购买订单付款之后就会预制用户信息
                 user = new User();
                 user.setCardId(card.getId());
                 user.setIccid(card.getIccid());
+                user.setIndentity(card.getIccid());
+                user.setState(UserState.PRE_USER);
+                userService.insert(user);
             } else {
                 user = users.get(0);
+                //如果状态已经为绑定状态,就不能再绑定了
+                if(user.getState()!=UserState.PRE_USER){
+                    return ActionResult.fail(SystemErrorCode.checkCardId.getCode());
+                }
             }
             user.setWxOpenid(openid);
             user.setState(UserState.PRO_USER);
@@ -128,8 +136,9 @@ public class UserLoginLogicImpl implements UserLoginLogic {
             user.setPassword(code);
             user.setUpdateTime(new Date());
             userService.update(user);
-            return ActionResult.success();
+            //调用赠送逻辑
 
+            return ActionResult.success();
         } else {
             logger.error("手机号为空，获取验证码失败");
             return ActionResult.fail(SystemErrorCode.userMobileNull.getCode());

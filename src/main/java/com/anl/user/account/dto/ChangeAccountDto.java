@@ -13,14 +13,13 @@ public class ChangeAccountDto {
     //子帐户扣减金额   数值为正时增加帐户，子帐户不能小于零
     private Integer subMoney;
 
-    public ChangeAccountDto(Integer userId, Integer primaryMoney, Integer subMoney) {
+    private String source;
+
+    public ChangeAccountDto(Integer userId, Integer primaryMoney, Integer subMoney, String source) {
         this.userId = userId;
         this.primaryMoney = primaryMoney;
-//        if (subMoney >= 0) {
-            this.subMoney = subMoney;
-//        } else {
-////            throw new RuntimeException("子帐户不能直接操作扣款");
-////        }
+        this.setSource(source);
+        this.subMoney = subMoney;
     }
 
     public Integer getUserId() {
@@ -49,5 +48,13 @@ public class ChangeAccountDto {
         } else {
             throw new RuntimeException("子帐户不能小于零");
         }
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

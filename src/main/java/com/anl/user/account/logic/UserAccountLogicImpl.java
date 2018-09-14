@@ -1,7 +1,7 @@
 package com.anl.user.account.logic;
 
 import com.anl.user.account.dto.ChangeAccountDto;
-import com.anl.user.constant.AccountChangeType;
+import com.anl.user.constant.AccountConstants;
 import com.anl.user.constant.SystemErrorCode;
 import com.anl.user.dto.ActionResult;
 import com.anl.user.pay.logic.UserRefundRecordLogic;
@@ -59,8 +59,8 @@ public class UserAccountLogicImpl implements UserAccountLogic {
                 userAccount.setUpdateTime(new Date());
                 userAccountService.update(userAccount);
                 userAccountChangeHistory.setSaChangeAfter(userAccount.getSubAccount());
-                userAccountChangeHistory.setType(AccountChangeType.ACCOUNT_INCREASE);
-                userAccountChangeHistory.setSource(AccountChangeType.ACCOUNT_GITF);
+                userAccountChangeHistory.setType(AccountConstants.SA_ACCOUNT_CHANGE_ADD);
+                userAccountChangeHistory.setSource(dto.getSource());
                 userAccountChangeHistoryService.insert(userAccountChangeHistory);
             } else if (dto.getPrimaryMoney() < 0) {
                 //需要扣款
@@ -75,8 +75,8 @@ public class UserAccountLogicImpl implements UserAccountLogic {
                     userAccount.setUpdateTime(new Date());
                     userAccountService.update(userAccount);
                     userAccountChangeHistory.setPaChangeAfter(userAccount.getPrimaryAccount());
-                    userAccountChangeHistory.setType(AccountChangeType.ACCOUNT_DEDUCTION);
-                    userAccountChangeHistory.setSource(AccountChangeType.ACCOUNT_BUY_GOODS);
+                    userAccountChangeHistory.setType(AccountConstants.PA_ACCOUNT_CHANGE_SUB);
+                    userAccountChangeHistory.setSource(dto.getSource());
                     userAccountChangeHistoryService.insert(userAccountChangeHistory);
                 } else if (userAccount.getPrimaryAccount() < Math.abs(dto.getPrimaryMoney())) {
                     //主账户金额小于要扣除的金额，将主账户扣除到零，剩余的从子帐户中扣除
@@ -86,8 +86,8 @@ public class UserAccountLogicImpl implements UserAccountLogic {
                     userAccountService.update(userAccount);
                     userAccountChangeHistory.setPaChangeAfter(userAccount.getPrimaryAccount());
                     userAccountChangeHistory.setSaChangeAfter(userAccount.getSubAccount());
-                    userAccountChangeHistory.setType(AccountChangeType.ACCOUNT_DEDUCTION);
-                    userAccountChangeHistory.setSource(AccountChangeType.ACCOUNT_BUY_GOODS);
+                    userAccountChangeHistory.setType(AccountConstants.PA_ACCOUNT_CHANGE_SUB);
+                    userAccountChangeHistory.setSource(dto.getSource());
                     userAccountChangeHistoryService.insert(userAccountChangeHistory);
                 } else {
                     return ActionResult.fail();
@@ -107,8 +107,8 @@ public class UserAccountLogicImpl implements UserAccountLogic {
 
 //                    userAccountChangeLog.setPaChangeAfter(userAccount.getPrimaryAccount());
                     userAccountChangeHistory.setSaChangeAfter(userAccount.getSubAccount());
-                    userAccountChangeHistory.setType(AccountChangeType.ACCOUNT_DEDUCTION);
-                    userAccountChangeHistory.setSource(AccountChangeType.ACCOUNT_BUY_GOODS);
+                    userAccountChangeHistory.setType(AccountConstants.SA_ACCOUNT_CHANGE_SUB);
+                    userAccountChangeHistory.setSource(dto.getSource());
                     userAccountChangeHistoryService.insert(userAccountChangeHistory);
                 } else if (userAccount.getSubAccount() < Math.abs(dto.getSubMoney())) {
                     //子账户金额小于要扣除的金额，将子账户扣除到零，剩余的从主帐户中扣除
@@ -118,8 +118,8 @@ public class UserAccountLogicImpl implements UserAccountLogic {
                     userAccountService.update(userAccount);
                     userAccountChangeHistory.setPaChangeAfter(userAccount.getPrimaryAccount());
                     userAccountChangeHistory.setSaChangeAfter(userAccount.getSubAccount());
-                    userAccountChangeHistory.setType(AccountChangeType.ACCOUNT_DEDUCTION);
-                    userAccountChangeHistory.setSource(AccountChangeType.ACCOUNT_BUY_GOODS);
+                    userAccountChangeHistory.setType(AccountConstants.SA_ACCOUNT_CHANGE_SUB);
+                    userAccountChangeHistory.setSource(dto.getSource());
                     userAccountChangeHistoryService.insert(userAccountChangeHistory);
                 } else {
                     return ActionResult.fail();
@@ -130,8 +130,8 @@ public class UserAccountLogicImpl implements UserAccountLogic {
                 userAccount.setUpdateTime(new Date());
                 userAccountService.update(userAccount);
                 userAccountChangeHistory.setPaChangeAfter(userAccount.getPrimaryAccount());
-                userAccountChangeHistory.setType(AccountChangeType.ACCOUNT_INCREASE);
-                userAccountChangeHistory.setSource(AccountChangeType.ACCOUNT_RECHARGE);
+                userAccountChangeHistory.setType(AccountConstants.PA_ACCOUNT_CHANGE_ADD);
+                userAccountChangeHistory.setSource(dto.getSource());
                 userAccountChangeHistoryService.insert(userAccountChangeHistory);
             } else {
                 return ActionResult.fail();
@@ -164,8 +164,8 @@ public class UserAccountLogicImpl implements UserAccountLogic {
         userAccountChangeHistory.setPaChangeAfter(0);
         userAccountChangeHistory.setSaChangeBefore(0);
         userAccountChangeHistory.setSaChangeAfter(0);
-        userAccountChangeHistory.setType(AccountChangeType.ACCOUNT_INCREASE);
-        userAccountChangeHistory.setSource(AccountChangeType.ACCOUNT_RECHARGE);
+        userAccountChangeHistory.setType(AccountConstants.PA_ACCOUNT_CHANGE_ADD);
+        userAccountChangeHistory.setSource(AccountConstants.ACCOUNT_RECHARGE);
         userAccountChangeHistoryService.insert(userAccountChangeHistory);
         return dto;
     }

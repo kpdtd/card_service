@@ -33,6 +33,7 @@ public enum SystemErrorCode {
     updateOpenIdExist(1011, "该用户openid被注册"),
     userOpenidNull(1012, "openid不能为空"),
     checkPhoneNum(1013, "此手机号已经注册"),
+    checkCardId(1014,"该卡已经完成注册"),
     getValidationCodeIsNULL(1014, "验证码不能为空"),
     cardIsNotExist(1020, "卡号不存在"),
 
