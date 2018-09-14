@@ -56,9 +56,11 @@ public class PayForCardListener {
                         activityCardInfoService.update(activityCardInfo);
                         //生成预生成用户
                         User user=new User();
+                        user.setUsername(activityCardInfo.getName());
                         user.setPhone(activityCardInfo.getMobile());
                         user.setState(UserState.PRE_USER);
                         user.setWxOpenid(userChargeRecord.getOpenId());
+                        user.setIndentity(activityCardInfo.getMobile());
                         user.setCreateTime(new Date());
                         user.setUpdateTime(new Date());
                         userService.insert(user);

@@ -7,6 +7,7 @@ import com.anl.user.constant.SystemErrorCode;
 import com.anl.user.dto.ActionResult;
 import com.anl.user.dto.LogicResult;
 import com.anl.user.pay.logic.PayLogic;
+import com.anl.user.pay.logic.PayLogicImpl;
 import com.anl.user.pay.wxpay.WxpayBuilder;
 import com.anl.user.pay.wxpay.WxpayConfig;
 import com.anl.user.persistence.po.ActivityCardInfo;
@@ -33,7 +34,7 @@ public class UserChargeRecordLogicImpl implements UserChargeRecordLogic {
     @Autowired
     ChargeListService chargeListService;
     @Autowired
-    PayLogic payLogic;
+    PayLogicImpl payLogic;
     @Autowired
     UserChargeRecordService userChargeRecordService;
     @Autowired
@@ -102,5 +103,8 @@ public class UserChargeRecordLogicImpl implements UserChargeRecordLogic {
             userChargeRecord.setUpdateTime(new Date());
         }
         return userChargeRecord;
+    }
+    public void setPayLogic(PayLogicImpl pl){
+        payLogic=pl;
     }
 }

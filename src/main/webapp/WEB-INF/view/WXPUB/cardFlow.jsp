@@ -135,18 +135,6 @@
             "display": "none"
         })
     }
-
-    //跳到"充值流量页面"方法
-    function gotoRechargePage() {
-        if (isWX) {
-            //微信走这个
-            window.location.href = "http://iot.mindmobi.com/api/getWXOpenId?state=toRechargeCall";
-        } else {
-            //不是微信走这个,兴峰同学提供的跳转方法
-            window.location.href = "./getAppFlowGoods?userPhone=" + $("#userPhone").val();
-        }
-    }
-
     $("#goRecharge").click(function () {
         var val = $("#userPhone").val();
         $("#userPhoneForm").val(val);

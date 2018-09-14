@@ -81,7 +81,7 @@
 	        	pay_type = #{payType},
 	        </if>
 			<if test="orderType!=null">
-				order_type=#{orderType}
+				order_type=#{orderType},
 			</if>
 	        <if test="money != null">
 	        	money = #{money},

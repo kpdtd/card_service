@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by yangyiqiang on 2018/9/3.
@@ -56,6 +57,8 @@ public class WxPageController extends BaseController {
     UserChargeRecordService userChargeRecordService;
     @Autowired
     CardService cardService;
+    @Autowired
+    FlowPacketDefinitionService flowPacketDefinitionService;
 
     /**
      * 购买流量卡的入口页面 111111111
@@ -461,5 +464,55 @@ public class WxPageController extends BaseController {
             e.printStackTrace();
         }
         return "view/WXPUB/activateCardSuccess";
+    }
+
+
+    /**
+     * 加油包购买公众号入口 -----5555555555555555-----
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "toBuyFlowPage")
+    public String toBuyFlowPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openid = request.getParameter("openid");
+        User user = null;
+        try {
+            wxPutCookie(response, openid);
+            if (StringUtils.isNotBlank(openid)) {
+                //根据openid获取到用户信息
+                Map<String, Object> dataMap = new HashMap<>();
+                dataMap.put("wxOpenid", openid);
+
+                try {
+                    List<User> users = userService.getListByMap(dataMap);
+                    if (CollectionUtils.isNotEmpty(users)) {
+                        user = users.get(0);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogFactory.getInstance().getLogger().error("购买流量包页面获取用户信息异常,openid=" + openid);
+                }
+                if (user == null) {
+                    //跳转到登录页面
+                    return "redirect:getWXOpenId?state=toLogin";
+                }
+                dataMap = new HashMap<>();
+                dataMap.put("state", 1);//可用的
+                List<FlowPacketDefinition> flowPacketDefinitions = flowPacketDefinitionService.getListByMap(dataMap);
+                //过滤掉金额==0的包,并按显示顺序排序
+                List<FlowPacketDefinition> p = flowPacketDefinitions.stream().filter(i -> i.getPrice() > 0).sorted(Comparator.comparingInt(FlowPacketDefinition::getDisplaySort)).collect(Collectors.toList());
+
+                request.setAttribute("wxlibList",p);
+                request.setAttribute("userId", user.getId());
+                return "view/WXPUB/recharge";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:getWXOpenId?state=toLogin";
     }
 }
