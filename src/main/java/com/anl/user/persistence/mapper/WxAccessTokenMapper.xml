@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.user.persistence.mapper.WxAccessTokenMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+
+        INSERT INTO t_wx_access_token (
+        	id,
+        	app_id,
+        	access_token,
+        	create_time,
+        	update_time,
+        	expire_time
+        ) VALUES (
+        	#{id},
+        	#{appId},
+        	#{accessToken},
+        	#{createTime},
+        	#{updateTime},
+        	#{expireTime}
+        )
+
+        ]]>
+	</insert>
+
+    <update id="update" parameterType="com.anl.user.persistence.po.WxAccessToken">
+        UPDATE t_wx_access_token
+        <set>
+            <if test="appId != null">
+                app_id = #{appId},
+            </if>
+            <if test="accessToken != null">
+                access_token = #{accessToken},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="expireTime != null">
+                expire_time = #{expireTime}
+            </if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM t_wx_access_token WHERE
+        id = #{id}
+	</delete>
+
+    <select id="getById" resultType="com.anl.user.persistence.po.WxAccessToken">
+		SELECT
+			*
+		FROM
+			t_wx_access_token 
+	    WHERE
+	        id = #{id} 
+	</select>
+
+    <!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+    <sql id="where">
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="appId != null">
+                AND app_id = #{appId}
+            </if>
+            <if test="accessToken != null">
+                AND access_token = #{accessToken}
+            </if>
+            <if test="startTime != null">
+                <![CDATA[
+				AND create_time >= #{startTime} 
+			]]>
+            </if>
+            <if test="endTime != null">
+                <![CDATA[
+				AND create_time < #{endTime}
+			]]>
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime}
+            </if>
+            <if test="expireTime != null">
+                AND expire_time = #{expireTime}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="whereForPo">
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="appId != null">
+                AND app_id = #{appId}
+            </if>
+            <if test="accessToken != null">
+                AND access_token = #{accessToken}
+            </if>
+        </where>
+    </sql>
+
+    <select id="count" parameterType="java.util.Map" resultType="int">
+        SELECT count(*) FROM t_wx_access_token
+        <include refid="where"/>
+    </select>
+
+    <select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.user.persistence.po.WxAccessToken">
+        SELECT
+        *
+        FROM
+        t_wx_access_token
+        <include refid="where"/>
+        <if test="startPage!= null">
+            limit #{startPage}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getListByPo" parameterType="com.anl.user.persistence.po.WxAccessToken"
+            resultType="com.anl.user.persistence.po.WxAccessToken">
+        SELECT
+        *
+        FROM
+        t_wx_access_token
+        <include refid="whereForPo"/>
+    </select>
+    <select id="getWxAccessTokenByAppId" parameterType="com.anl.user.persistence.po.WxAccessToken"
+            resultType="com.anl.user.persistence.po.WxAccessToken">
+		SELECT
+		*
+		FROM
+		t_wx_access_token
+		where app_id=#{appId}
+	</select>
+</mapper>
+
