@@ -9,7 +9,9 @@ import com.anl.user.logic.UserChargeRecordLogic;
 import com.anl.user.persistence.po.UserChargeRecord;
 import com.anl.user.service.UserChargeRecordService;
 import com.anl.user.util.*;
+import com.anl.user.wxpublic.logic.WxMsgLogic;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +38,8 @@ public class WxPublicController extends BaseController {
     UserChargeRecordLogic userChargeRecordLogic;
     @Autowired
     WxPublicConstant wxPublicConstant;
+    @Autowired
+    WxMsgLogic wxMsgLogic;
 
     /**
      * 公众号页面入口
@@ -168,6 +172,27 @@ public class WxPublicController extends BaseController {
             e.printStackTrace();
         }
         return "false";
+    }
+
+    //接收微信公众号消息
+    @RequestMapping(value = "ck")
+    public void checkSignature(HttpServletRequest request, HttpServletResponse response, @RequestBody String body) {
+        MDC.put("seqID", SeqIdGenerator.generate());// 日志序列
+        String signature = request.getParameter("signature");//	微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+        String timestamp = request.getParameter("timestamp");//	时间戳
+        String nonce = request.getParameter("nonce");//	随机数
+        String echostr = request.getParameter("echostr");//随机字符串
+        LogFactory.getInstance().getLogger().debug("接收到微信公众号消息请求--------------" + body);
+        if (StringUtils.isNotBlank(body)) {
+            //解析消息,进行消息分发
+            this.writerToClient("succss", response);
+            try {
+                this.writerToClient(wxMsgLogic.readMeg(body), response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        this.writerToClient(echostr == null ? "" : echostr, response);
     }
 
 }

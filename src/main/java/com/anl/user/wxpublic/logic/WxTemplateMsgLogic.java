@@ -1,10 +1,10 @@
 package com.anl.user.wxpublic.logic;
 
-import com.csxm.flow.iot.constant.WxPublicConstant;
-import com.csxm.flow.iot.util.HttpClient;
-import com.csxm.flow.iot.util.JsonHelper;
-import com.csxm.flow.iot.util.LogFactory;
-import com.csxm.flow.iot.wxpublic.vo.WxTemplateVo;
+import com.anl.user.constant.WxPublicConstant;
+import com.anl.user.util.HttpClient;
+import com.anl.user.util.JsonHelper;
+import com.anl.user.util.LogFactory;
+import com.anl.user.wxpublic.vo.WxTemplateVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class WxTemplateMsgLogic {
      */
     public String sendWxTemplateMsg(WxTemplateVo wxTemplateVo)throws  Exception{
         String url=wxPublicConstant.getWxUrl()+"/cgi-bin/message/template/send?access_token="+wxGetAccessTokenLogic.getWxAccessToken();
-        String sendJson=JsonHelper.toJson(wxTemplateVo);
+        String sendJson= JsonHelper.toJson(wxTemplateVo);
         String returnJson= HttpClient.postRequest(url,sendJson );
         LogFactory.getInstance().getLogger().debug("发送模板消息"+sendJson+"|微信公众号返回信息:"+returnJson);
         if(StringUtils.isNotBlank(returnJson)){

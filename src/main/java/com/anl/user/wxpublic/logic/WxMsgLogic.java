@@ -1,7 +1,7 @@
 package com.anl.user.wxpublic.logic;
 
-import com.csxm.flow.iot.util.LogFactory;
-import com.csxm.flow.iot.util.XmlUtil;
+import com.anl.user.util.LogFactory;
+import com.anl.user.util.XmlUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
