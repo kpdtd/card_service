@@ -20,8 +20,9 @@ public class WxPublicConstant {
     //流量黑卡公众号
 
     //测试公众号
-    static final String T_APPID = "wxfb951c6d86e9dd01";
-    static final String T_APPSECRET = "00ab672043aec34fe703f198333b6749";
+    static final String T_APPID = "wx89867c472e2ee6ae";
+    static final String T_APPSECRET = "6f41992ded939b56240af56b4de113aa";
+
     static final String WXPUBLIC_APP = "WXPUBLIC_APP";//1正式环境,2是测试环境
 
     @Autowired

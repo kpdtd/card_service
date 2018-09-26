@@ -8,10 +8,8 @@ import com.anl.user.persistence.po.Card;
 import com.anl.user.persistence.po.User;
 import com.anl.user.persistence.po.UserAccountChangeHistory;
 import com.anl.user.persistence.po.UserPlan;
-import com.anl.user.service.PlanDefinitionService;
-import com.anl.user.service.UserAccountService;
-import com.anl.user.service.UserFlowUsedDayService;
-import com.anl.user.service.UserPlanService;
+import com.anl.user.service.*;
+import com.anl.user.util.DateUtil;
 import com.anl.user.util.LogFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +36,8 @@ public class MonthFeeListener {
     PlanDefinitionService planDefinitionService;
     @Autowired
     UserAccountService userAccountService;
+    @Autowired
+    UserAccountChangeHistoryService userAccountChangeHistoryService;
 
     public static final org.slf4j.Logger logger = LogFactory.getInstance().getLogger();
 
@@ -53,9 +54,21 @@ public class MonthFeeListener {
         if (user.getState() == UserState.PRE_USER || user.getState() == UserState.CANCEL_USER) {
             return;
         }
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("userId", user.getId());
         try {
+            //如果当天存在扣月租的记录,直接返回
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("userId", user.getId());
+            dataMap.put("source", AccountConstants.ACCOUNT_MONTH_SUB);//月功能费
+            dataMap.put("startTime", DateUtil.getTodayStartTime());
+            dataMap.put("endTime", new Date());
+            List<UserAccountChangeHistory> userAccountChangeHistories = userAccountChangeHistoryService.getListByMap(dataMap);
+            if (CollectionUtils.isNotEmpty(userAccountChangeHistories)) {
+                logger.error("月功能费扣减错误,已经扣减过月租了,本次不做扣减操作,日租宝也不做扣减");
+                userChargingEventData.setDayFlow(0);
+                return;
+            }
+            dataMap = new HashMap<>();
+            dataMap.put("userId", user.getId());
             List<UserPlan> userPlans = userPlanService.getListByMap(dataMap);
             if (CollectionUtils.isEmpty(userPlans)) {
                 logger.error("月功能费扣减错误,无法获取到用户套餐:userId=" + user.getId());
@@ -65,8 +78,8 @@ public class MonthFeeListener {
             userChargingEventData.setUserPlan(userPlan);
 
             //进行扣减操作
-           int b= balanceSub(user, userChargingEventData.getMonthFee());
-            logger.info("月功能费扣减完成,扣减金额为{},扣减完成后账户余额为{}",userChargingEventData.getMonthFee(),b);
+            int b = balanceSub(user, userChargingEventData.getMonthFee());
+            logger.info("月功能费扣减完成,扣减金额为{},扣减完成后账户余额为{}", userChargingEventData.getMonthFee(), b);
             userChargingEventData.setMonthFee(b);
         } catch (SQLException e) {
             e.printStackTrace();

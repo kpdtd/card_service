@@ -3,6 +3,7 @@ package com.anl.user;
 import com.anl.user.logic.DayFlowSearchLogicImpl;
 import com.anl.user.persistence.po.Card;
 import com.anl.user.service.CardService;
+import com.anl.user.task.DayFlowSearchThread;
 import com.anl.user.util.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,8 @@ public class DayFlowSearchLogicImplTest {
     CardService cardService;
     @Autowired
     DayFlowSearchLogicImpl dayFlowSearchLogic;
+    @Autowired
+    DayFlowSearchThread dayFlowSearchThread;
     Card card;
 
     @Before
@@ -31,7 +34,8 @@ public class DayFlowSearchLogicImplTest {
 
     @Test
     public void dealTest() throws Exception {
-       int a= dayFlowSearchLogic.dayFlowTermSearch(card,false);
-        LogFactory.getInstance().getLogger().debug("当日流量:"+a);
+//       int a= dayFlowSearchLogic.dayFlowTermSearch(card,false);
+//        LogFactory.getInstance().getLogger().debug("当日流量:"+a);
+        dayFlowSearchThread.excute(1);
     }
 }

@@ -39,6 +39,8 @@ public class UserChargingFirstListener {
     @Autowired
     UserService userService;
     @Autowired
+    CardService cardService;
+    @Autowired
     UserFlowUsedDayService userFlowUsedDayService;
 
     @Order(10)
@@ -53,6 +55,7 @@ public class UserChargingFirstListener {
             LogFactory.getInstance().getLogger().debug("该用户状态不需要日流量查询计费 userState=" + user.getState());
             return;
         }
+
         //计算月租
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("userId", user.getId());
@@ -66,6 +69,11 @@ public class UserChargingFirstListener {
             userChargingEventData.setUserPlan(userPlan);
             userChargingEventData.setMonthFee(getKouFee(card, userPlan));
 
+            //激活日期修改
+            if (card.getActivationTime() == null) {
+                card.setActivationTime(new Date());
+                cardService.update(card);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("计算月功能费异常:" + e.getMessage());
@@ -75,8 +83,8 @@ public class UserChargingFirstListener {
         }
         //计算需要扣减的日流量
         //需要扣减的流量总数,获取到前一天的流量
-        int flow = userFlowUsedDayService.getUsedFlowByRecordTime(card.getId(), DateUtil.afterNDaysDate(new Date(), -1), new Date());
-        userChargingEventData.setDayFlow(flow);
+//        int flow = userFlowUsedDayService.getUsedFlowByRecordTime(card.getId(), DateUtil.afterNDaysDate(DateUtil.getTodayStartTime(), -1), new Date());
+//        userChargingEventData.setDayFlow(flow);
         logger.info("该用户日流量使用计费,需要扣减的月租为{}分,需要扣减的流量为{}M", userChargingEventData.getMonthFee(), userChargingEventData.getDayFlow());
     }
 
@@ -111,7 +119,7 @@ public class UserChargingFirstListener {
                      */
                     monthBasicMoney = monthlyPlanPrice - (monthBasicMoney * (monthDay - 1));
                 }
-                logger.info("扣除用户月功能费 {} 分", monthBasicMoney);
+                logger.info("用户月功能费 {} 分", monthBasicMoney);
                 return monthBasicMoney;
             }
         } catch (Exception e) {

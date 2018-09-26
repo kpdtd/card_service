@@ -39,6 +39,7 @@ public class DayFeeListener {
         Card card = userChargingEventData.getCard();
         int flow=userChargingEventData.getDayFlow();
         if(flow<=0){
+            logger.debug("当月日使用量为{}M,流量日租宝不需要扣减",flow);
             return;
         }
         UserPlan userPlan=userChargingEventData.getUserPlan();

@@ -201,7 +201,7 @@
 		t_user_flow_packet a, t_flow_packet_definition b
 		WHERE
 		a.user_id = #{userId}
-		and a.goods_id = b.id
+		and a.packet_id = b.id
 		<![CDATA[
 			and a.start_time <= #{time}
 			AND a.end_time >= #{time}

@@ -17,6 +17,7 @@ public class MockClient {
     private UserChargeRecord userChargeRecord;//订单
     private ChargeList chargeList;//充值列表
     private  String payXml;//模拟支付回传的数据
+    private  Integer taskId;
 
     String BaseUri = "http://127.0.0.1:8081/card_server/";
 
@@ -79,5 +80,13 @@ public class MockClient {
 
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 }

@@ -3,8 +3,10 @@ package com.anl.user.task;
 import com.anl.user.dto.UserChargingEventData;
 import com.anl.user.event.charge.UserChargingEvent;
 import com.anl.user.logic.DayFlowSearchLogicImpl;
+import com.anl.user.persistence.po.AutoTaskDefinition;
 import com.anl.user.persistence.po.Card;
 import com.anl.user.persistence.po.User;
+import com.anl.user.service.AutoTaskDefinitionService;
 import com.anl.user.service.CardService;
 import com.anl.user.service.UserService;
 import com.anl.user.util.SeqIdGenerator;
@@ -23,7 +25,7 @@ import java.util.concurrent.*;
  * Created by yangyiqiang on 2018/8/24.
  */
 @Component
-public class DayFlowSearchThread extends BaseThread{
+public class DayFlowSearchThread extends BaseThread {
     @Autowired
     UserService userService;
     @Autowired
@@ -32,19 +34,30 @@ public class DayFlowSearchThread extends BaseThread{
     DayFlowSearchLogicImpl dayFlowSearchLogic;
     @Autowired
     ApplicationContext applicationContext;
+    @Autowired
+    AutoTaskDefinitionService autoTaskDefinitionService;
 
     public void excute(int taskId) {
-        ExecutorService pool = Executors.newFixedThreadPool(200);//日流量查询
+
         try {
+            //判断该任务是否正在执行
+            AutoTaskDefinition autoTaskDefinition=autoTaskDefinitionService.getById(taskId);
+            if(autoTaskDefinition.getExecuteState()==2){
+                logger.info("日流量查询任务正在执行,该次任务不执行");
+                return;
+            }
+            autoTaskDefinition.setExecuteState(2);
+            autoTaskDefinitionService.update(autoTaskDefinition);//修改任务为正在执行状态
+            ExecutorService pool = Executors.newFixedThreadPool(200);//日流量查询
             //全量查询,对状态为3和4的用户计费
             Map<String, Object> dataMap = new HashMap<>();
             int count = userService.count(dataMap);
-            int num=0;
+            int num = 0;
             CountDownLatch nThread = new CountDownLatch(count); // 计数器
             int pageTotal = 10000; // 每次取得量
             int page = count / pageTotal + (count % pageTotal > 0 ? 1 : 0);
             Date startTime = new Date();
-            long start=System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             for (int i = 0; i < page; i++) {
                 dataMap.put("startPage", i * pageTotal);
                 dataMap.put("pageSize", pageTotal);
@@ -55,11 +68,14 @@ public class DayFlowSearchThread extends BaseThread{
                         Card card = cardService.getById(user.getCardId());
                         //返回值小于0,查询失败,大于=0为查询到的流量
                         int execResult = dayFlowSearchLogic.dayFlowTermSearch(card, true);
-                        // 开始下一步计费处理
-                        UserChargingEventData data = new UserChargingEventData();
-                        data.setUser(user);
-                        data.setCard(card);
-                        applicationContext.publishEvent(new UserChargingEvent(data));
+                        if (execResult >= 0) {
+                            // 开始下一步计费处理
+                            UserChargingEventData data = new UserChargingEventData();
+                            data.setUser(user);
+                            data.setCard(card);
+                            data.setDayFlow(execResult);//大于0的时候才会扣日租宝
+                            applicationContext.publishEvent(new UserChargingEvent(data));
+                        }
                         return execResult >= 0 ? true : false;
                     });
                     countDown(num, nThread, bool);
@@ -67,7 +83,7 @@ public class DayFlowSearchThread extends BaseThread{
             }
             nThread.await(20, TimeUnit.SECONDS);
             logger.info("日流量查询任务完成");
-            waitTaskFinish(taskId, startTime,start, num, count);
+            waitTaskFinish(taskId, startTime, start, num, count);
 
         } catch (Exception e) {
             e.printStackTrace();

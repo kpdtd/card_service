@@ -47,6 +47,11 @@ public class TestDataPersetter extends BasePersetter {
     PayLogicImpl payLogic;
     @Autowired
     UserChargeRecordLogicImpl userChargeRecordLogic;
+    @Autowired
+    PlanDefinitionMapper planDefinitionMapper;
+    @Autowired
+    AutoTaskDefinitionMapper autoTaskDefinitionMapper;
+
 
     //卡设置
     public Card setCard(String iccid) throws Exception {
@@ -145,7 +150,7 @@ public class TestDataPersetter extends BasePersetter {
     }
 
     //增加流量卡信息
-    public ActivityCardInfo setActivityCardInfo(String userName,int payState) throws Exception {
+    public ActivityCardInfo setActivityCardInfo(String userName, int payState) throws Exception {
         ActivityCardInfo activityCardInfo = new ActivityCardInfo();
         activityCardInfo.setName(userName);
         List<ActivityCardInfo> activityCardInfos = activityCardInfoMapper.getListByPo(activityCardInfo);
@@ -164,7 +169,7 @@ public class TestDataPersetter extends BasePersetter {
             activityCardInfoMapper.insert(activityCardInfo);
         } else {
             activityCardInfo = activityCardInfos.get(0);
-            if(payState>0){
+            if (payState > 0) {
                 activityCardInfo.setPayState(payState);
                 activityCardInfoMapper.update(activityCardInfo);
             }
@@ -193,7 +198,7 @@ public class TestDataPersetter extends BasePersetter {
             userChargeRecord.setIccid(mockClient.getCard().getIccid());
         } else {
             //购买流量卡支付
-            ActivityCardInfo activityCardInfo = setActivityCardInfo(mockClient.getUser().getUsername(),ActivityCardType.ONLINE_NOPAY);
+            ActivityCardInfo activityCardInfo = setActivityCardInfo(mockClient.getUser().getUsername(), ActivityCardType.ONLINE_NOPAY);
             userChargeRecord.setChargeListId(activityCardInfo.getId());
             userChargeRecord.setUserId(0);
             userChargeRecord.setIccid("0");
@@ -209,6 +214,7 @@ public class TestDataPersetter extends BasePersetter {
 
         return userChargeRecord;
     }
+
     //封装回传的支付报文
     public String getPayXml(String outTradeNo) throws Exception {
         UserChargeRecord userOrder = mockClient.getUserChargeRecord();
@@ -236,6 +242,7 @@ public class TestDataPersetter extends BasePersetter {
         xml = xml.replace("4C54FC913AFF3C135B26805595891898", sign);
         return xml;
     }
+
     //获取订单信息
     public UserChargeRecord getUserOrder(String outTradeNo) throws Exception {
         UserChargeRecord userOrder = new UserChargeRecord();
@@ -246,5 +253,43 @@ public class TestDataPersetter extends BasePersetter {
             return userOrder;
         }
         return null;
+    }
+
+    //设置套餐信息
+    public PlanDefinition getPlanDefinition(int money, int unitMoney, int unit) throws Exception {
+        PlanDefinition planDefinition = new PlanDefinition();
+        planDefinition.setMonthlyPlanPrice(money * 100);
+        planDefinition.setFlowUnit(unit);
+        planDefinition.setFlowUnitPrice(unitMoney * 100);
+        List<PlanDefinition> planDefinitions = planDefinitionMapper.getListByPo(planDefinition);
+        if (CollectionUtils.isNotEmpty(planDefinitions)) {
+            planDefinition = planDefinitions.get(0);
+        } else {
+            planDefinition.setCode("e10");
+            planDefinition.setName("e10");
+            planDefinition.setCreateTime(new Date());
+            planDefinition.setUpdateTime(new Date());
+            planDefinition.setState(1);
+            planDefinition.setEffectiveTime(1);
+            planDefinition.setDisplaySort(100);
+            planDefinitionMapper.insert(planDefinition);
+        }
+        return planDefinition;
+    }
+    //任务
+
+    public AutoTaskDefinition getAutoTaskDefinition(int taskId, int state) throws Exception {
+        AutoTaskDefinition autoTaskDefinition = autoTaskDefinitionMapper.getById(taskId);
+        if (autoTaskDefinition == null) {
+            autoTaskDefinition = new AutoTaskDefinition();
+            autoTaskDefinition.setExecuteState(state);
+            autoTaskDefinition.setId(taskId);
+            autoTaskDefinitionMapper.insert(autoTaskDefinition);
+        }
+        if (state > 0 && autoTaskDefinition.getExecuteState() != state) {
+            autoTaskDefinition.setExecuteState(state);
+            autoTaskDefinitionMapper.update(autoTaskDefinition);
+        }
+        return autoTaskDefinition;
     }
 }

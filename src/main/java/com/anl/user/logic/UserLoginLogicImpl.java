@@ -11,7 +11,6 @@ import com.anl.user.persistence.po.ValidationCode;
 import com.anl.user.service.CardService;
 import com.anl.user.service.UserService;
 import com.anl.user.service.ValidationCodeService;
-import com.anl.user.util.DateUtil;
 import com.anl.user.util.LogFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +29,8 @@ public class UserLoginLogicImpl implements UserLoginLogic {
     ValidationCodeService validationCodeService;
     @Autowired
     ValidationCodeLogic validationCodeLogic;
+    @Autowired
+    OpenOrCloseCardLogic openOrCloseCardLogic;
 
     @Autowired
     UserService userService;
@@ -57,8 +58,8 @@ public class UserLoginLogicImpl implements UserLoginLogic {
                 logger.error("手机号或验证码错误");
                 return ActionResult.fail(SystemErrorCode.validationCode_error.getCode());
             }
-            LogicResult logicResult= validationCodeLogic.checkValidationCode(code,mobile);
-            if(logicResult.getCode()==0){
+            LogicResult logicResult = validationCodeLogic.checkValidationCode(code, mobile);
+            if (logicResult.getCode() == 0) {
                 return ActionResult.fail((Integer) logicResult.getData());
             }
             Map<String, Object> data = new HashMap<>();
@@ -105,8 +106,8 @@ public class UserLoginLogicImpl implements UserLoginLogic {
                 logger.error("手机号或验证码错误");
                 return ActionResult.fail(SystemErrorCode.validationCode_error.getCode());
             }
-            LogicResult logicResult= validationCodeLogic.checkValidationCode(code,mobile);
-            if(logicResult.getCode()==0){
+            LogicResult logicResult = validationCodeLogic.checkValidationCode(code, mobile);
+            if (logicResult.getCode() == 0) {
                 return ActionResult.fail((Integer) logicResult.getData());
             }
             Card card = cardService.getById(cardId);//保证card存在
@@ -125,7 +126,7 @@ public class UserLoginLogicImpl implements UserLoginLogic {
             } else {
                 user = users.get(0);
                 //如果状态已经为绑定状态,就不能再绑定了
-                if(user.getState()!=UserState.PRE_USER){
+                if (user.getState() != UserState.PRE_USER) {
                     return ActionResult.fail(SystemErrorCode.checkCardId.getCode());
                 }
             }
